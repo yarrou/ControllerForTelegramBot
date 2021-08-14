@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/choiceOfAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="32dp"
+            android:text="@string/choiceOfAction" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSettings"
+            android:text="@string/buttonSettings"
+            android:paddingHorizontal="12dp"
+            android:onClick="onSettings"/>
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/buttonGet"
+        android:text="@string/buttonGet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:onClick="onGetRequest"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonPost"
+        android:text="@string/buttonPost"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:onClick="onPostRequest"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonPut"
+        android:text="@string/buttonPut"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:onClick="onPutRequest"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonDel"
+        android:text="@string/buttonDel"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:onClick="onDelRequest"
+        />
+</LinearLayout>
