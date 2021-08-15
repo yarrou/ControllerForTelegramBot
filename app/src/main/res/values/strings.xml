@@ -1,24 +1,24 @@
 <resources>
-    <string name="app_name">Управление БД бота</string>
-    <string name="choiceOfAction">Выберите действие</string>
-    <string name="buttonGet">Получить</string>
-    <string name="nameGet">Получить данные</string>
-    <string name="requestButton">Выполнить</string>
-    <string name="getRequestHint">запрос</string>
-    <string name="buttonPost">Добавить</string>
-    <string name="namePost">Добавить данные</string>
-    <string name="ptHintName">Название</string>
-    <string name="ptHintDescription">Описание</string>
-    <string name="namePut">Изменить данные</string>
-    <string name="buttonPut">Изменить</string>
+    <string name="app_name">DB management</string>
+    <string name="choiceOfAction">choose an action</string>
+    <string name="buttonGet">Get</string>
+    <string name="nameGet">To get data</string>
+    <string name="requestButton">Execute</string>
+    <string name="getRequestHint">request</string>
+    <string name="buttonPost">Add</string>
+    <string name="namePost">Add data</string>
+    <string name="ptHintName">Name</string>
+    <string name="ptHintDescription">Description</string>
+    <string name="namePut">Change data</string>
+    <string name="buttonPut">Change</string>
 
-    <string name="buttonDel">Удалить</string>
-    <string name="nameDel">Удалить данные</string>
-    <string name="delRequestHint">запрос</string>
+    <string name="buttonDel">Delete</string>
+    <string name="nameDel">Delete data</string>
+    <string name="delRequestHint">request</string>
 
-    <string name="hostNameTitle">Адрес хоста</string>
+    <string name="hostNameTitle">Host</string>
     <string name="hostNameHint">primer</string>
-    <string name="saveSettingButtonText">сохранить</string>
+    <string name="saveSettingButtonText">Save</string>
 
-    <string name="buttonSettings">настр.</string>
+    <string name="buttonSettings">settings</string>
 </resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Управление БД бота</string>
+    <string name="choiceOfAction">Выберите действие</string>
+    <string name="buttonGet">Получить</string>
+    <string name="nameGet">Получить данные</string>
+    <string name="requestButton">Выполнить</string>
+    <string name="getRequestHint">запрос</string>
+    <string name="buttonPost">Добавить</string>
+    <string name="namePost">Добавить данные</string>
+    <string name="ptHintName">Название</string>
+    <string name="ptHintDescription">Описание</string>
+    <string name="namePut">Изменить данные</string>
+    <string name="buttonPut">Изменить</string>
+
+    <string name="buttonDel">Удалить</string>
+    <string name="nameDel">Удалить данные</string>
+    <string name="delRequestHint">запрос</string>
+
+    <string name="hostNameTitle">Адрес хоста</string>
+    <string name="hostNameHint">primer</string>
+    <string name="saveSettingButtonText">сохранить</string>
+
+    <string name="buttonSettings">настр.</string>
+</resources>
