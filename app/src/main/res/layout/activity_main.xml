@@ -11,23 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" "
-            android:layout_weight="1"/>
-
 
         <TextView
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
             android:id="@+id/choiceOfAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/choiceOfAction" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=" "/>
+
 
 
         <Button
@@ -38,8 +30,6 @@
             android:paddingHorizontal="12dp"
             android:onClick="onSettings"/>
     </LinearLayout>
-
-
 
     <Button
         android:id="@+id/buttonGet"
