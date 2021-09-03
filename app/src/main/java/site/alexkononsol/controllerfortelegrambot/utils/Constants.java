@@ -8,4 +8,5 @@ public class Constants {
     public static final String GET_PATH = "/city?city=";
     public static final String PUT_PATH = "/city";
     public static final String POST_PATH = "/city";
+    public static final String TEXT_SIZE = "textSize";
 }

@@ -5,12 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="@dimen/paddingSmall"
     tools:context=".settings.SettingActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/nameSettingsActivity"
+        android:paddingBottom="@dimen/paddingNormal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/paddingNormal">
         <TextView
             android:id="@+id/hostNameTitle"
             android:layout_width="wrap_content"
@@ -26,11 +34,50 @@
             android:ems="25"/>
 
     </LinearLayout>
-    <Button
-        android:id="@+id/saveSettingButton"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/saveSettingButtonText"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="@dimen/paddingSmall"
+        android:text="@string/nameTextSizeSettings"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/radioTextSize"
+        android:paddingBottom="@dimen/paddingNormal">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textSizeSmallRadio"
+            android:text="@string/textSizeSmall"
+            android:onClick="onTextSizeButton"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textSizeNormalRadio"
+            android:text="@string/textSizeNormal"
+            android:onClick="onTextSizeButton"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textSizeLargeRadio"
+            android:text="@string/textSizeLarge"
+            android:onClick="onTextSizeButton"/>
+    </RadioGroup>
+    <Button
+        android:id="@+id/settingsHelpInfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settingsHelpButton"
+        android:onClick="onSettingsHelpInfo"/>
+
+    <ImageButton
+        android:layout_gravity="end"
+        android:id="@+id/saveSettingButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/save"
         android:onClick="onSaveSetting"/>
 
 </LinearLayout>

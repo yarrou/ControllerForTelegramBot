@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
@@ -18,11 +19,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS, MODE_PRIVATE);
-        /*if(!settings.contains("hostName")){
-            SharedPreferences.Editor prefEditor = settings.edit();
-            prefEditor.putString(Constans.HOST_NAME,Constans.DEFAULT_HOST_NAME );
-            prefEditor.apply();
-        }*/
+        boolean isSaveSettings = getIntent().getBooleanExtra("isSaveSettings",false);
+        if(isSaveSettings){
+            String toastTextSavedSettings = getString(R.string.saveSettingsToast);
+            Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
+        }
+        String isSavedHost = settings.getString(Constants.HOST_NAME,"null");
+        if(isSavedHost.equals("null")){
+            String toastTextNotHost = getString(R.string.toastTextNotHost);
+            Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
+        }
     }
     public void onGetRequest(View view){
         Intent intent = new Intent(this,GetActivity.class);

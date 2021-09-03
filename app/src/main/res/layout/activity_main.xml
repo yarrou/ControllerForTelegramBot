@@ -21,15 +21,14 @@
             android:text="@string/choiceOfAction" />
 
 
-
-        <Button
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
             android:id="@+id/buttonSettings"
-            android:text="@string/buttonSettings"
-            android:paddingHorizontal="12dp"
-            android:onClick="onSettings"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="right"
+            android:onClick="onSettings"
+            android:background="@drawable/settings"
+            tools:ignore="SpeakableTextPresentCheck" />
     </FrameLayout>
 
     <Button

@@ -21,4 +21,26 @@
     <string name="saveSettingButtonText">Save</string>
 
     <string name="buttonSettings">settings</string>
+    <string name="saveSettingsToast">Settings saved</string>
+    <string name="toastTextNotHost">not setting host</string>
+    <string name="helpText">  This application is intended for interacting with the <b>telegram-bot</b> database
+        from this project: <u>https://github.com/yarrou/TelegramBot</u>. The <b>"Add"</b> method adds a record to the database,
+        the <b>"Get"</b> method allows you to see if there is a record in the database and the value that corresponds to it.
+        The <b>"Delete"</b> and <b>"Change"</b> methods, respectively, completely delete the entry and change the value assigned to the entry.
+        For the program to work, you must set the server address in the settings.
+    About telegram bot: web application for managing your own travel telegram bot.
+Technical task: It is necessary to create a web application for managing your own travel telegram bot.
+1) The telegram bot gives the user background information about the entered city. For example, the user enters: "Moscow", chat-
+the bot replies: "Don't forget to visit Red Square. Well, you don't have to go to Central Department Store))) ".
+2) City data must be stored in a database.
+3) It is necessary to manage data about cities (add new cities and information about them, change and delete any information) through the REST WebService.
+Technologies used: SpringBoot, SpringMVC, SpringData,
+Hibernate, Java 1.8 or higher. Maven is used to build the project.
+City data is stored in the Postgresql database. Adding, editing and deleting data occurs through the REST WebService.</string>
+    <string name="settingsHelpButton">about app</string>
+    <string name="nameSettingsActivity">Settings</string>
+    <string name="nameTextSizeSettings">Text size</string>
+    <string name="textSizeSmall">Small</string>
+    <string name="textSizeNormal">Normal</string>
+    <string name="textSizeLarge">Large</string>
 </resources>

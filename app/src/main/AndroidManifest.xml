@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ControllerForTelegramBot"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".HelpActivity"
+            android:exported="true" />
+        <activity
             android:name=".settings.SettingActivity"
             android:exported="true" />
         <activity
