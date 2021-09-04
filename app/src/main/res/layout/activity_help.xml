@@ -8,7 +8,8 @@
     tools:context=".HelpActivity">
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/paddingSmall" >
         <TextView
             android:id="@+id/textAbout"
             android:layout_width="wrap_content"
