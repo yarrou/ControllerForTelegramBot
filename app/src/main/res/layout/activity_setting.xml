@@ -70,14 +70,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settingsHelpButton"
+        android:drawableRight="@drawable/info"
         android:onClick="onSettingsHelpInfo"/>
 
-    <ImageButton
+    <Button
         android:layout_gravity="end"
         android:id="@+id/saveSettingButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/save"
-        android:onClick="onSaveSetting"/>
+        android:text="@string/textButtonSaveSettings"
+        android:drawableTop="@drawable/save"
+        android:onClick="onSaveSetting"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
 
 </LinearLayout>

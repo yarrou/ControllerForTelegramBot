@@ -21,6 +21,7 @@
     <string name="saveSettingButtonText">сохранить</string>
 
     <string name="buttonSettings">настр.</string>
+    <string name="textButtonSaveSettings">сохранить</string>
     <string name="saveSettingsToast">Настройки сохранены</string>
     <string name="toastTextNotHost">не настроен адрес хоста</string>
     <string name="helpText">Это приложение предназначенно для взаимодействия с базой данных телеграм-бота из этого проекта : https://github.com/yarrou/TelegramBot . Метод "<b>Добавить</b>" добавляет запись в базу, метод "<b>Получить</b>" позволяет просмотреть есть ли запись в базе и значение ,которое ей соответствует. Методы "<b>Удалить</b>" и "<b>Изменить</b>" соответственно полностью удаляют запись и изменяют значение присвоенное записи.Для работы программы необходимо задать адрес сервера в настройках.

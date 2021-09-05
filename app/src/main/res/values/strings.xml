@@ -21,6 +21,7 @@
     <string name="saveSettingButtonText">Save</string>
 
     <string name="buttonSettings">settings</string>
+    <string name="textButtonSaveSettings">save</string>
     <string name="saveSettingsToast">Settings saved</string>
     <string name="toastTextNotHost">not setting host</string>
     <string name="helpText">  This application is intended for interacting with the <b>telegram-bot</b> database
@@ -37,7 +38,7 @@ the bot replies: "Don't forget to visit Red Square. Well, you don't have to go t
 Technologies used: SpringBoot, SpringMVC, SpringData,
 Hibernate, Java 1.8 or higher. Maven is used to build the project.
 City data is stored in the Postgresql database. Adding, editing and deleting data occurs through the REST WebService.</string>
-    <string name="settingsHelpButton">about app</string>
+    <string name="settingsHelpButton">about</string>
     <string name="nameSettingsActivity">Settings</string>
     <string name="nameTextSizeSettings">Text size</string>
     <string name="textSizeSmall">Small</string>
