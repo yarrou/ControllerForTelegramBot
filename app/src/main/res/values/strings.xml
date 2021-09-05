@@ -25,7 +25,7 @@
     <string name="saveSettingsToast">Settings saved</string>
     <string name="toastTextNotHost">not setting host</string>
     <string name="helpText">  This application is intended for interacting with the <b>telegram-bot</b> database
-        from this project: <u>https://github.com/yarrou/TelegramBot</u>. The <b>"Add"</b> method adds a record to the database,
+        from this <a href="https://github.com/yarrou/TelegramBot">project</a>. The <b>"Add"</b> method adds a record to the database,
         the <b>"Get"</b> method allows you to see if there is a record in the database and the value that corresponds to it.
         The <b>"Delete"</b> and <b>"Change"</b> methods, respectively, completely delete the entry and change the value assigned to the entry.
         For the program to work, you must set the server address in the settings.

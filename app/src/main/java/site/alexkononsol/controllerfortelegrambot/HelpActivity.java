@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
@@ -23,5 +24,6 @@ public class HelpActivity extends AppCompatActivity {
         }else if (textSize.equals("small")){
             textAbout.setTextSize(20);
         }else textAbout.setTextSize(26);
+        textAbout.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
