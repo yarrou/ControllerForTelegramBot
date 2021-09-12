@@ -19,6 +19,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS, MODE_PRIVATE);
+        boolean viewHelpOnStart =  settings.getBoolean(Constants.VIEW_HELP_ON_START, true);
+        if(viewHelpOnStart){
+            Intent intent = new Intent(this,HelpActivity.class);
+            startActivity(intent);
+        }
         boolean isSaveSettings = getIntent().getBooleanExtra("isSaveSettings",false);
         if(isSaveSettings){
             String toastTextSavedSettings = getString(R.string.saveSettingsToast);

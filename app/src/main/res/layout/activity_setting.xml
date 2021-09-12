@@ -65,13 +65,21 @@
             android:text="@string/textSizeLarge"
             android:onClick="onTextSizeButton"/>
     </RadioGroup>
+    <CheckBox
+        android:id="@+id/viewHelpOnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/viewHelpOnStart"
+        android:onClick="onViewHelpOnStart"/>
     <Button
         android:id="@+id/settingsHelpInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settingsHelpButton"
         android:drawableRight="@drawable/info"
-        android:onClick="onSettingsHelpInfo"/>
+        android:onClick="onSettingsHelpInfo"
+        android:paddingBottom="@dimen/paddingNormal"
+        />
 
     <Button
         android:layout_gravity="end"

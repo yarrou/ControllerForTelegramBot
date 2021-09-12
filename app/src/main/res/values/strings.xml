@@ -44,4 +44,5 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="textSizeSmall">Small</string>
     <string name="textSizeNormal">Normal</string>
     <string name="textSizeLarge">Large</string>
+    <string name="viewHelpOnStart">show description at program start</string>
 </resources>

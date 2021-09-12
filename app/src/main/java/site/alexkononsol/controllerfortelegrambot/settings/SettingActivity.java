@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -40,6 +41,12 @@ public class SettingActivity extends AppCompatActivity {
             }
             RadioButton savedCheckedRadioButton = (RadioButton)radioGroup.getChildAt(idRadioTextSize);
             savedCheckedRadioButton.setChecked(true);
+
+            boolean viewHelpOnStart = settings.getBoolean(Constants.VIEW_HELP_ON_START,true);
+            if (viewHelpOnStart){
+                CheckBox helpOnStart = (CheckBox) findViewById(R.id.viewHelpOnStart);
+                helpOnStart.setChecked(true);
+            }
         }
 
 
@@ -71,6 +78,16 @@ public class SettingActivity extends AppCompatActivity {
             case R.id.textSizeSmallRadio: textSize = "small";
         }
         prefEditor.putString(Constants.TEXT_SIZE,textSize);
+        prefEditor.apply();
+    }
+    public void onViewHelpOnStart(View view){
+        settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS,0);
+        SharedPreferences.Editor prefEditor = settings.edit();
+        boolean checked = ((CheckBox) view).isChecked();
+        if(checked){
+            prefEditor.putBoolean(Constants.VIEW_HELP_ON_START,true);
+        }
+        else prefEditor.putBoolean(Constants.VIEW_HELP_ON_START,false);
         prefEditor.apply();
     }
 }

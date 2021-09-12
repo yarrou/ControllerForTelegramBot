@@ -38,4 +38,5 @@
     <string name="textSizeSmall">Маленький</string>
     <string name="textSizeNormal">Средний</string>
     <string name="textSizeLarge">Большой</string>
+    <string name="viewHelpOnStart">показывать описание при старте программы</string>
 </resources>
