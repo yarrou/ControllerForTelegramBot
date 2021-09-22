@@ -3,8 +3,12 @@
     package="site.alexkononsol.controllerfortelegrambot">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_round"
         android:label="@string/app_name"
@@ -12,6 +16,7 @@
         android:theme="@style/Theme.ControllerForTelegramBot"
         android:usesCleartextTraffic="true"
         android:testOnly="false"
+        android:installLocation="preferExternal"
         >
         <activity
             android:name=".HelpActivity"

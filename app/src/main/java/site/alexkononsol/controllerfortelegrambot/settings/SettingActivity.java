@@ -1,93 +1,172 @@
 package site.alexkononsol.controllerfortelegrambot.settings;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
 import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
+import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class SettingActivity extends AppCompatActivity {
-    SharedPreferences settings ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS,0);
-        EditText editText = (EditText) findViewById(R.id.hostName);
-        editText.setHint(settings.getString(Constants.HOST_NAME, Constants.DEFAULT_HOST_NAME));
-
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
-        int id = radioGroup.getCheckedRadioButtonId();
-        SharedPreferences.Editor prefEditor = settings.edit();
-        if(id == -1){
-            String textSize = settings.getString(Constants.TEXT_SIZE,"normal");
-            int idRadioTextSize = 1;
-            switch (textSize){
-                case "small": idRadioTextSize = 0;
-                break;
-                case "large": idRadioTextSize = 2;
-                break;
-            }
-            RadioButton savedCheckedRadioButton = (RadioButton)radioGroup.getChildAt(idRadioTextSize);
-            savedCheckedRadioButton.setChecked(true);
-
-            boolean viewHelpOnStart = settings.getBoolean(Constants.VIEW_HELP_ON_START,true);
-            if (viewHelpOnStart){
-                CheckBox helpOnStart = (CheckBox) findViewById(R.id.viewHelpOnStart);
-                helpOnStart.setChecked(true);
-            }
-        }
-
-
+        //interfaceView();
     }
-    public void onSaveSetting(View view){
+
+    public void onSaveSetting(View view) {
         EditText editText = (EditText) findViewById(R.id.hostName);
         String host = editText.getText().toString();
-        SharedPreferences.Editor prefEditor = settings.edit();
-        prefEditor.putString(Constants.HOST_NAME, host);
-        prefEditor.apply();
+        SettingsManager.getSettings().setHostName(host);
+        SettingsManager.save();
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("isSaveSettings",true);
+        intent.putExtra("isSaveSettings", true);
         startActivity(intent);
     }
 
-    public void onSettingsHelpInfo(View view){
+    public void onSettingsHelpInfo(View view) {
         Intent intent = new Intent(this, HelpActivity.class);
         startActivity(intent);
     }
-    public void onTextSizeButton(View view){
-        settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS,0);
+
+    public void onTextSizeButton(View view) {
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
         int id = radioGroup.getCheckedRadioButtonId();
-        SharedPreferences.Editor prefEditor = settings.edit();
         String textSize = "normal";
-        switch (id){
-            case R.id.textSizeLargeRadio: textSize ="large";
+        switch (id) {
+            case R.id.textSizeLargeRadio:
+                textSize = "large";
                 break;
-            case R.id.textSizeSmallRadio: textSize = "small";
+            case R.id.textSizeSmallRadio:
+                textSize = "small";
         }
-        prefEditor.putString(Constants.TEXT_SIZE,textSize);
-        prefEditor.apply();
+        SettingsManager.getSettings().setTextSize(textSize);
+        SettingsManager.save();
     }
-    public void onViewHelpOnStart(View view){
-        settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS,0);
-        SharedPreferences.Editor prefEditor = settings.edit();
+
+    public void onViewHelpOnStart(View view) {
         boolean checked = ((CheckBox) view).isChecked();
-        if(checked){
-            prefEditor.putBoolean(Constants.VIEW_HELP_ON_START,true);
+        if (checked) {
+            SettingsManager.getSettings().setViewHelpOnStart(true);
+        } else {
+            SettingsManager.getSettings().setViewHelpOnStart(false);
         }
-        else prefEditor.putBoolean(Constants.VIEW_HELP_ON_START,false);
-        prefEditor.apply();
+        SettingsManager.save();
+    }
+
+    public void onSaveBacup(View view) {
+        // write on SD card file data in the text box
+        try {
+            File myFile = new File("/sdcard/ControllerForTelegramBot/backup.bp");
+            myFile.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(myFile);
+            OutputStreamWriter myOutWriter =
+                    new OutputStreamWriter(fOut);
+
+            myOutWriter.append(SettingsManager.getStringSettings());
+            myOutWriter.close();
+            fOut.close();
+            Toast.makeText(getBaseContext(),
+                    "Done writing SD 'mysdfile.txt'",
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private static final int FILE_SELECT_CODE = 0;
+
+    public void onShowFileChooser(View view) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to Upload"),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(this, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    Uri uri = data.getData();
+
+                    // Get the path
+                    String path = null;
+                    try {
+                        path = FileUtils.getPath(this, uri);
+                        SettingsManager.restoreSettings(FileUtils.getStringFromFile(path));
+                        interfaceView();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        interfaceView();
+    }
+
+
+    private void interfaceView() {
+        EditText editText = (EditText) findViewById(R.id.hostName);
+        String hostName = SettingsManager.getSettings().getHostName() == null ? Constants.DEFAULT_HOST_NAME : SettingsManager.getSettings().getHostName();
+        editText.setHint(hostName);
+
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
+        int id = radioGroup.getCheckedRadioButtonId();
+
+        String textSize = SettingsManager.getSettings().getTextSize();
+        int idRadioTextSize = 1;
+        switch (textSize) {
+            case "small":
+                idRadioTextSize = 0;
+                break;
+            case "large":
+                idRadioTextSize = 2;
+                break;
+        }
+
+        RadioButton savedCheckedRadioButton = (RadioButton) radioGroup.getChildAt(idRadioTextSize);
+        savedCheckedRadioButton.setChecked(true);
+
+        boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
+        CheckBox helpOnStart = (CheckBox) findViewById(R.id.viewHelpOnStart);
+        helpOnStart.setChecked(viewHelpOnStart);
     }
 }

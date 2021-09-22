@@ -1,23 +1,20 @@
 package site.alexkononsol.controllerfortelegrambot;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import androidx.appcompat.app.AppCompatActivity;
+
+import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class HelpActivity extends AppCompatActivity {
-    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
-        settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS, MODE_PRIVATE);
-        String textSize = settings.getString(Constants.TEXT_SIZE,"normal");
+        String textSize = SettingsManager.getSettings().getTextSize();
         TextView textAbout = (TextView) findViewById(R.id.textAbout);
         if(textSize.equals("large")){
             textAbout.setTextSize(32);

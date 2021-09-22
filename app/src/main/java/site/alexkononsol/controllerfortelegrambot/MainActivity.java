@@ -1,25 +1,25 @@
 package site.alexkononsol.controllerfortelegrambot;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
+import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 
 public class MainActivity extends AppCompatActivity {
-    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        settings = getSharedPreferences(Constants.SHARED_PREFERENCES_SETTINGS, MODE_PRIVATE);
-        boolean viewHelpOnStart =  settings.getBoolean(Constants.VIEW_HELP_ON_START, true);
+        SharedPreferenceAssistant.initSharedPreferences(this);
+        SettingsManager.initSettings();
+        boolean viewHelpOnStart =  SettingsManager.getSettings().isViewHelpOnStart();
         if(viewHelpOnStart){
             Intent intent = new Intent(this,HelpActivity.class);
             startActivity(intent);
@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
             String toastTextSavedSettings = getString(R.string.saveSettingsToast);
             Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
         }
-        String isSavedHost = settings.getString(Constants.HOST_NAME,"null");
-        if(isSavedHost.equals("null")){
+        String isSavedHost = SettingsManager.getSettings().getHostName();
+        if(isSavedHost == null){
             String toastTextNotHost = getString(R.string.toastTextNotHost);
             Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
         }
