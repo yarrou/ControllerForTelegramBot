@@ -32,7 +32,9 @@
 2) Данные о городах должны храниться в базе данных.
 3) Управлять данными о городах (добавлять новые города и информацию о них, изменять и удалять любую информацию) необходимо через REST WebService.
 Используемые технологии: SpringBoot, SpringMVC, SpringData, Hibernate, Java не ниже 1.8. Для сборки проекта используется Maven.Данные о городах хранятся в базе данных Postgresql. Добавление , редактирование и удаление данных происходит через  REST WebService.</string>
-    <string name="settingsHelpButton">О программе</string>
+    <string name="settingsHelpButton">показать инструкцию</string>
+    <string name="settingsHelpName">инструкция</string>
+
     <string name="nameSettingsActivity">Настройки</string>
     <string name="nameTextSizeSettings">Размер текста</string>
     <string name="textSizeSmall">Маленький</string>
@@ -41,8 +43,9 @@
     <string name="viewHelpOnStart">показывать описание при старте программы</string>
 
     <string name="bacupText">Резервное копирование</string>
-    <string name="bacupSaveText">Создать резервную копию</string>
-    <string name="bacupLoadText">Восстановить из резервной копии</string>
-    <string name="bacupSaveButton">save</string>
+    <string name="bacupSaveText">создать бекап по пути : /sdcard/ControllerForTelegramBot/backup.bp</string>
+    <string name="bacupLoadText">выбрать файл для восстановления из резервной копии</string>
+    <string name="bacupSaveSuccessfull">резервная копия создана</string>
     <string name="bacupLoadButton">load</string>
+    <string name="bacupToadstSuccessfully">резервная копия создана : ControllerForTelegramBot/backup.bp</string>
 </resources>

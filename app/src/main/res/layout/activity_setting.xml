@@ -1,138 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".settings.SettingActivity">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/paddingSmall"
-    >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/nameSettingsActivity"
-        android:paddingBottom="@dimen/paddingNormal"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/paddingNormal">
-        <TextView
-            android:id="@+id/hostNameTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hostNameTitle"
-            />
-        <EditText
-            android:id="@+id/hostName"
-            android:paddingHorizontal="12dp"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="25"/>
 
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="@dimen/paddingSmall"
-        android:text="@string/nameTextSizeSettings"/>
-    <RadioGroup
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/radioTextSize"
-        android:paddingBottom="@dimen/paddingNormal">
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textSizeSmallRadio"
-            android:text="@string/textSizeSmall"
-            android:onClick="onTextSizeButton"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textSizeNormalRadio"
-            android:text="@string/textSizeNormal"
-            android:onClick="onTextSizeButton"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textSizeLargeRadio"
-            android:text="@string/textSizeLarge"
-            android:onClick="onTextSizeButton"/>
-    </RadioGroup>
-    <CheckBox
-        android:paddingBottom="@dimen/paddingNormal"
-        android:id="@+id/viewHelpOnStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/viewHelpOnStart"
-        android:onClick="onViewHelpOnStart"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/bacupText"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/paddingSmall">
-        <Button
-            android:id="@+id/bacupSaveButton"
-            android:onClick="onSaveBacup"
-            android:text="@string/bacupSaveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:paddingLeft="@dimen/paddingNormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bacupSaveText"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/paddingNormal">
-        <Button
-            android:id="@+id/bacupLoadButton"
-            android:text="@string/bacupLoadButton"
-            android:onClick="onShowFileChooser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:paddingLeft="@dimen/paddingNormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bacupLoadText"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <Button
-        android:id="@+id/settingsHelpInfoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settingsHelpButton"
-        android:drawableRight="@drawable/info"
-        android:onClick="onSettingsHelpInfo"
-        android:paddingBottom="@dimen/paddingNormal"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/paddingSmall">
 
-    <Button
-        android:layout_gravity="end"
-        android:id="@+id/saveSettingButton"
-        android:text="@string/textButtonSaveSettings"
-        android:drawableTop="@drawable/save"
-        android:onClick="onSaveSetting"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
-</LinearLayout>
-</ScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paddingNormal"
+                android:text="@string/nameSettingsActivity"
+                android:textSize="@dimen/paddingNormal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/paddingNormal">
+
+                <TextView
+                    android:id="@+id/hostNameTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hostNameTitle" />
+
+                <EditText
+                    android:id="@+id/hostName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="25"
+                    android:paddingHorizontal="12dp" />
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:text="@string/settingsHelpName"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/subMenuTextSize"
+                android:paddingBottom="@dimen/paddingSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/viewHelpOnStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewHelpOnStart"
+                android:paddingBottom="@dimen/paddingNormal"
+                android:text="@string/viewHelpOnStart" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paddingSmall"
+                android:text="@string/nameTextSizeSettings"
+                android:textSize="@dimen/smallTextSize" />
+
+            <RadioGroup
+                android:id="@+id/radioTextSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/paddingSmall">
+
+                <RadioButton
+                    android:id="@+id/textSizeSmallRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onTextSizeButton"
+                    android:text="@string/textSizeSmall"
+                    android:textSize="@dimen/smallTextSize"/>
+
+                <RadioButton
+                    android:id="@+id/textSizeNormalRadio"
+                    android:textSize="@dimen/normalTextSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onTextSizeButton"
+                    android:text="@string/textSizeNormal" />
+
+                <RadioButton
+                    android:id="@+id/textSizeLargeRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onTextSizeButton"
+                    android:text="@string/textSizeLarge"
+                    android:textSize="@dimen/bigTextSize"/>
+            </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/paddingNormal">
+            <ImageButton
+                android:id="@+id/settingsHelpInfoButton"
+                android:layout_width="36dp"
+                android:layout_height="38dp"
+                android:background="@drawable/info"
+                android:onClick="onSettingsHelpInfo"
+                android:paddingBottom="@dimen/paddingNormal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/paddingSmall"
+                android:text="@string/settingsHelpButton"/>
+        </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paddingSmall"
+                android:text="@string/bacupText"
+                android:textSize="@dimen/subMenuTextSize" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/paddingSmall">
+
+                <ImageButton
+                    android:id="@+id/bacupSaveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:onClick="onSaveBacup"
+                    android:background="@drawable/export"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/paddingNormal"
+                    android:text="@string/bacupSaveText" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/paddingNormal">
+
+                <ImageButton
+                    android:id="@+id/bacupLoadButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/loadbacup"
+                    android:onClick="onShowFileChooser" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/paddingNormal"
+                    android:text="@string/bacupLoadText" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/saveSettingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:drawableTop="@drawable/save"
+                android:onClick="onSaveSetting"
+                android:text="@string/textButtonSaveSettings" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

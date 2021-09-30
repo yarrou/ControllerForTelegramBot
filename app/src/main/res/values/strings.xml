@@ -38,7 +38,9 @@ the bot replies: "Don't forget to visit Red Square. Well, you don't have to go t
 Technologies used: SpringBoot, SpringMVC, SpringData,
 Hibernate, Java 1.8 or higher. Maven is used to build the project.
 City data is stored in the Postgresql database. Adding, editing and deleting data occurs through the REST WebService.</string>
-    <string name="settingsHelpButton">about</string>
+    <string name="settingsHelpButton">show user manual</string>
+    <string name="settingsHelpName">user guide</string>
+
     <string name="nameSettingsActivity">Settings</string>
     <string name="nameTextSizeSettings">Text size</string>
     <string name="textSizeSmall">Small</string>
@@ -46,8 +48,10 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="textSizeLarge">Large</string>
     <string name="viewHelpOnStart">show description at program start</string>
     <string name="bacupText">Bacup</string>
-    <string name="bacupSaveText">Create a backup</string>
-    <string name="bacupLoadText">Restore from backup</string>
-    <string name="bacupSaveButton">save</string>
+    <string name="bacupSaveText">create a backup along the path: /sdcard/ControllerForTelegramBot/backup.bp</string>
+    <string name="bacupLoadText">select a file to restore from backup</string>
+    <string name="bacupSaveSuccessfull">bacup created</string>
     <string name="bacupLoadButton">load</string>
+    <string name="bacupToadstSuccessfully">bacup created : ControllerForTelegramBot/backup.bp</string>
+
 </resources>

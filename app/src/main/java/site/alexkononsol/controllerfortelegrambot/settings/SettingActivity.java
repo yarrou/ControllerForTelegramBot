@@ -76,6 +76,10 @@ public class SettingActivity extends AppCompatActivity {
     public void onSaveBacup(View view) {
         // write on SD card file data in the text box
         try {
+            File programDir = new File("/sdcard/ControllerForTelegramBot");
+            if(!programDir.exists()){
+                programDir.mkdir();
+            }
             File myFile = new File("/sdcard/ControllerForTelegramBot/backup.bp");
             myFile.createNewFile();
             FileOutputStream fOut = new FileOutputStream(myFile);
@@ -85,8 +89,7 @@ public class SettingActivity extends AppCompatActivity {
             myOutWriter.append(SettingsManager.getStringSettings());
             myOutWriter.close();
             fOut.close();
-            Toast.makeText(getBaseContext(),
-                    "Done writing SD 'mysdfile.txt'",
+            Toast.makeText(getBaseContext(),getString(R.string.bacupToadstSuccessfully),
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),
@@ -95,7 +98,7 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    private static final int FILE_SELECT_CODE = 0;
+    private static final int FILE_SELECT_CODE = 1;
 
     public void onShowFileChooser(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -115,17 +118,14 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case FILE_SELECT_CODE:
                 if (resultCode == RESULT_OK) {
                     // Get the Uri of the selected file
                     Uri uri = data.getData();
-
-                    // Get the path
-                    String path = null;
                     try {
-                        path = FileUtils.getPath(this, uri);
-                        SettingsManager.restoreSettings(FileUtils.getStringFromFile(path));
+                        SettingsManager.restoreSettings(FileUtils.convertStreamToString(getContentResolver().openInputStream(uri)));
                         interfaceView();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -133,7 +133,7 @@ public class SettingActivity extends AppCompatActivity {
                 }
                 break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override
