@@ -11,6 +11,12 @@
     <string name="ptHintDescription">Description</string>
     <string name="namePut">Change data</string>
     <string name="buttonPut">Change</string>
+    
+    <string name="buttonSearch">Search</string>
+    <string name="searchName">Search</string>
+    <string name="searchHint">starts with</string>
+    <string name="searchInfoLoadingText">Loading...</string>
+    <string name="notFoundResult">no matches found</string>
 
     <string name="buttonDel">Delete</string>
     <string name="nameDel">Delete data</string>
@@ -54,4 +60,5 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="bacupLoadButton">load</string>
     <string name="bacupToadstSuccessfully">bacup created : ControllerForTelegramBot/backup.bp</string>
 
+    <string name="error">Error</string>
 </resources>

@@ -33,6 +33,15 @@
     </FrameLayout>
 
     <Button
+        android:id="@+id/buttonSearch"
+        android:text="@string/buttonSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:onClick="onSearch"
+        />
+    <Button
         android:id="@+id/buttonGet"
         android:text="@string/buttonGet"
         android:layout_width="wrap_content"

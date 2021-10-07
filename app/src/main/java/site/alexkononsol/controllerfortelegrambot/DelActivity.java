@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
-import site.alexkononsol.controllerfortelegrambot.utils.RequestEncoder;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class DelActivity extends AppCompatActivity {

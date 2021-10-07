@@ -12,6 +12,12 @@
     <string name="namePut">Изменить данные</string>
     <string name="buttonPut">Изменить</string>
 
+    <string name="buttonSearch">Поиск</string>
+    <string name="searchName">Поиск</string>
+    <string name="searchHint">начинается на</string>
+    <string name="searchInfoLoadingText">Загрузка...</string>
+    <string name="notFoundResult">нет результатов</string>
+
     <string name="buttonDel">Удалить</string>
     <string name="nameDel">Удалить данные</string>
     <string name="delRequestHint">запрос</string>
@@ -48,4 +54,6 @@
     <string name="bacupSaveSuccessfull">резервная копия создана</string>
     <string name="bacupLoadButton">load</string>
     <string name="bacupToadstSuccessfully">резервная копия создана : ControllerForTelegramBot/backup.bp</string>
+
+    <string name="error">Ошибка</string>
 </resources>
