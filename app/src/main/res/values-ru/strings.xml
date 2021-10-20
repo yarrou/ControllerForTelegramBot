@@ -27,6 +27,8 @@
     <string name="saveSettingButtonText">сохранить</string>
 
     <string name="buttonSettings">настр.</string>
+    <string name="buttonSettingsGetNameBot">тест</string>
+    <string name="nameBotNotAnswer">не найден или не работает</string>
     <string name="textButtonSaveSettings">сохранить</string>
     <string name="saveSettingsToast">Настройки сохранены</string>
     <string name="toastTextNotHost">не настроен адрес хоста</string>

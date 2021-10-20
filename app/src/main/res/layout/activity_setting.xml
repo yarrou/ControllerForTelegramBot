@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/paddingNormal">
+                >
 
                 <TextView
                     android:id="@+id/hostNameTitle"
@@ -48,6 +48,23 @@
                     android:paddingHorizontal="12dp" />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/buttonSettingsGetNameBot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonSettingsGetNameBot"
+                    />
+                <TextView
+                    android:id="@+id/nameBot"
+                    android:layout_marginLeft="@dimen/paddingNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
 
 
@@ -56,6 +73,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="@dimen/subMenuTextSize"
                 android:paddingBottom="@dimen/paddingSmall"
+                android:paddingTop="@dimen/paddingNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

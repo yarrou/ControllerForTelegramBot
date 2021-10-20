@@ -62,6 +62,42 @@ public class ContentUrlProvider {
         }
     }
 
+    public static String getContentNameBot(String path) throws IOException {
+        BufferedReader reader=null;
+        InputStream stream = null;
+        HttpURLConnection connection = null;
+        try {
+            URL url=new URL(path);
+            connection =(HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(10000);
+            connection.connect();
+            if(connection.getResponseCode()==200){
+                stream = connection.getInputStream();
+            }else stream = connection.getErrorStream();
+
+            reader= new BufferedReader(new InputStreamReader(stream));
+            StringBuilder buf=new StringBuilder();
+            String line;
+            while ((line=reader.readLine()) != null) {
+                buf.append(line).append("\n");
+            }
+            return(buf.toString());
+        }
+
+        finally {
+            if (reader != null) {
+                reader.close();
+            }
+            if (stream != null) {
+                stream.close();
+            }
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
     public static String getContentGet(String path) throws IOException {
         BufferedReader reader=null;
         InputStream stream = null;

@@ -27,6 +27,8 @@
     <string name="saveSettingButtonText">Save</string>
 
     <string name="buttonSettings">settings</string>
+    <string name="buttonSettingsGetNameBot">test</string>
+    <string name="nameBotNotAnswer">not found or not working</string>
     <string name="textButtonSaveSettings">save</string>
     <string name="saveSettingsToast">Settings saved</string>
     <string name="toastTextNotHost">not setting host</string>
