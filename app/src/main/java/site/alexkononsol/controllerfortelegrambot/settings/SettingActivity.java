@@ -36,25 +36,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         //interfaceView();
-        Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);
-        TextView nameBotView = (TextView) findViewById(R.id.nameBot);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(new Runnable() {
-                    public void run() {
 
-                        String content = getNameBot();
-                            nameBotView.post(new Runnable() {
-                                public void run() {
-                                    nameBotView.setText(content);
-                                }
-                            });
-
-                    }
-                }).start();
-            }
-        });
     }
 
     public void onSaveSetting(View view) {
@@ -175,6 +157,24 @@ public class SettingActivity extends AppCompatActivity {
         if(!hostName.equals(Constants.DEFAULT_HOST_NAME)){
             nameBotView.setText(getNameBot());
         }
+        Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    public void run() {
+
+                        String content = getNameBot();
+                        nameBotView.post(new Runnable() {
+                            public void run() {
+                                nameBotView.setText(content);
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        });
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
         int id = radioGroup.getCheckedRadioButtonId();
@@ -200,6 +200,9 @@ public class SettingActivity extends AppCompatActivity {
 
     private String getNameBot(){
         String request = ((TextView) findViewById(R.id.hostName)).getText().toString();
+        if(request.equals("")){
+            request = ((TextView) findViewById(R.id.hostName)).getHint().toString();
+        }
         String content = null;
         try{
             content = ContentUrlProvider.getContentNameBot(request + "/name");
