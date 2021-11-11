@@ -154,9 +154,9 @@ public class SettingActivity extends AppCompatActivity {
         String hostName = SettingsManager.getSettings().getHostName() == null ? Constants.DEFAULT_HOST_NAME : SettingsManager.getSettings().getHostName();
         editText.setHint(hostName);
         TextView nameBotView = (TextView) findViewById(R.id.nameBot);
-        if(!hostName.equals(Constants.DEFAULT_HOST_NAME)){
+        /*if(!hostName.equals(Constants.DEFAULT_HOST_NAME)){
             nameBotView.setText(getNameBot());
-        }
+        }*/
         Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override

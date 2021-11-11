@@ -4,9 +4,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,6 +28,7 @@ import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 
 public class SearchActivity extends AppCompatActivity {
     Context context = this;
+    List<City> content ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +47,11 @@ public class SearchActivity extends AppCompatActivity {
                 contentView.setVisibility(View.INVISIBLE);
                 String request = searchTextView.getText().toString();
 
+
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                            List<City> content = ContentUrlProvider.getContentSearch(request);
+                            content = ContentUrlProvider.getContentSearch(request);
                             contentView.post(new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                 public void run() {
@@ -76,6 +80,18 @@ public class SearchActivity extends AppCompatActivity {
                 }).start();
             }
         });
+
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(SearchActivity.this,ViewCityActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("city",content.get(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        };
+        contentView.setOnItemClickListener(itemClickListener);
     }
 
 

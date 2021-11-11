@@ -11,7 +11,7 @@
     <string name="ptHintDescription">Description</string>
     <string name="namePut">Change data</string>
     <string name="buttonPut">Change</string>
-    
+
     <string name="buttonSearch">Search</string>
     <string name="searchName">Search</string>
     <string name="searchHint">starts with</string>

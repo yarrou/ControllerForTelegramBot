@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ControllerForTelegramBot"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ViewCityActivity"
+            android:exported="true" />
+        <activity
             android:name=".SearchActivity"
             android:exported="true" />
         <activity

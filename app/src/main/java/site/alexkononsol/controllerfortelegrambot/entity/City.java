@@ -3,7 +3,9 @@ package site.alexkononsol.controllerfortelegrambot.entity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable {
     private int id;
     private String name;
     private String text;
