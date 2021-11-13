@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,16 +29,27 @@ import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 
 public class SearchActivity extends AppCompatActivity {
     Context context = this;
-    List<City> content ;
+    List<City> content;
+    String cityName;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ListView contentView = (ListView) findViewById(R.id.searchList);
-        TextView searchTextView = (TextView) findViewById(R.id.searchHint);
         TextView searchInfo = (TextView) findViewById(R.id.searchInfo);
-        searchInfo.setVisibility(View.INVISIBLE);
+        TextView searchTextView = (TextView) findViewById(R.id.searchHint);
+
+        if(savedInstanceState!=null){
+            content = (ArrayList<City>) savedInstanceState.getSerializable("listCity");
+            cityName = savedInstanceState.getString("cityName");
+            searchTextView.setText(cityName);
+            viewListCity(content);
+        }
+
+        //searchInfo.setVisibility(View.INVISIBLE);
         ImageButton searchButton = (ImageButton) findViewById(R.id.localSearchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,27 +58,15 @@ public class SearchActivity extends AppCompatActivity {
                 searchInfo.setVisibility(View.VISIBLE);
                 contentView.setVisibility(View.INVISIBLE);
                 String request = searchTextView.getText().toString();
+                cityName = request;
 
 
                 new Thread(new Runnable() {
                     public void run() {
                         try {
                             content = ContentUrlProvider.getContentSearch(request);
-                            contentView.post(new Runnable() {
-                                @RequiresApi(api = Build.VERSION_CODES.N)
-                                public void run() {
-                                    if (content.size() > 0) {
-                                        searchInfo.setVisibility(View.INVISIBLE);
-                                        ArrayList<String> nameCities = (ArrayList<String>) content.stream().map(City::getName).collect(Collectors.toList());
-                                        ArrayAdapter<String> itemsAdapter =
-                                                new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, nameCities);
-                                        contentView.setAdapter(itemsAdapter);
-                                        contentView.setVisibility(View.VISIBLE);
-                                    } else {
-                                        searchInfo.setText(getString(R.string.notFoundResult));
-                                    }
-                                }
-                            });
+                            viewListCity(content);
+
                         } catch (IOException ex) {
                             contentView.post(new Runnable() {
                                 public void run() {
@@ -84,9 +84,9 @@ public class SearchActivity extends AppCompatActivity {
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(SearchActivity.this,ViewCityActivity.class);
+                Intent intent = new Intent(SearchActivity.this, ViewCityActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("city",content.get(position));
+                bundle.putSerializable("city", content.get(position));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -94,5 +94,37 @@ public class SearchActivity extends AppCompatActivity {
         contentView.setOnItemClickListener(itemClickListener);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        super.onSaveInstanceState(savedInstanceState);
+        if(cityName != null){
+            savedInstanceState.putString("cityName",cityName);
+        }
+        if (content != null) {
+            savedInstanceState.putSerializable("listCity",(Serializable) content);
+        }
+
+    }
+
+    private void viewListCity(List<City> content){
+        ListView contentView = (ListView) findViewById(R.id.searchList);
+        TextView searchInfo = (TextView) findViewById(R.id.searchInfo);
+        contentView.post(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void run() {
+                if (content.size() > 0) {
+                    searchInfo.setVisibility(View.INVISIBLE);
+                    ArrayList<String> nameCities = (ArrayList<String>) content.stream().map(City::getName).collect(Collectors.toList());
+                    ArrayAdapter<String> itemsAdapter =
+                            new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, nameCities);
+                    contentView.setAdapter(itemsAdapter);
+                    contentView.setVisibility(View.VISIBLE);
+                } else {
+                    searchInfo.setText(getString(R.string.notFoundResult));
+                }
+            }
+        });
+    }
 
 }
