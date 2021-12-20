@@ -11,13 +11,6 @@
         layout="@layout/toolbar_main"
         android:id="@+id/toolbar" />
 
-    <TextView
-        android:id="@+id/nameGet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:text="@string/nameGet" />
 
     <EditText
         android:id="@+id/getRequest"
