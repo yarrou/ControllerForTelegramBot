@@ -58,5 +58,7 @@
     <string name="bacupLoadButton">load</string>
     <string name="bacupToadstSuccessfully">резервная копия создана : ControllerForTelegramBot/backup.bp</string>
 
+    <string name="viewCityNameLabel">Город</string>
+
     <string name="error">Ошибка</string>
 </resources>

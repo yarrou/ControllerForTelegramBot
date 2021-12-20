@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ViewCityActivity"
-
+            android:label="@string/viewCityNameLabel"
             android:exported="true" />
         <activity
             android:name=".SearchActivity"
@@ -30,6 +30,7 @@
             android:exported="true" />
         <activity
             android:name=".settings.SettingActivity"
+            android:label="@string/nameSettingsActivity"
             android:exported="true" />
         <activity
             android:name=".DelActivity"

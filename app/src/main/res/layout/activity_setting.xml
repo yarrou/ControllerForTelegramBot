@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".settings.SettingActivity">
 
+    <include
+        layout="@layout/toolbar_settings"
+        android:id="@+id/toolbar" />
 
     <ScrollView
         android:id="@+id/scroll"
