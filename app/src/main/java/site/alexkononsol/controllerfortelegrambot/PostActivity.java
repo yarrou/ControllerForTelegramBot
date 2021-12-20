@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 
@@ -19,6 +20,10 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         String cityName = ((TextView) findViewById(R.id.postRequest)).getText().toString();
         String cityDescription = ((TextView) findViewById(R.id.postRequestDescription)).getText().toString();
         TextView contentView = (TextView) findViewById(R.id.postResponse);

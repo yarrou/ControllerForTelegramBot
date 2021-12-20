@@ -18,27 +18,34 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ViewCityActivity"
+
             android:exported="true" />
         <activity
             android:name=".SearchActivity"
+            android:label="@string/searchName"
             android:exported="true" />
         <activity
             android:name=".HelpActivity"
+            android:label="@string/helpNameLabel"
             android:exported="true" />
         <activity
             android:name=".settings.SettingActivity"
             android:exported="true" />
         <activity
             android:name=".DelActivity"
+            android:label="@string/nameDel"
             android:exported="true" />
         <activity
             android:name=".PostActivity"
+            android:label="@string/namePost"
             android:exported="true" />
         <activity
             android:name=".PutActivity"
+            android:label="@string/namePut"
             android:exported="true" />
         <activity
             android:name=".GetActivity"
+            android:label="@string/nameGet"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

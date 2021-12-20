@@ -32,6 +32,7 @@
     <string name="textButtonSaveSettings">save</string>
     <string name="saveSettingsToast">Settings saved</string>
     <string name="toastTextNotHost">not setting host</string>
+    <string name="helpNameLabel">Help</string>
     <string name="helpText">  This application is intended for interacting with the <b>telegram-bot</b> database
         from this <a href="https://github.com/yarrou/TelegramBot">project</a>. The <b>"Add"</b> method adds a record to the database,
         the <b>"Get"</b> method allows you to see if there is a record in the database and the value that corresponds to it.
