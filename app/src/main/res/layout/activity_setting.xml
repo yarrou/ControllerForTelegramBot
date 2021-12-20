@@ -12,9 +12,10 @@
 
     <ScrollView
         android:id="@+id/scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_width="399dp"
+        android:layout_height="682dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,8 +27,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/hostNameTitle"
@@ -44,34 +44,35 @@
                     android:paddingHorizontal="12dp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/buttonSettingsGetNameBot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/buttonSettingsGetNameBot"
-                    />
+                    android:text="@string/buttonSettingsGetNameBot" />
+
                 <TextView
                     android:id="@+id/nameBot"
-                    android:layout_marginLeft="@dimen/paddingNormal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/paddingNormal" />
 
             </LinearLayout>
 
 
-
             <TextView
-                android:text="@string/settingsHelpName"
-                android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/subMenuTextSize"
-                android:paddingBottom="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingNormal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/paddingNormal"
+                android:paddingBottom="@dimen/paddingSmall"
+                android:text="@string/settingsHelpName"
+                android:textSize="@dimen/subMenuTextSize" />
 
             <CheckBox
                 android:id="@+id/viewHelpOnStart"
@@ -80,6 +81,7 @@
                 android:onClick="onViewHelpOnStart"
                 android:paddingBottom="@dimen/paddingNormal"
                 android:text="@string/viewHelpOnStart" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,15 +103,15 @@
                     android:layout_height="wrap_content"
                     android:onClick="onTextSizeButton"
                     android:text="@string/textSizeSmall"
-                    android:textSize="@dimen/smallTextSize"/>
+                    android:textSize="@dimen/smallTextSize" />
 
                 <RadioButton
                     android:id="@+id/textSizeNormalRadio"
-                    android:textSize="@dimen/normalTextSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onTextSizeButton"
-                    android:text="@string/textSizeNormal" />
+                    android:text="@string/textSizeNormal"
+                    android:textSize="@dimen/normalTextSize" />
 
                 <RadioButton
                     android:id="@+id/textSizeLargeRadio"
@@ -117,27 +119,29 @@
                     android:layout_height="wrap_content"
                     android:onClick="onTextSizeButton"
                     android:text="@string/textSizeLarge"
-                    android:textSize="@dimen/bigTextSize"/>
+                    android:textSize="@dimen/bigTextSize" />
             </RadioGroup>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/paddingNormal">
-            <ImageButton
-                android:id="@+id/settingsHelpInfoButton"
-                android:layout_width="36dp"
-                android:layout_height="38dp"
-                android:background="@drawable/info"
-                android:onClick="onSettingsHelpInfo"
-                android:paddingBottom="@dimen/paddingNormal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/paddingSmall"
-                android:text="@string/settingsHelpButton"/>
-        </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/paddingNormal">
+
+                <ImageButton
+                    android:id="@+id/settingsHelpInfoButton"
+                    android:layout_width="36dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/info"
+                    android:onClick="onSettingsHelpInfo"
+                    android:paddingBottom="@dimen/paddingNormal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/paddingSmall"
+                    android:text="@string/settingsHelpButton" />
+            </LinearLayout>
 
 
             <TextView
@@ -158,8 +162,8 @@
                     android:id="@+id/bacupSaveButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    android:onClick="onSaveBacup"
-                    android:background="@drawable/export"/>
+                    android:background="@drawable/export"
+                    android:onClick="onSaveBacup" />
 
                 <TextView
                     android:layout_width="wrap_content"
