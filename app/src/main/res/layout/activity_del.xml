@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".DelActivity">
 
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar" />
+
     <TextView
         android:id="@+id/nameDel"
         android:layout_width="wrap_content"

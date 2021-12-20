@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ViewCityActivity">
 
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar" />
+
     <TextView
         android:id="@+id/infoCityName"
         android:layout_width="107dp"

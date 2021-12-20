@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".PutActivity">
 
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar" />
+
     <TextView
         android:id="@+id/namePut"
         android:layout_width="wrap_content"

@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".PostActivity">
 
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar" />
+
     <TextView
         android:id="@+id/namePost"
         android:layout_width="wrap_content"
