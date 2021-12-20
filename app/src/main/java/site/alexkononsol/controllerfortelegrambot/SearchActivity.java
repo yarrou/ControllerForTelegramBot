@@ -49,7 +49,6 @@ public class SearchActivity extends AppCompatActivity {
             viewListCity(content);
         }
 
-        //searchInfo.setVisibility(View.INVISIBLE);
         ImageButton searchButton = (ImageButton) findViewById(R.id.localSearchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
