@@ -4,21 +4,27 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
 import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -30,7 +36,11 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        //interfaceView();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
     }
 
     public void onSaveSetting(View view) {
@@ -147,6 +157,28 @@ public class SettingActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.hostName);
         String hostName = SettingsManager.getSettings().getHostName() == null ? Constants.DEFAULT_HOST_NAME : SettingsManager.getSettings().getHostName();
         editText.setHint(hostName);
+        TextView nameBotView = (TextView) findViewById(R.id.nameBot);
+        /*if(!hostName.equals(Constants.DEFAULT_HOST_NAME)){
+            nameBotView.setText(getNameBot());
+        }*/
+        Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    public void run() {
+
+                        String content = getNameBot();
+                        nameBotView.post(new Runnable() {
+                            public void run() {
+                                nameBotView.setText(content);
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        });
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
         int id = radioGroup.getCheckedRadioButtonId();
@@ -168,5 +200,20 @@ public class SettingActivity extends AppCompatActivity {
         boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
         CheckBox helpOnStart = (CheckBox) findViewById(R.id.viewHelpOnStart);
         helpOnStart.setChecked(viewHelpOnStart);
+    }
+
+    private String getNameBot(){
+        String request = ((TextView) findViewById(R.id.hostName)).getText().toString();
+        if(request.equals("")){
+            request = ((TextView) findViewById(R.id.hostName)).getHint().toString();
+        }
+        String content = null;
+        try{
+            content = ContentUrlProvider.getContentNameBot(request + "/name");
+        }
+        catch (IOException ex){
+                    content = getString(R.string.nameBotNotAnswer);
+        }
+        return content;
     }
 }

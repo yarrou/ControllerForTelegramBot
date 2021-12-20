@@ -12,6 +12,12 @@
     <string name="namePut">Change data</string>
     <string name="buttonPut">Change</string>
 
+    <string name="buttonSearch">Search</string>
+    <string name="searchName">Search</string>
+    <string name="searchHint">starts with</string>
+    <string name="searchInfoLoadingText">Loading...</string>
+    <string name="notFoundResult">no matches found</string>
+
     <string name="buttonDel">Delete</string>
     <string name="nameDel">Delete data</string>
     <string name="delRequestHint">request</string>
@@ -21,9 +27,12 @@
     <string name="saveSettingButtonText">Save</string>
 
     <string name="buttonSettings">settings</string>
+    <string name="buttonSettingsGetNameBot">test</string>
+    <string name="nameBotNotAnswer">not found or not working</string>
     <string name="textButtonSaveSettings">save</string>
     <string name="saveSettingsToast">Settings saved</string>
     <string name="toastTextNotHost">not setting host</string>
+    <string name="helpNameLabel">Help</string>
     <string name="helpText">  This application is intended for interacting with the <b>telegram-bot</b> database
         from this <a href="https://github.com/yarrou/TelegramBot">project</a>. The <b>"Add"</b> method adds a record to the database,
         the <b>"Get"</b> method allows you to see if there is a record in the database and the value that corresponds to it.
@@ -54,4 +63,7 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="bacupLoadButton">load</string>
     <string name="bacupToadstSuccessfully">bacup created : ControllerForTelegramBot/backup.bp</string>
 
+    <string name="viewCityNameLabel">City</string>
+
+    <string name="error">Error</string>
 </resources>

@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
@@ -14,6 +16,10 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         String textSize = SettingsManager.getSettings().getTextSize();
         TextView textAbout = (TextView) findViewById(R.id.textAbout);
         if(textSize.equals("large")){

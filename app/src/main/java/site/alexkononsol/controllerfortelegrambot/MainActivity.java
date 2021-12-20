@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -17,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         SharedPreferenceAssistant.initSharedPreferences(this);
         SettingsManager.initSettings();
         boolean viewHelpOnStart =  SettingsManager.getSettings().isViewHelpOnStart();
@@ -53,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onSettings(View view){
         Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
+    }
+    public void onSearch(View view){
+        Intent intent = new Intent(this,SearchActivity.class);
         startActivity(intent);
     }
 }

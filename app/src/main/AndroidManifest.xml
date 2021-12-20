@@ -3,38 +3,50 @@
     package="site.alexkononsol.controllerfortelegrambot">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_round"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.ControllerForTelegramBot"
-        android:usesCleartextTraffic="true"
-        android:testOnly="false"
         android:installLocation="preferExternal"
-        >
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:testOnly="false"
+        android:theme="@style/Theme.ControllerForTelegramBot"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ViewCityActivity"
+            android:label="@string/viewCityNameLabel"
+            android:exported="true" />
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/searchName"
+            android:exported="true" />
         <activity
             android:name=".HelpActivity"
+            android:label="@string/helpNameLabel"
             android:exported="true" />
         <activity
             android:name=".settings.SettingActivity"
+            android:label="@string/nameSettingsActivity"
             android:exported="true" />
         <activity
             android:name=".DelActivity"
+            android:label="@string/nameDel"
             android:exported="true" />
         <activity
             android:name=".PostActivity"
+            android:label="@string/namePost"
             android:exported="true" />
         <activity
             android:name=".PutActivity"
+            android:label="@string/namePut"
             android:exported="true" />
         <activity
             android:name=".GetActivity"
+            android:label="@string/nameGet"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

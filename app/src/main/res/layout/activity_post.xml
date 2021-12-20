@@ -7,13 +7,10 @@
     android:orientation="vertical"
     tools:context=".PostActivity">
 
-    <TextView
-        android:id="@+id/namePost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:text="@string/namePost" />
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar" />
+
 
     <EditText
         android:id="@+id/postRequest"

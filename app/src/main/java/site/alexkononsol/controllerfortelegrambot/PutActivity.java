@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 
@@ -19,6 +20,10 @@ public class PutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_put);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         TextView contentView = (TextView) findViewById(R.id.putResponse);
         Button putButton = (Button)findViewById(R.id.buttonPut);
         String cityName = ((TextView) findViewById(R.id.putRequest)).getText().toString();

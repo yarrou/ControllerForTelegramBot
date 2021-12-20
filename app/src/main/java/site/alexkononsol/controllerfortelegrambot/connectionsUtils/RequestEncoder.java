@@ -1,4 +1,4 @@
-package site.alexkononsol.controllerfortelegrambot.utils;
+package site.alexkononsol.controllerfortelegrambot.connectionsUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

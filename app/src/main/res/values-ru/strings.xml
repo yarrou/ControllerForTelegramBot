@@ -12,6 +12,12 @@
     <string name="namePut">Изменить данные</string>
     <string name="buttonPut">Изменить</string>
 
+    <string name="buttonSearch">Поиск</string>
+    <string name="searchName">Поиск</string>
+    <string name="searchHint">начинается на</string>
+    <string name="searchInfoLoadingText">Загрузка...</string>
+    <string name="notFoundResult">нет результатов</string>
+
     <string name="buttonDel">Удалить</string>
     <string name="nameDel">Удалить данные</string>
     <string name="delRequestHint">запрос</string>
@@ -21,9 +27,12 @@
     <string name="saveSettingButtonText">сохранить</string>
 
     <string name="buttonSettings">настр.</string>
+    <string name="buttonSettingsGetNameBot">тест</string>
+    <string name="nameBotNotAnswer">не найден или не работает</string>
     <string name="textButtonSaveSettings">сохранить</string>
     <string name="saveSettingsToast">Настройки сохранены</string>
     <string name="toastTextNotHost">не настроен адрес хоста</string>
+    <string name="helpNameLabel">Справка</string>
     <string name="helpText">Это приложение предназначенно для взаимодействия с базой данных телеграм-бота из этого <a href="https://github.com/yarrou/TelegramBot">проекта</a>. Метод "<b>Добавить</b>" добавляет запись в базу, метод "<b>Получить</b>" позволяет просмотреть есть ли запись в базе и значение ,которое ей соответствует. Методы "<b>Удалить</b>" и "<b>Изменить</b>" соответственно полностью удаляют запись и изменяют значение присвоенное записи.Для работы программы необходимо задать адрес сервера в настройках.
     О телеграм-боте: web приложение по управлению собственным туристическим телеграм ботом.
 
@@ -48,4 +57,8 @@
     <string name="bacupSaveSuccessfull">резервная копия создана</string>
     <string name="bacupLoadButton">load</string>
     <string name="bacupToadstSuccessfully">резервная копия создана : ControllerForTelegramBot/backup.bp</string>
+
+    <string name="viewCityNameLabel">Город</string>
+
+    <string name="error">Ошибка</string>
 </resources>

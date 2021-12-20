@@ -7,12 +7,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
-import site.alexkononsol.controllerfortelegrambot.utils.RequestEncoder;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class GetActivity extends AppCompatActivity {
@@ -21,6 +22,10 @@ public class GetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         TextView contentView = (TextView) findViewById(R.id.getResponse);
         Button getButton = (Button)findViewById(R.id.buttonGet);
         String host = SettingsManager.getSettings().getHostName();
