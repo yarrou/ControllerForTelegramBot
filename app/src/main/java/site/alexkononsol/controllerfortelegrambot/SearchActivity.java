@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
+import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 
 public class SearchActivity extends AppCompatActivity {
@@ -129,6 +132,24 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //Menu of Toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

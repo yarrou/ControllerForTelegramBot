@@ -1,6 +1,9 @@
 package site.alexkononsol.controllerfortelegrambot;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class PostActivity extends AppCompatActivity {
@@ -55,6 +59,24 @@ public class PostActivity extends AppCompatActivity {
                 }).start();
             }
         });
+    }
+
+    //Menu of Toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
