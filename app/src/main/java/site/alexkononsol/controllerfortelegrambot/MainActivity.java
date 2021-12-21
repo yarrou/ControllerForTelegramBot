@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DelActivity.class);
         startActivity(intent);
     }
-    public void onSettings(View view){
-        Intent intent = new Intent(this, SettingActivity.class);
-        startActivity(intent);
-    }
     public void onSearch(View view){
         Intent intent = new Intent(this,SearchActivity.class);
         startActivity(intent);
