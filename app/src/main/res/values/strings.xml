@@ -26,7 +26,7 @@
     <string name="hostNameHint">primer</string>
     <string name="saveSettingButtonText">Save</string>
 
-    <string name="buttonSettings">settings</string>
+    <string name="buttonSettings">open settings</string>
     <string name="buttonSettingsGetNameBot">test</string>
     <string name="nameBotNotAnswer">not found or not working</string>
     <string name="textButtonSaveSettings">save</string>
@@ -66,4 +66,5 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="viewCityNameLabel">City</string>
 
     <string name="error">Error</string>
+
 </resources>

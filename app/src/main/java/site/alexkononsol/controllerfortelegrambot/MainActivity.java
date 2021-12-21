@@ -2,6 +2,8 @@ package site.alexkononsol.controllerfortelegrambot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -40,6 +42,27 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    //Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
     public void onGetRequest(View view){
         Intent intent = new Intent(this,GetActivity.class);
         startActivity(intent);

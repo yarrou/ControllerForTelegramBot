@@ -26,7 +26,7 @@
     <string name="hostNameHint">primer</string>
     <string name="saveSettingButtonText">сохранить</string>
 
-    <string name="buttonSettings">настр.</string>
+    <string name="buttonSettings">oткрыть настройки</string>
     <string name="buttonSettingsGetNameBot">тест</string>
     <string name="nameBotNotAnswer">не найден или не работает</string>
     <string name="textButtonSaveSettings">сохранить</string>
