@@ -3,6 +3,8 @@ package site.alexkononsol.controllerfortelegrambot.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -41,6 +43,23 @@ public class SettingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+    }
+
+    //Menu of Toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save_settings:
+                onSaveSetting(null);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onSaveSetting(View view) {
