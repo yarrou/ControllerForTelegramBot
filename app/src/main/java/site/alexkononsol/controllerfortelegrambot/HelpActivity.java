@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,6 +24,9 @@ public class HelpActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         String textSize = SettingsManager.getSettings().getTextSize();
         TextView textAbout = (TextView) findViewById(R.id.textAbout);
