@@ -19,34 +19,42 @@
         <activity
             android:name=".ViewCityActivity"
             android:label="@string/viewCityNameLabel"
+            android:parentActivityName=".SearchActivity"
             android:exported="true" />
         <activity
             android:name=".SearchActivity"
             android:label="@string/searchName"
+            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".HelpActivity"
             android:label="@string/helpNameLabel"
+            android:parentActivityName=".settings.SettingActivity"
             android:exported="true" />
         <activity
             android:name=".settings.SettingActivity"
             android:label="@string/nameSettingsActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".DelActivity"
             android:label="@string/nameDel"
+            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".PostActivity"
             android:label="@string/namePost"
+            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".PutActivity"
             android:label="@string/namePut"
+            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".GetActivity"
             android:label="@string/nameGet"
+            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
