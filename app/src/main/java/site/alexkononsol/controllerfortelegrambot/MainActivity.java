@@ -31,11 +31,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this,HelpActivity.class);
             startActivity(intent);
         }
-        boolean isSaveSettings = getIntent().getBooleanExtra("isSaveSettings",false);
-        if(isSaveSettings){
-            String toastTextSavedSettings = getString(R.string.saveSettingsToast);
-            Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
-        }
+
         String isSavedHost = SettingsManager.getSettings().getHostName();
         if(isSavedHost == null){
             String toastTextNotHost = getString(R.string.toastTextNotHost);

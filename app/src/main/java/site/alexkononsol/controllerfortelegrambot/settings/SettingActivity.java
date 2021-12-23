@@ -69,9 +69,8 @@ public class SettingActivity extends AppCompatActivity {
         String host = editText.getText().toString();
         SettingsManager.getSettings().setHostName(host);
         SettingsManager.save();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("isSaveSettings", true);
-        startActivity(intent);
+        String toastTextSavedSettings = getString(R.string.saveSettingsToast);
+        Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
     }
 
     public void onSettingsHelpInfo(View view) {
