@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -42,7 +43,8 @@ public class SettingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     //Menu of Toolbar
@@ -67,9 +69,8 @@ public class SettingActivity extends AppCompatActivity {
         String host = editText.getText().toString();
         SettingsManager.getSettings().setHostName(host);
         SettingsManager.save();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("isSaveSettings", true);
-        startActivity(intent);
+        String toastTextSavedSettings = getString(R.string.saveSettingsToast);
+        Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
     }
 
     public void onSettingsHelpInfo(View view) {
