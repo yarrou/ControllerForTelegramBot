@@ -8,13 +8,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 
 import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ShareActionProvider shareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        shareActionProvider =
+                (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getString(R.string.greeting)).append("\n").append(getString(R.string.helpText));
+        String text = getString(R.string.helpText);
+        setShareActionIntent(stringBuilder.toString());
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -56,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setShareActionIntent(String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        shareActionProvider.setShareIntent(intent);
     }
 
 
