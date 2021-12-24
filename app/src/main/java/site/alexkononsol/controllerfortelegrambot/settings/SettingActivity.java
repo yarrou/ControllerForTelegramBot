@@ -28,6 +28,7 @@ import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
+import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -106,20 +107,8 @@ public class SettingActivity extends AppCompatActivity {
     public void onSaveBacup(View view) {
         // write on SD card file data in the text box
         try {
-            File programDir = new File("/sdcard/ControllerForTelegramBot");
-            if(!programDir.exists()){
-                programDir.mkdir();
-            }
-            File myFile = new File("/sdcard/ControllerForTelegramBot/backup.bp");
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter =
-                    new OutputStreamWriter(fOut);
-
-            myOutWriter.append(SettingsManager.getStringSettings());
-            myOutWriter.close();
-            fOut.close();
-            Toast.makeText(getBaseContext(),getString(R.string.bacupToadstSuccessfully),
+            String backupPath = BackupHelper.createBackup("null");
+            Toast.makeText(getBaseContext(),getString(R.string.bacupToadstSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),

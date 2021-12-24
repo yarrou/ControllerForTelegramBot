@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 
 
 public class BackupHelper {
-    public static void createBackup(String name) throws IOException {
+    public static String createBackup(String name) throws IOException {
             String backupDirPath = Environment.getExternalStorageDirectory().getPath()+"/ControllerForTelegramBot";
             File programDir = new File(backupDirPath);
             if(!programDir.exists()){
@@ -25,6 +25,6 @@ public class BackupHelper {
             myOutWriter.append(SettingsManager.getStringSettings());
             myOutWriter.close();
             fOut.close();
-
+            return myFile.getPath();
     }
 }

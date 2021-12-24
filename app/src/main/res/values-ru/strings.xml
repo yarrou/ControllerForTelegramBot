@@ -56,7 +56,7 @@
     <string name="bacupLoadText">выбрать файл для восстановления из резервной копии</string>
     <string name="bacupSaveSuccessfull">резервная копия создана</string>
     <string name="bacupLoadButton">load</string>
-    <string name="bacupToadstSuccessfully">резервная копия создана : ControllerForTelegramBot/backup.bp</string>
+    <string name="bacupToadstSuccessfully">резервная копия создана : </string>
 
     <string name="viewCityNameLabel">Город</string>
 
