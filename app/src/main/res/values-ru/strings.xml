@@ -64,4 +64,6 @@
 
     <string name="action_share">Поделиться</string>
     <string name="greeting">Привет, я использую приложение  "Управление БД бота"</string>
+
+    <string name="backupActivityTitle">Восстановление настроек</string>
 </resources>

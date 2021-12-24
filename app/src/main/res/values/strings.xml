@@ -70,4 +70,6 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="action_share">Share</string>
     <string name="greeting">Hi, I am using the DB management app </string>
 
+    <string name="backupActivityTitle">Restore settings</string>
+
 </resources>
