@@ -3,6 +3,7 @@ package site.alexkononsol.controllerfortelegrambot.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import androidx.core.view.MenuItemCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,12 +32,14 @@ import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
+import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class SettingActivity extends AppCompatActivity {
 
+    private ShareActionProvider shareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,12 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings_toolbar_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        shareActionProvider =
+                (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        //!!!Attention!!! needs to be redone
+        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/ControllerForTelegramBot/backup.bp");
+        setShareActionIntent(file);
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -62,6 +74,14 @@ public class SettingActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setShareActionIntent(File file) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file));
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareActionProvider.setShareIntent(intent);
     }
 
     public void onSaveSetting(View view) {
@@ -106,20 +126,8 @@ public class SettingActivity extends AppCompatActivity {
     public void onSaveBacup(View view) {
         // write on SD card file data in the text box
         try {
-            File programDir = new File("/sdcard/ControllerForTelegramBot");
-            if(!programDir.exists()){
-                programDir.mkdir();
-            }
-            File myFile = new File("/sdcard/ControllerForTelegramBot/backup.bp");
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter =
-                    new OutputStreamWriter(fOut);
-
-            myOutWriter.append(SettingsManager.getStringSettings());
-            myOutWriter.close();
-            fOut.close();
-            Toast.makeText(getBaseContext(),getString(R.string.bacupToadstSuccessfully),
+            String backupPath = BackupHelper.createBackup("null");
+            Toast.makeText(getBaseContext(),getString(R.string.bacupToadstSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),

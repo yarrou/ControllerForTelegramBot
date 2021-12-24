@@ -4,6 +4,13 @@
     <item android:id="@+id/action_save_settings"
         android:title="@string/textButtonSaveSettings"
         android:icon="@drawable/ic_content_save_white_24dp"
+        android:orderInCategory="10"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_share"
         android:orderInCategory="1"
+        android:title="@string/action_share"
+        app:actionProviderClass="androidx.appcompat.widget.ShareActionProvider"
         app:showAsAction="ifRoom" />
 </menu>
