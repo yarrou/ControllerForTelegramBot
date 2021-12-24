@@ -10,13 +10,13 @@ import java.io.OutputStreamWriter;
 
 
 public class BackupHelper {
-    public static void createBackup() throws IOException {
-
-            File programDir = new File(Environment.getExternalStorageDirectory().getPath()+"/ControllerForTelegramBot");
+    public static void createBackup(String name) throws IOException {
+            String backupDirPath = Environment.getExternalStorageDirectory().getPath()+"/ControllerForTelegramBot";
+            File programDir = new File(backupDirPath);
             if(!programDir.exists()){
                 programDir.mkdir();
             }
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/ControllerForTelegramBot/backup.bp");
+            File myFile = new File(backupDirPath + "/backup.bp");
             myFile.createNewFile();
             FileOutputStream fOut = new FileOutputStream(myFile);
             OutputStreamWriter myOutWriter =
