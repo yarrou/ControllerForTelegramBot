@@ -1,12 +1,11 @@
 package site.alexkononsol.controllerfortelegrambot.utils;
 
-import com.google.gson.Gson;
-
 import site.alexkononsol.controllerfortelegrambot.entity.Settings;
 
 public class SettingsManager {
 
-    private static Settings settings = new Settings();
+    private static Settings settings ;
+
 
     public SettingsManager(){
 
@@ -36,9 +35,8 @@ public class SettingsManager {
     }
 
     public static void restoreSettings(String stringSettings){
-        Gson gson = new Gson();
-        Settings settings = gson.fromJson(stringSettings, Settings.class);
-        SettingsManager.settings = settings;
+        SettingsManager.settings = Settings.getSettingsFromString(stringSettings);
         save();
     }
+
 }

@@ -23,15 +23,11 @@ import androidx.core.content.FileProvider;
 import androidx.core.view.MenuItemCompat;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
-import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
@@ -127,7 +123,7 @@ public class SettingActivity extends AppCompatActivity {
         // write on SD card file data in the text box
         try {
             String backupPath = BackupHelper.createBackup("null");
-            Toast.makeText(getBaseContext(),getString(R.string.bacupToadstSuccessfully) + backupPath,
+            Toast.makeText(getBaseContext(),getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),
@@ -166,7 +162,8 @@ public class SettingActivity extends AppCompatActivity {
                         SettingsManager.restoreSettings(FileUtils.convertStreamToString(getContentResolver().openInputStream(uri)));
                         interfaceView();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Toast.makeText(getBaseContext(), e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

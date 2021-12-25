@@ -153,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingBottom="@dimen/paddingSmall"
-                android:text="@string/bacupText"
+                android:text="@string/backupText"
                 android:textSize="@dimen/subMenuTextSize" />
 
             <LinearLayout
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/paddingNormal"
-                    android:text="@string/bacupSaveText" />
+                    android:text="@string/backupSaveText" />
             </LinearLayout>
 
             <LinearLayout
@@ -193,7 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/paddingNormal"
-                    android:text="@string/bacupLoadText" />
+                    android:text="@string/backupLoadText" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

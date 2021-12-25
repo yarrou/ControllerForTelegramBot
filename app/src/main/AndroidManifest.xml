@@ -17,45 +17,70 @@
         android:theme="@style/Theme.ControllerForTelegramBot"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".BackupActivity"
+            android:label="@string/backupActivityTitle"
+            android:parentActivityName=".settings.SettingActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="*/*" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\.bp" />
+                <data android:pathPattern=".*\..*\.bp" />
+                <data android:pathPattern=".*\..*\..*\.bp" />
+                <data android:pathPattern=".*\..*\..*\..*\.bp" />
+                <!-- keep going if you need more -->
+
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ViewCityActivity"
+            android:exported="true"
             android:label="@string/viewCityNameLabel"
-            android:parentActivityName=".SearchActivity"
-            android:exported="true" />
+            android:parentActivityName=".SearchActivity" />
         <activity
             android:name=".SearchActivity"
+            android:exported="true"
             android:label="@string/searchName"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".HelpActivity"
+            android:exported="true"
             android:label="@string/helpNameLabel"
-            android:parentActivityName=".settings.SettingActivity"
-            android:exported="true" />
+            android:parentActivityName=".settings.SettingActivity">
+
+        </activity>
         <activity
             android:name=".settings.SettingActivity"
+            android:exported="true"
             android:label="@string/nameSettingsActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DelActivity"
+            android:exported="true"
             android:label="@string/nameDel"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PostActivity"
+            android:exported="true"
             android:label="@string/namePost"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PutActivity"
+            android:exported="true"
             android:label="@string/namePut"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".GetActivity"
+            android:exported="true"
             android:label="@string/nameGet"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
