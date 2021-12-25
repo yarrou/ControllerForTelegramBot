@@ -51,12 +51,12 @@
     <string name="textSizeLarge">Большой</string>
     <string name="viewHelpOnStart">показывать описание при старте программы</string>
 
-    <string name="bacupText">Резервное копирование</string>
-    <string name="bacupSaveText">создать бекап по пути : /sdcard/ControllerForTelegramBot/backup.bp</string>
-    <string name="bacupLoadText">выбрать файл для восстановления из резервной копии</string>
-    <string name="bacupSaveSuccessfull">резервная копия создана</string>
-    <string name="bacupLoadButton">load</string>
-    <string name="backupToadstSuccessfully">резервная копия создана : </string>
+    <string name="backupText">Резервное копирование</string>
+    <string name="backupSaveText">создать бекап по пути : /sdcard/ControllerForTelegramBot/backup.bp</string>
+    <string name="backupLoadText">выбрать файл для восстановления из резервной копии</string>
+    <string name="backupSaveSuccessfully">резервная копия создана</string>
+    <string name="backupLoadButton">load</string>
+    <string name="backupToastSuccessfully">резервная копия создана : </string>
 
     <string name="viewCityNameLabel">Город</string>
 

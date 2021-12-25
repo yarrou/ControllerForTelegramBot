@@ -56,12 +56,12 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="textSizeNormal">Normal</string>
     <string name="textSizeLarge">Large</string>
     <string name="viewHelpOnStart">show description at program start</string>
-    <string name="bacupText">Backup</string>
-    <string name="bacupSaveText">create a backup along the path: /sdcard/ControllerForTelegramBot/backup.bp</string>
-    <string name="bacupLoadText">select a file to restore from backup</string>
-    <string name="bacupSaveSuccessfull">bacup created</string>
-    <string name="bacupLoadButton">load</string>
-    <string name="backupToadstSuccessfully">backup created : </string>
+    <string name="backupText">Backup</string>
+    <string name="backupSaveText">create a backup along the path: /sdcard/ControllerForTelegramBot/backup.bp</string>
+    <string name="backupLoadText">select a file to restore from backup</string>
+    <string name="backupSaveSuccessfully">bacup created</string>
+    <string name="backupLoadButton">load</string>
+    <string name="backupToastSuccessfully">backup created : </string>
 
     <string name="viewCityNameLabel">City</string>
 

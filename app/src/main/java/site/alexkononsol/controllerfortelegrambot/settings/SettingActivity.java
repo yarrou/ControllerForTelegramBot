@@ -123,7 +123,7 @@ public class SettingActivity extends AppCompatActivity {
         // write on SD card file data in the text box
         try {
             String backupPath = BackupHelper.createBackup("null");
-            Toast.makeText(getBaseContext(),getString(R.string.backupToadstSuccessfully) + backupPath,
+            Toast.makeText(getBaseContext(),getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),
