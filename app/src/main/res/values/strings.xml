@@ -59,7 +59,7 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="backupText">Backup</string>
     <string name="backupSaveText">create a backup along the path: /sdcard/ControllerForTelegramBot/backup.bp</string>
     <string name="backupLoadText">select a file to restore from backup</string>
-    <string name="backupSaveSuccessfully">bacup created</string>
+    <string name="backupSaveSuccessfully">backup created</string>
     <string name="backupLoadButton">load</string>
     <string name="backupToastSuccessfully">backup created : </string>
 
@@ -71,6 +71,11 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="greeting">Hi, I am using the DB management app </string>
 
     <string name="backupActivityTitle">Restore settings</string>
-    <string name="aboutRestoreSettings">Будут восстановлены следующие настройки: </string>
+    <string name="aboutRestoreSettings">The following settings will be restored: </string>
+
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="confirm">confirm</string>
+    <string name="cancel">cancel</string>
 
 </resources>

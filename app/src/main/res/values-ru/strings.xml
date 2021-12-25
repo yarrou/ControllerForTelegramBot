@@ -67,4 +67,9 @@
 
     <string name="backupActivityTitle">Восстановление настроек</string>
     <string name="aboutRestoreSettings">Будут восстановлены следующие настройки: </string>
+
+    <string name="yes">да</string>
+    <string name="no">нет</string>
+    <string name="confirm">подтвердить</string>
+    <string name="cancel">отмена</string>
 </resources>

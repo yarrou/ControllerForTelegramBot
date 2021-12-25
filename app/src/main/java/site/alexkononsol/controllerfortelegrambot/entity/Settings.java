@@ -1,5 +1,7 @@
 package site.alexkononsol.controllerfortelegrambot.entity;
 
+import com.google.gson.Gson;
+
 public class Settings {
     String textSize;
     String hostName;
@@ -32,5 +34,10 @@ public class Settings {
 
     public void setViewHelpOnStart(boolean viewHelpOnStart) {
         this.viewHelpOnStart = viewHelpOnStart;
+    }
+    public static Settings getSettingsFromString(String value){
+        Gson gson = new Gson();
+        Settings settings = gson.fromJson(value, Settings.class);
+        return settings;
     }
 }

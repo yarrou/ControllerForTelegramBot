@@ -20,10 +20,13 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import site.alexkononsol.controllerfortelegrambot.entity.Settings;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class BackupActivity extends AppCompatActivity {
+
+    private Settings newSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +50,29 @@ public class BackupActivity extends AppCompatActivity {
             if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
                 Uri uri = intent.getData();
 
-
                 try {
+                    newSettings = Settings.getSettingsFromString(FileUtils.convertStreamToString(getContentResolver().openInputStream(uri)));
+                    TextView host = (TextView)findViewById(R.id.restoreSettingsHost);
+                    host.setText(newSettings.getHostName());
+                    TextView sizeText = (TextView)findViewById(R.id.restoreSettingsSizeText);
+                    String size = null;
+                    switch (newSettings.getTextSize()){
+                        case ("small"):
+                            size = getString(R.string.textSizeSmall);
+                            break;
+                        case ("normal"):
+                            size = getString(R.string.textSizeNormal);
+                            break;
+                        case ("large"):
+                            size = getString(R.string.textSizeLarge);
+                            break;
+                    }
+                    sizeText.setText(size);
+                    TextView showHelp = (TextView) findViewById(R.id.restoreSettingsAutoViewHelp);
+                    if(newSettings.isViewHelpOnStart()){
+                        showHelp.setText(getString(R.string.yes));
+                    }else showHelp.setText(getString(R.string.no));
+
                     SettingsManager.restoreSettings(FileUtils.convertStreamToString(getContentResolver().openInputStream(uri)));
                     Toast.makeText(getBaseContext(),"successful" ,
                             Toast.LENGTH_SHORT).show();
