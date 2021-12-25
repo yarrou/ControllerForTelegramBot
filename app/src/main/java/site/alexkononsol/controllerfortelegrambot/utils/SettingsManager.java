@@ -6,7 +6,8 @@ import site.alexkononsol.controllerfortelegrambot.entity.Settings;
 
 public class SettingsManager {
 
-    private static Settings settings = new Settings();
+    private static Settings settings ;
+
 
     public SettingsManager(){
 

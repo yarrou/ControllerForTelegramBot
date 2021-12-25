@@ -19,6 +19,7 @@
         <activity
             android:name=".BackupActivity"
             android:label="@string/backupActivityTitle"
+            android:parentActivityName=".settings.SettingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -29,11 +30,6 @@
                 <data android:scheme="file" />
                 <data android:scheme="content" />
                 <data android:mimeType="*/*" />
-                <!--
-                    Work around Android's ugly primitive PatternMatcher
-                    implementation that can't cope with finding a . early in
-                    the path unless it's explicitly matched.
-                -->
                 <data android:host="*" />
                 <data android:pathPattern=".*\.bp" />
                 <data android:pathPattern=".*\..*\.bp" />
