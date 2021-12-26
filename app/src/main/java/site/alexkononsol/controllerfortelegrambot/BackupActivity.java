@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,9 +74,6 @@ public class BackupActivity extends AppCompatActivity {
                         showHelp.setText(getString(R.string.yes));
                     }else showHelp.setText(getString(R.string.no));
 
-                    SettingsManager.restoreSettings(FileUtils.convertStreamToString(getContentResolver().openInputStream(uri)));
-                    Toast.makeText(getBaseContext(),"successful" ,
-                            Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Toast.makeText(getBaseContext(),getString(R.string.error) +  e.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -84,6 +82,17 @@ public class BackupActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void onCancelRestoreSettings(View view){
+        finish();
+    }
+
+    public void onConfirmRestoreSettings(View view){
+        SettingsManager.restoreSettings(newSettings);
+        Toast.makeText(getBaseContext(),getString(R.string.successfullyRestoreSettings),
+                Toast.LENGTH_SHORT).show();
+
     }
 
 

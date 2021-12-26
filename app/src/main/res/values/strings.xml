@@ -78,4 +78,6 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="confirm">confirm</string>
     <string name="cancel">cancel</string>
 
+    <string name="successfullyRestoreSettings">settings have been successfully applied</string>
+
 </resources>

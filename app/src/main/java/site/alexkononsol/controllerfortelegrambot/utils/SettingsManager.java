@@ -38,5 +38,9 @@ public class SettingsManager {
         SettingsManager.settings = Settings.getSettingsFromString(stringSettings);
         save();
     }
+    public static void restoreSettings(Settings settings){
+        SettingsManager.settings = settings;
+        save();
+    }
 
 }

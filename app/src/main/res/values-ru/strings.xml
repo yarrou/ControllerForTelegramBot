@@ -72,4 +72,6 @@
     <string name="no">нет</string>
     <string name="confirm">подтвердить</string>
     <string name="cancel">отмена</string>
+
+    <string name="successfullyRestoreSettings">настройки успешно применены</string>
 </resources>
