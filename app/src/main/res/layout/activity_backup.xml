@@ -90,6 +90,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+
+    <Button
+        android:id="@+id/buttonCancelRestore"
+        android:layout_width="129dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="64dp"
+        android:drawableLeft="@drawable/baseline_highlight_off_black_18"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/buttonConfirmRestore"
+        android:layout_width="129dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="48dp"
+        android:drawableLeft="@drawable/baseline_check_circle_outline_black_18"
+        android:text="@string/confirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
