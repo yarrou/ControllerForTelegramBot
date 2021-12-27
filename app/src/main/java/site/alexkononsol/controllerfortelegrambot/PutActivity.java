@@ -34,17 +34,17 @@ public class PutActivity extends AppCompatActivity {
 
         TextView contentView = (TextView) findViewById(R.id.putResponse);
         Button putButton = (Button)findViewById(R.id.buttonPut);
-        String cityName = ((TextView) findViewById(R.id.putRequest)).getText().toString();
-        String cityDescription = ((TextView) findViewById(R.id.putRequestDescription)).getText().toString();
         String host = SettingsManager.getSettings().getHostName();
         putButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String cityName = ((TextView) findViewById(R.id.putRequest)).getText().toString();
+                String cityDescription = ((TextView) findViewById(R.id.putRequestDescription)).getText().toString();
                 contentView.setText("Загрузка...");
                 new Thread(new Runnable() {
                     public void run() {
                         try{
-                            String content = ContentUrlProvider.getContentPut(host,cityName,cityDescription);
+                            String content = ContentUrlProvider.getContentPut(host ,cityName,cityDescription);
                             contentView.post(new Runnable() {
                                 public void run() {
                                     contentView.setText(content);
@@ -54,8 +54,8 @@ public class PutActivity extends AppCompatActivity {
                         catch (IOException ex){
                             contentView.post(new Runnable() {
                                 public void run() {
-                                    contentView.setText("Ошибка: " + ex.getMessage());
-                                    Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                                    contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
+                                    Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

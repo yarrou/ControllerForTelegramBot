@@ -1,5 +1,6 @@
 package site.alexkononsol.controllerfortelegrambot.connectionsUtils;
 
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,6 +22,7 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 public class ContentUrlProvider {
 
     public static List<City> getContentSearch(String path) throws IOException {
+
         BufferedReader reader=null;
         InputStream stream = null;
         HttpURLConnection connection = null;
@@ -169,13 +171,14 @@ public class ContentUrlProvider {
     }
 
     public static String getContentPost(String path,String name,String description) throws IOException {
+
         City city = new City(name, description);
         BufferedReader reader = null;
         InputStream stream = null;
         OutputStream os = null;
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(path);
+            URL url = new URL(path + "/city");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -218,7 +221,7 @@ public class ContentUrlProvider {
         OutputStream os = null;
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(path);
+            URL url = new URL(path + "/city");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
