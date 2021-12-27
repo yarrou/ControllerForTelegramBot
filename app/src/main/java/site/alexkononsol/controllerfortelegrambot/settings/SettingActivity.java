@@ -25,6 +25,7 @@ import androidx.core.view.MenuItemCompat;
 import java.io.File;
 import java.io.IOException;
 
+import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
@@ -156,15 +157,9 @@ public class SettingActivity extends AppCompatActivity {
         switch (requestCode) {
             case FILE_SELECT_CODE:
                 if (resultCode == RESULT_OK) {
-                    // Get the Uri of the selected file
-                    Uri uri = data.getData();
-                    try {
-                        SettingsManager.restoreSettings(FileUtils.convertStreamToString(getContentResolver().openInputStream(uri)));
-                        interfaceView();
-                    } catch (Exception e) {
-                        Toast.makeText(getBaseContext(), e.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    Intent intent = new Intent(this, BackupActivity.class);
+                    intent.setData(data.getData());
+                    startActivity(intent);
                 }
                 break;
         }
@@ -183,9 +178,6 @@ public class SettingActivity extends AppCompatActivity {
         String hostName = SettingsManager.getSettings().getHostName() == null ? Constants.DEFAULT_HOST_NAME : SettingsManager.getSettings().getHostName();
         editText.setText(hostName);
         TextView nameBotView = (TextView) findViewById(R.id.nameBot);
-        /*if(!hostName.equals(Constants.DEFAULT_HOST_NAME)){
-            nameBotView.setText(getNameBot());
-        }*/
         Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
