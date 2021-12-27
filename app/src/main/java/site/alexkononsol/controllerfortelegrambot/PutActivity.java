@@ -40,7 +40,7 @@ public class PutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String cityName = ((TextView) findViewById(R.id.putRequest)).getText().toString();
                 String cityDescription = ((TextView) findViewById(R.id.putRequestDescription)).getText().toString();
-                contentView.setText("Загрузка...");
+                contentView.setText(getString(R.string.toastLoading));
                 new Thread(new Runnable() {
                     public void run() {
                         try{

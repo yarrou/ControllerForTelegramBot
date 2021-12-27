@@ -40,7 +40,7 @@ public class DelActivity extends AppCompatActivity {
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contentView.setText("Загрузка...");
+                contentView.setText(getString(R.string.toastLoading));
                 new Thread(new Runnable() {
                     public void run() {
                         try{
@@ -58,7 +58,7 @@ public class DelActivity extends AppCompatActivity {
                             contentView.post(new Runnable() {
                                 public void run() {
                                     contentView.setText("Ошибка: " + ex.getMessage() + ex.getLocalizedMessage());
-                                    Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

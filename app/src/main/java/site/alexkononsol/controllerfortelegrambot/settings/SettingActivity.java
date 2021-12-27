@@ -141,11 +141,11 @@ public class SettingActivity extends AppCompatActivity {
 
         try {
             startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to Upload"),
+                    Intent.createChooser(intent, getString(R.string.toastSelectFile)),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this, "Please install a File Manager.",
+            Toast.makeText(this, getString(R.string.toastNeedInstallFileManager),
                     Toast.LENGTH_SHORT).show();
         }
     }

@@ -66,6 +66,9 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="viewCityNameLabel">City</string>
 
     <string name="error">Error</string>
+    <string name="toastSelectFile">Select a File to Upload</string>
+    <string name="toastNeedInstallFileManager">Please install a File Manager</string>
+    <string name="toastLoading">Loading...</string>
 
     <string name="action_share">Share</string>
     <string name="greeting">Hi, I am using the DB management app </string>

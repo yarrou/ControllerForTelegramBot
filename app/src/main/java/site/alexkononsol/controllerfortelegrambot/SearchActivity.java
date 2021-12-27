@@ -81,7 +81,7 @@ public class SearchActivity extends AppCompatActivity {
                         } catch (IOException ex) {
                             contentView.post(new Runnable() {
                                 public void run() {
-                                    searchInfo.setText("Ошибка: " + ex.getMessage() + ex.getLocalizedMessage());
+                                    searchInfo.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
                                     searchInfo.setVisibility(View.VISIBLE);
                                     Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                                 }

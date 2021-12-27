@@ -47,7 +47,7 @@ public class ContentUrlProvider {
                 Type listOfCityObject = new TypeToken<ArrayList<City>>() {}.getType();
                 Gson gson = new Gson();
                 cities = gson.fromJson(buf.toString(), listOfCityObject);
-            }//else stream = connection.getErrorStream();
+            }
         }
 
         finally {
