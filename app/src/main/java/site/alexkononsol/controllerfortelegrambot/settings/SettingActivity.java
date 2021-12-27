@@ -141,11 +141,11 @@ public class SettingActivity extends AppCompatActivity {
 
         try {
             startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to Upload"),
+                    Intent.createChooser(intent, getString(R.string.toastSelectFile)),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this, "Please install a File Manager.",
+            Toast.makeText(this, getString(R.string.toastNeedInstallFileManager),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -181,7 +181,7 @@ public class SettingActivity extends AppCompatActivity {
     private void interfaceView() {
         EditText editText = (EditText) findViewById(R.id.hostName);
         String hostName = SettingsManager.getSettings().getHostName() == null ? Constants.DEFAULT_HOST_NAME : SettingsManager.getSettings().getHostName();
-        editText.setHint(hostName);
+        editText.setText(hostName);
         TextView nameBotView = (TextView) findViewById(R.id.nameBot);
         /*if(!hostName.equals(Constants.DEFAULT_HOST_NAME)){
             nameBotView.setText(getNameBot());

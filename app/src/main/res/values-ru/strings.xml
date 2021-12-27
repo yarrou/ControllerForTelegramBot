@@ -61,6 +61,9 @@
     <string name="viewCityNameLabel">Город</string>
 
     <string name="error">Ошибка</string>
+    <string name="toastSelectFile">Выберите файл</string>
+    <string name="toastNeedInstallFileManager">Пожалуйста установите файловый менеджер</string>
+    <string name="toastLoading">Загрузка...</string>
 
     <string name="action_share">Поделиться</string>
     <string name="greeting">Привет, я использую приложение  "Управление БД бота"</string>

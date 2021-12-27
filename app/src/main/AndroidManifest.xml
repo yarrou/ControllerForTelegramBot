@@ -20,7 +20,9 @@
             android:name=".BackupActivity"
             android:label="@string/backupActivityTitle"
             android:parentActivityName=".settings.SettingActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -43,47 +45,65 @@
             android:name=".ViewCityActivity"
             android:exported="true"
             android:label="@string/viewCityNameLabel"
-            android:parentActivityName=".SearchActivity" />
+            android:parentActivityName=".SearchActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SearchActivity"
             android:exported="true"
             android:label="@string/searchName"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HelpActivity"
             android:exported="true"
             android:label="@string/helpNameLabel"
-            android:parentActivityName=".settings.SettingActivity">
+            android:parentActivityName=".settings.SettingActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".settings.SettingActivity"
             android:exported="true"
             android:label="@string/nameSettingsActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DelActivity"
             android:exported="true"
             android:label="@string/nameDel"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PostActivity"
             android:exported="true"
             android:label="@string/namePost"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PutActivity"
             android:exported="true"
             android:label="@string/namePut"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".GetActivity"
             android:exported="true"
             android:label="@string/nameGet"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

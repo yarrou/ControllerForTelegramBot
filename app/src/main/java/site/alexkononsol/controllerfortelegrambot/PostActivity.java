@@ -32,30 +32,32 @@ public class PostActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        String cityName = ((TextView) findViewById(R.id.postRequest)).getText().toString();
-        String cityDescription = ((TextView) findViewById(R.id.postRequestDescription)).getText().toString();
+
         TextView contentView = (TextView) findViewById(R.id.postResponse);
-        Button getButton = (Button)findViewById(R.id.buttonPost);
+        Button getButton = (Button) findViewById(R.id.buttonPost);
         String host = SettingsManager.getSettings().getHostName();
+
         getButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contentView.setText("Загрузка...");
+                String cityName = ((TextView) findViewById(R.id.postRequest)).getText().toString();
+                String cityDescription = ((TextView) findViewById(R.id.postRequestDescription)).getText().toString();
+                contentView.setText(getString(R.string.toastLoading));
                 new Thread(new Runnable() {
                     public void run() {
-                        try{
-                            String content = ContentUrlProvider.getContentPost(host,cityName,cityDescription);
+                        try {
+                            String content = ContentUrlProvider.getContentPost(host, cityName, cityDescription);
                             contentView.post(new Runnable() {
                                 public void run() {
                                     contentView.setText(content);
                                 }
                             });
-                        }
-                        catch (IOException ex){
+                        } catch (IOException ex) {
+
                             contentView.post(new Runnable() {
                                 public void run() {
-                                    contentView.setText("Ошибка: " + ex.getMessage());
-                                    Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                                    contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
+                                    Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -71,6 +73,7 @@ public class PostActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
