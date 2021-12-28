@@ -2,6 +2,7 @@ package site.alexkononsol.controllerfortelegrambot.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -57,7 +58,7 @@ public class SharedPreferenceAssistant {
 
         }
         catch (Exception e){
-            e.printStackTrace();
+            Log.v("ERROR","the problem of getting the settings",e);
         }
         finally {
             return result;

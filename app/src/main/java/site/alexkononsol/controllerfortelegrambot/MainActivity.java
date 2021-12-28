@@ -19,11 +19,13 @@ import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistan
 public class MainActivity extends AppCompatActivity {
 
     private ShareActionProvider shareActionProvider;
+    private static boolean isFirstRun = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferenceAssistant.initSharedPreferences(this);
         SettingsManager.initSettings();
         boolean viewHelpOnStart =  SettingsManager.getSettings().isViewHelpOnStart();
-        if(viewHelpOnStart){
+        if(viewHelpOnStart&&isFirstRun){
             Intent intent = new Intent(this,HelpActivity.class);
             startActivity(intent);
         }
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             String toastTextNotHost = getString(R.string.toastTextNotHost);
             Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
         }
+        isFirstRun = false;
     }
 
 
