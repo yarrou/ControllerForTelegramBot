@@ -43,6 +43,7 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TextView cityNameView = (TextView) findViewById(R.id.postRequest);
                 TextView cityDescriptionView = (TextView) findViewById(R.id.postRequestDescription);
+                //checking for non-emptiness
                 if (TextValidator.noEmptyValidation(cityNameView)&&TextValidator.noEmptyValidation(cityDescriptionView)) {
                     String cityName = cityNameView.getText().toString();
                     String cityDescription = cityDescriptionView.getText().toString();

@@ -18,6 +18,7 @@ import java.io.IOException;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
+import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class PutActivity extends AppCompatActivity {
 
@@ -38,29 +39,35 @@ public class PutActivity extends AppCompatActivity {
         putButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cityName = ((TextView) findViewById(R.id.putRequest)).getText().toString();
-                String cityDescription = ((TextView) findViewById(R.id.putRequestDescription)).getText().toString();
-                contentView.setText(getString(R.string.toastLoading));
-                new Thread(new Runnable() {
-                    public void run() {
-                        try{
-                            String content = ContentUrlProvider.getContentPut(host ,cityName,cityDescription);
-                            contentView.post(new Runnable() {
-                                public void run() {
-                                    contentView.setText(content);
-                                }
-                            });
+                TextView cityNameView = (TextView) findViewById(R.id.putRequest);
+                TextView cityDescriptionView = (TextView) findViewById(R.id.putRequestDescription);
+                //checking for non-emptiness
+                if(TextValidator.noEmptyValidation(cityNameView)&&(TextValidator.noEmptyValidation(cityDescriptionView))){
+                    String cityName = cityNameView.getText().toString();
+                    String cityDescription = cityDescriptionView.getText().toString();
+                    contentView.setText(getString(R.string.toastLoading));
+                    new Thread(new Runnable() {
+                        public void run() {
+                            try{
+                                String content = ContentUrlProvider.getContentPut(host ,cityName,cityDescription);
+                                contentView.post(new Runnable() {
+                                    public void run() {
+                                        contentView.setText(content);
+                                    }
+                                });
+                            }
+                            catch (IOException ex){
+                                contentView.post(new Runnable() {
+                                    public void run() {
+                                        contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
-                        catch (IOException ex){
-                            contentView.post(new Runnable() {
-                                public void run() {
-                                    contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
-                                    Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                }).start();
+                    }).start();
+                }
+
             }
         });
     }
