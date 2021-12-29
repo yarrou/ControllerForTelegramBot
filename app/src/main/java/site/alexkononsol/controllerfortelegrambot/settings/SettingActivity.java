@@ -33,6 +33,7 @@ import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
+import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -120,7 +121,7 @@ public class SettingActivity extends AppCompatActivity {
         SettingsManager.save();
     }
 
-    public void onSaveBacup(View view) {
+    public void onSaveBackup(View view) {
         // write on SD card file data in the text box
         try {
             String backupPath = BackupHelper.createBackup("null");
@@ -182,18 +183,22 @@ public class SettingActivity extends AppCompatActivity {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    public void run() {
+                TextView hostNameView = (TextView) findViewById(R.id.hostName);
+                if(TextValidator.noEmptyValidation(hostNameView)){  //checking for non-emptiness
+                    new Thread(new Runnable() {
+                        public void run() {
 
-                        String content = getNameBot();
-                        nameBotView.post(new Runnable() {
-                            public void run() {
-                                nameBotView.setText(content);
-                            }
-                        });
+                            String content = getNameBot();
+                            nameBotView.post(new Runnable() {
+                                public void run() {
+                                    nameBotView.setText(content);
+                                }
+                            });
 
-                    }
-                }).start();
+                        }
+                    }).start();
+                }
+
             }
         });
 
