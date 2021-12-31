@@ -20,6 +20,7 @@ import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
+import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class DelActivity extends AppCompatActivity {
 
@@ -35,36 +36,39 @@ public class DelActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         TextView contentView = (TextView) findViewById(R.id.delResponse);
-        Button delButton = (Button)findViewById(R.id.buttonDel);
+        Button delButton = (Button) findViewById(R.id.buttonDel);
         String host = SettingsManager.getSettings().getHostName();
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contentView.setText(getString(R.string.toastLoading));
-                new Thread(new Runnable() {
-                    public void run() {
-                        try{
-                            TextView getTextView = (TextView) findViewById(R.id.delRequest);
-                            String request = getTextView.getText().toString();
-                            String query =  Constants.DEL_PATH + RequestEncoder.getRequest(request);
-                            String content = ContentUrlProvider.getContentDel(host+query);
-                            contentView.post(new Runnable() {
-                                public void run() {
-                                    contentView.setText(content);
-                                }
-                            });
+                TextView getTextView = (TextView) findViewById(R.id.delRequest);
+                if (TextValidator.noEmptyValidation(getTextView)) {
+                    contentView.setText(getString(R.string.toastLoading));
+                    new Thread(new Runnable() {
+                        public void run() {
+                            try {
+
+                                String request = getTextView.getText().toString();
+                                String query = Constants.DEL_PATH + RequestEncoder.getRequest(request);
+                                String content = ContentUrlProvider.getContentDel(host + query);
+                                contentView.post(new Runnable() {
+                                    public void run() {
+                                        contentView.setText(content);
+                                    }
+                                });
+                            } catch (IOException ex) {
+                                contentView.post(new Runnable() {
+                                    public void run() {
+                                        contentView.setText("Ошибка: " + ex.getMessage() + ex.getLocalizedMessage());
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
-                        catch (IOException ex){
-                            contentView.post(new Runnable() {
-                                public void run() {
-                                    contentView.setText("Ошибка: " + ex.getMessage() + ex.getLocalizedMessage());
-                                    Toast.makeText(getApplicationContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                }).start();
+                    }).start();
+                }
             }
+
         });
     }
 
@@ -74,6 +78,7 @@ public class DelActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
