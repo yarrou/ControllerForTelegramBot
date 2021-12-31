@@ -1,7 +1,9 @@
 package site.alexkononsol.controllerfortelegrambot.settings;
 
+import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeLargeRadio;
+import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio;
+
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -31,7 +33,6 @@ import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
-import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -59,10 +60,11 @@ public class SettingActivity extends AppCompatActivity {
         shareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         //!!!Attention!!! needs to be redone
-        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/ControllerForTelegramBot/backup.bp");
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/ControllerForTelegramBot/backup.bp");
         setShareActionIntent(file);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -101,10 +103,10 @@ public class SettingActivity extends AppCompatActivity {
         int id = radioGroup.getCheckedRadioButtonId();
         String textSize = "normal";
         switch (id) {
-            case R.id.textSizeLargeRadio:
+            case textSizeLargeRadio:
                 textSize = "large";
                 break;
-            case R.id.textSizeSmallRadio:
+            case textSizeSmallRadio:
                 textSize = "small";
         }
         SettingsManager.getSettings().setTextSize(textSize);
@@ -113,11 +115,7 @@ public class SettingActivity extends AppCompatActivity {
 
     public void onViewHelpOnStart(View view) {
         boolean checked = ((CheckBox) view).isChecked();
-        if (checked) {
-            SettingsManager.getSettings().setViewHelpOnStart(true);
-        } else {
-            SettingsManager.getSettings().setViewHelpOnStart(false);
-        }
+        SettingsManager.getSettings().setViewHelpOnStart(checked);
         SettingsManager.save();
     }
 
@@ -125,7 +123,7 @@ public class SettingActivity extends AppCompatActivity {
         // write on SD card file data in the text box
         try {
             String backupPath = BackupHelper.createBackup("null");
-            Toast.makeText(getBaseContext(),getString(R.string.backupToastSuccessfully) + backupPath,
+            Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),
@@ -176,15 +174,16 @@ public class SettingActivity extends AppCompatActivity {
 
     private void interfaceView() {
         EditText editText = (EditText) findViewById(R.id.hostName);
-        String hostName = SettingsManager.getSettings().getHostName() == null ? Constants.DEFAULT_HOST_NAME : SettingsManager.getSettings().getHostName();
-        editText.setText(hostName);
+        if (SettingsManager.getSettings().getHostName() == null) {
+            editText.setHint(Constants.DEFAULT_HOST_NAME);
+        } else editText.setText(SettingsManager.getSettings().getHostName());
         TextView nameBotView = (TextView) findViewById(R.id.nameBot);
         Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextView hostNameView = (TextView) findViewById(R.id.hostName);
-                if(TextValidator.noEmptyValidation(hostNameView)){  //checking for non-emptiness
+                if (TextValidator.noEmptyValidation(hostNameView)) {  //checking for non-emptiness
                     new Thread(new Runnable() {
                         public void run() {
 
@@ -224,17 +223,16 @@ public class SettingActivity extends AppCompatActivity {
         helpOnStart.setChecked(viewHelpOnStart);
     }
 
-    private String getNameBot(){
+    private String getNameBot() {
         String request = ((TextView) findViewById(R.id.hostName)).getText().toString();
-        if(request.equals("")){
+        if (request.equals("")) {
             request = ((TextView) findViewById(R.id.hostName)).getHint().toString();
         }
         String content = null;
-        try{
+        try {
             content = ContentUrlProvider.getContentNameBot(request + "/name");
-        }
-        catch (IOException ex){
-                    content = getString(R.string.nameBotNotAnswer);
+        } catch (IOException ex) {
+            content = getString(R.string.nameBotNotAnswer);
         }
         return content;
     }
