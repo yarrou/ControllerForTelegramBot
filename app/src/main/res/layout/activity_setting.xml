@@ -36,9 +36,10 @@
                     android:text="@string/hostNameTitle" />
 
                 <EditText
-                    android:inputType="text"
+                    android:autofillHints=""
+                    android:inputType="textAutoComplete"
                     android:id="@+id/hostName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="25"
@@ -61,7 +62,7 @@
                     android:id="@+id/nameBot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/paddingNormal" />
+                    android:layout_marginStart="@dimen/paddingNormal" />
 
             </LinearLayout>
 
@@ -145,8 +146,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/paddingSmall"
-                    android:text="@string/settingsHelpButton" />
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:text="@string/settingsHelpButton"
+                    tools:ignore="RtlSymmetry" />
             </LinearLayout>
 
 
@@ -175,8 +177,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/paddingNormal"
-                    android:text="@string/backupSaveText" />
+                    android:paddingStart="@dimen/paddingNormal"
+                    android:text="@string/backupSaveText"
+                    tools:ignore="RtlSymmetry" />
             </LinearLayout>
 
             <LinearLayout
@@ -196,7 +199,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/paddingNormal"
+                    android:paddingStart="@dimen/paddingNormal"
                     android:text="@string/backupLoadText" />
             </LinearLayout>
         </LinearLayout>

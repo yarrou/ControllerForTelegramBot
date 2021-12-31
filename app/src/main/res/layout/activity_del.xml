@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:layout_margin="12dp"
         android:ems="12"
-        android:hint="@string/delRequestHint" />
+        android:autofillHints="@string/delRequestHint" />
 
     <Button
         android:id="@+id/buttonDel"
