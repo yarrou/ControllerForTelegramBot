@@ -174,7 +174,8 @@ public class SettingActivity extends AppCompatActivity {
 
     private void interfaceView() {
         EditText editText = (EditText) findViewById(R.id.hostName);
-        if (SettingsManager.getSettings().getHostName() == null) {
+        String host = SettingsManager.getSettings().getHostName();
+        if (host == null||host.equals("")) {
             editText.setHint(Constants.DEFAULT_HOST_NAME);
         } else editText.setText(SettingsManager.getSettings().getHostName());
         TextView nameBotView = (TextView) findViewById(R.id.nameBot);
