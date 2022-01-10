@@ -1,44 +1,44 @@
 package site.alexkononsol.controllerfortelegrambot;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.StrictMode;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 
-public class MainActivity extends AppCompatActivity {
-
+public class Splash_activity extends AppCompatActivity {
+    private static boolean isFirstRun = true;
     private ShareActionProvider shareActionProvider;
+
+    /*public Splash_activity() {
+       if (BuildConfig.DEBUG) StrictMode.enableDefaults();
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_splash);
+
+       //
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-
-        String isSavedHost = SettingsManager.getSettings().getHostName();
-        if(isSavedHost == null){
-            String toastTextNotHost = getString(R.string.toastTextNotHost);
-            Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
-        }
     }
-
-
-    //Menu of Toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -70,25 +70,34 @@ public class MainActivity extends AppCompatActivity {
         shareActionProvider.setShareIntent(intent);
     }
 
+    private void runMainProcess(){
+        Intent intent = new Intent(Splash_activity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isFirstRun){
+            int secondsDelayed = 1;
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    isFirstRun = false;
+                    SharedPreferenceAssistant.initSharedPreferences(Splash_activity.this);
+                    SettingsManager.initSettings();
 
-    public void onGetRequest(View view){
-        Intent intent = new Intent(this,GetActivity.class);
-        startActivity(intent);
-    }
-    public void onPostRequest(View view){
-        Intent intent = new Intent(this,PostActivity.class);
-        startActivity(intent);
-    }
-    public void onPutRequest(View view){
-        Intent intent = new Intent(this,PutActivity.class);
-        startActivity(intent);
-    }
-    public void onDelRequest(View view){
-        Intent intent = new Intent(this, DelActivity.class);
-        startActivity(intent);
-    }
-    public void onSearch(View view){
-        Intent intent = new Intent(this,SearchActivity.class);
-        startActivity(intent);
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                    setSupportActionBar(toolbar);
+                    boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
+                    if (viewHelpOnStart) {
+                        Intent intent = new Intent(Splash_activity.this, HelpActivity.class);
+                        startActivity(intent);
+                    }else {
+                        runMainProcess();}
+                }
+            }, secondsDelayed * 1000);
+        }else {
+            runMainProcess();
+        }
     }
 }
