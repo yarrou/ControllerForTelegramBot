@@ -1,4 +1,4 @@
-package site.alexkononsol.controllerfortelegrambot.settings;
+package site.alexkononsol.controllerfortelegrambot.ui.settings;
 
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeLargeRadio;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio;

@@ -16,7 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
-import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;

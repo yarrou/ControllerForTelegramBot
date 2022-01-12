@@ -14,10 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
+import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 

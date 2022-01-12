@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import site.alexkononsol.controllerfortelegrambot.entity.City;
-import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 
 public class ViewCityActivity extends AppCompatActivity {
 
