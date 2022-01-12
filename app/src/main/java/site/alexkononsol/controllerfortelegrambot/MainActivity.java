@@ -12,7 +12,7 @@ import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
-import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 

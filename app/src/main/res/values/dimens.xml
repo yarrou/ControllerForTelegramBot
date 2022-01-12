@@ -7,4 +7,6 @@
     <dimen name="paddingNormal">30dp</dimen>
     <dimen name="paddingSmall">15dp</dimen>
     <dimen name="paddingBig">45dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

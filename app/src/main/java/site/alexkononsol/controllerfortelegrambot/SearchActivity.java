@@ -29,8 +29,7 @@ import java.util.stream.Collectors;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
-import site.alexkononsol.controllerfortelegrambot.settings.SettingActivity;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 
 public class SearchActivity extends AppCompatActivity {
     Context context = this;
