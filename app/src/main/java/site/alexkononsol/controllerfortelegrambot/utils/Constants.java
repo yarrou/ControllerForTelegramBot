@@ -7,4 +7,6 @@ public class Constants {
     public static final String ENDPOINT_GET = "/city?city=";
     public static final String SEARCH_PATH = "/find?city=";
     public static final String SHARED_PREFERENCES_NAME = "name";
+    public static final String ENDPOINT_LOGIN = "/login";
+    public static final String ENDPOINT_REGISTRATION = "/registration";
 }

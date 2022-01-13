@@ -15,8 +15,9 @@ import java.util.concurrent.Executors;
 
 import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.LoginConnector;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.AuthConnector;
 import site.alexkononsol.controllerfortelegrambot.entity.result.AuthResult;
+import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             //Background work here
             String userName = textViewLogin.getText().toString();
             String hostPath = SettingsManager.getSettings().getHostName();
-            AuthResult result = LoginConnector.loginRequest(userName,textViewPassword.getText().toString(),hostPath);
+            AuthResult result = AuthConnector.authRequest(userName,textViewPassword.getText().toString(), Constants.ENDPOINT_LOGIN);
 
             handler.post(() -> {
                 //UI Thread work here
