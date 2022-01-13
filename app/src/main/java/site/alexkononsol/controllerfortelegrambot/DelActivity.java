@@ -49,7 +49,7 @@ public class DelActivity extends AppCompatActivity {
                             try {
 
                                 String request = getTextView.getText().toString();
-                                String query = Constants.DEL_PATH + RequestEncoder.getRequest(request);
+                                String query = Constants.ENDPOINT_DEL + RequestEncoder.getRequest(request);
                                 String content = ContentUrlProvider.getContentDel(host + query);
                                 contentView.post(new Runnable() {
                                     public void run() {
