@@ -76,7 +76,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settings.SettingActivity"
-
             android:exported="true"
             android:label="@string/nameSettingsActivity"
             android:parentActivityName=".MainActivity"
