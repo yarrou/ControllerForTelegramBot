@@ -6,6 +6,8 @@ import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,8 @@ import androidx.core.view.MenuItemCompat;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
@@ -39,11 +43,18 @@ import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 public class SettingActivity extends AppCompatActivity {
 
     private ShareActionProvider shareActionProvider;
+    private Button logoutButton;
+    private TextView authInfo;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        authInfo = (TextView) findViewById(R.id.authSettingsStatus);
+        logoutButton = (Button) findViewById(R.id.logoutButton) ;
+        editText = (EditText) findViewById(R.id.hostName);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -173,7 +184,39 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private void interfaceView() {
-        EditText editText = (EditText) findViewById(R.id.hostName);
+
+        //if the user is logged in , then his login is displayed in the settings
+        viewInfoAboutAccount();
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    new Thread(new Runnable() {
+                        public void run() {
+                            SettingsManager.getSettings().setAuthToken(null);
+                            SettingsManager.getSettings().setUserName(null);
+                            SettingsManager.save();
+
+                            authInfo.post(new Runnable() {
+                                public void run() {
+                                    authInfo.setText(getString(R.string.anonimous));
+                                }
+                            });
+                            logoutButton.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    logoutButton.setVisibility(View.INVISIBLE);
+                                }
+                            });
+
+                        }
+                    }).start();
+                }
+        });
+
+
+
+
         String host = SettingsManager.getSettings().getHostName();
         if (host == null||host.equals("")) {
             editText.setHint(Constants.DEFAULT_HOST_NAME);
@@ -237,4 +280,31 @@ public class SettingActivity extends AppCompatActivity {
         }
         return content;
     }
+    private void onLogout(View view){
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            //Background work here
+
+
+            handler.post(() -> {
+                //UI Thread work here
+                viewInfoAboutAccount();
+                logoutButton.setVisibility(View.INVISIBLE);
+            });
+        });
+    }
+    private void viewInfoAboutAccount(){
+
+            if(SettingsManager.getSettings().getAuthToken()!=null){
+                authInfo.setText(getString(R.string.authInfo) + SettingsManager.getSettings().getUserName());
+                logoutButton.setVisibility(View.VISIBLE);
+            }else {
+                authInfo.setText(getString(R.string.anonimous));
+            }
+
+    }
+
 }

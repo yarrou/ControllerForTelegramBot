@@ -14,7 +14,6 @@ import androidx.core.view.MenuItemCompat;
 
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
-import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 
 public class MainActivity extends AppCompatActivity {
 

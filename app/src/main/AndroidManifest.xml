@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ControllerForTelegramBot"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="true" />
+        <activity
             android:name=".Splash_activity"
             android:exported="true"
             android:screenOrientation="portrait">

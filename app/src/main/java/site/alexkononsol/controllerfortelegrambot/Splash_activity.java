@@ -8,9 +8,6 @@ import androidx.core.view.MenuItemCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -69,7 +66,10 @@ public class Splash_activity extends AppCompatActivity {
     }
 
     private void runMainProcess(){
-        Intent intent = new Intent(Splash_activity.this, MainActivity.class);
+        Intent intent = null;
+        if(SettingsManager.getSettings().getUserName()!=null){
+            intent = new Intent(Splash_activity.this,MainActivity.class);
+        }else intent = new Intent(Splash_activity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
