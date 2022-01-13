@@ -13,6 +13,11 @@ public class Settings {
         this.textSize = "normal";
         this.viewHelpOnStart = true;
     }
+    public Settings(Settings settings){
+        this.textSize = settings.getTextSize();
+        this.viewHelpOnStart = settings.isViewHelpOnStart();
+        this.hostName = settings.getHostName();
+    }
 
     public String getAuthToken() {
 

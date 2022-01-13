@@ -33,6 +33,9 @@ public class SettingsManager {
     public static String getStringSettings(){
         return SharedPreferenceAssistant.getStringSettings(settings);
     }
+    public static String getStringBackupSettings(){
+        return SharedPreferenceAssistant.getStringSettings(new Settings(settings));
+    }
 
     public static void restoreSettings(String stringSettings){
         SettingsManager.settings = Settings.getSettingsFromString(stringSettings);
