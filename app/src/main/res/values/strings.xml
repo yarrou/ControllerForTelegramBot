@@ -23,8 +23,6 @@
     <string name="delRequestHint">request</string>
 
     <string name="hostNameTitle">Host</string>
-    <string name="hostNameHint">primer</string>
-    <string name="saveSettingButtonText">Save</string>
 
     <string name="buttonSettings">open settings</string>
     <string name="buttonSettingsGetNameBot">test</string>
@@ -61,8 +59,6 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="backupText">Backup</string>
     <string name="backupSaveText">create a backup along the path: /sdcard/ControllerForTelegramBot/backup.bp</string>
     <string name="backupLoadText">select a file to restore from backup</string>
-    <string name="backupSaveSuccessfully">backup created</string>
-    <string name="backupLoadButton">load</string>
     <string name="backupToastSuccessfully">backup created : </string>
     <string name="authInfo">you are logged in as : </string>
     <string name="anonimous">you are not logged in, minimum of functions</string>
@@ -91,10 +87,6 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="registration_offer">don\'t have an account yet?</string>
     <string name="sign_up_button_text">Sign Up</string>
     <string name="continue_offer">or continue without an account</string>

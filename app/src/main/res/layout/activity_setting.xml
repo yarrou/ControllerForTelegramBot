@@ -31,7 +31,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/hostNameTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hostNameTitle" />
@@ -130,7 +129,6 @@
                     android:textSize="@dimen/smallTextSize" />
 
                 <RadioButton
-                    android:id="@+id/textSizeNormalRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
@@ -155,7 +153,6 @@
                 android:paddingBottom="@dimen/paddingNormal">
 
                 <ImageButton
-                    android:id="@+id/settingsHelpInfoButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/info"
@@ -188,7 +185,6 @@
                 android:paddingBottom="@dimen/paddingSmall">
 
                 <ImageButton
-                    android:id="@+id/bacupSaveButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:background="@drawable/export"
@@ -210,7 +206,6 @@
                 android:paddingBottom="@dimen/paddingNormal">
 
                 <ImageButton
-                    android:id="@+id/bacupLoadButton"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:background="@drawable/loadbacup"
