@@ -1,6 +1,6 @@
 package site.alexkononsol.controllerfortelegrambot.entity.result;
 
-public class LoginResult {
+public class AuthResult {
     public static final int RESULT_STATUS_SUCCESS = 100;
     public static final int RESULT_STATUS_ERROR = 400;
 

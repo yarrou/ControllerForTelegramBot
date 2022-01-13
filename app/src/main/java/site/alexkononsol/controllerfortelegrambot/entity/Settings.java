@@ -6,10 +6,29 @@ public class Settings {
     String textSize;
     String hostName;
     boolean viewHelpOnStart;
+    String authToken;
+    String userName;
 
     public Settings() {
         this.textSize = "normal";
         this.viewHelpOnStart = true;
+    }
+
+    public String getAuthToken() {
+
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getTextSize() {

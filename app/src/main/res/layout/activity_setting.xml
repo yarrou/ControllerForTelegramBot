@@ -31,13 +31,12 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/hostNameTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hostNameTitle" />
 
                 <EditText
-                    android:autofillHints=""
+
                     android:inputType="textAutoComplete"
                     android:id="@+id/hostName"
                     android:layout_width="0dp"
@@ -66,6 +65,25 @@
                     android:layout_marginStart="@dimen/paddingNormal" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/paddingSmall"
+                android:text="@string/userAccountTitle"
+                android:textSize="@dimen/subMenuTextSize"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/authSettingsStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                />
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logoutButtonText" />
 
 
             <TextView
@@ -110,7 +128,6 @@
                     android:textSize="@dimen/smallTextSize" />
 
                 <RadioButton
-                    android:id="@+id/textSizeNormalRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
@@ -135,7 +152,6 @@
                 android:paddingBottom="@dimen/paddingNormal">
 
                 <ImageButton
-                    android:id="@+id/settingsHelpInfoButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/info"
@@ -168,7 +184,6 @@
                 android:paddingBottom="@dimen/paddingSmall">
 
                 <ImageButton
-                    android:id="@+id/bacupSaveButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:background="@drawable/export"
@@ -190,9 +205,8 @@
                 android:paddingBottom="@dimen/paddingNormal">
 
                 <ImageButton
-                    android:id="@+id/bacupLoadButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
+                    android:layout_height="48dp"
                     android:background="@drawable/loadbacup"
                     android:contentDescription="@string/backupLoadText"
                     android:onClick="onShowFileChooser" />

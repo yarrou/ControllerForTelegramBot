@@ -23,8 +23,6 @@
     <string name="delRequestHint">запрос</string>
 
     <string name="hostNameTitle">Адрес хоста</string>
-    <string name="hostNameHint">primer</string>
-    <string name="saveSettingButtonText">сохранить</string>
 
     <string name="buttonSettings">oткрыть настройки</string>
     <string name="buttonSettingsGetNameBot">тест</string>
@@ -45,6 +43,9 @@
     <string name="settingsHelpName">инструкция</string>
 
     <string name="nameSettingsActivity">Настройки</string>
+    <string name="userAccountTitle">Учетная запись</string>
+    <string name="logoutButtonText">Выйти</string>
+    <string name="sign_in_button_text">Войти</string>
     <string name="nameTextSizeSettings">Размер текста</string>
     <string name="textSizeSmall">Маленький</string>
     <string name="textSizeNormal">Средний</string>
@@ -54,9 +55,9 @@
     <string name="backupText">Резервное копирование</string>
     <string name="backupSaveText">создать бекап по пути : /sdcard/ControllerForTelegramBot/backup.bp</string>
     <string name="backupLoadText">выбрать файл для восстановления из резервной копии</string>
-    <string name="backupSaveSuccessfully">резервная копия создана</string>
-    <string name="backupLoadButton">load</string>
     <string name="backupToastSuccessfully">резервная копия создана : </string>
+    <string name="authInfo">вы вошли в систему как : </string>
+    <string name="anonimous">вы не вошли, минимум функций</string>
 
     <string name="viewCityNameLabel">Город</string>
 
@@ -77,4 +78,13 @@
     <string name="cancel">отмена</string>
 
     <string name="successfullyRestoreSettings">настройки успешно применены</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="action_sign_in_short">Войти</string>
+    <string name="registration_offer">еще нет аккаунта?</string>
+    <string name="sign_up_button_text">Регистрация</string>
+    <string name="continue_offer">или продолжить без аккаунта</string>
+    <string name="continue_button_text">продолжить</string>
 </resources>

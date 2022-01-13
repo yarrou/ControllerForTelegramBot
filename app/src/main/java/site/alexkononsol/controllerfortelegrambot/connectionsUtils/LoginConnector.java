@@ -9,14 +9,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
-import site.alexkononsol.controllerfortelegrambot.entity.result.LoginResult;
+import site.alexkononsol.controllerfortelegrambot.entity.result.AuthResult;
 
 public class LoginConnector {
 
     public static LoginResult loginRequest(String userName, String password, String path) {
         UserForm userForm = new UserForm(userName, password);
-        LoginResult result = new LoginResult();
-        result.setStatus(LoginResult.RESULT_STATUS_ERROR);
+        AuthResult result = new AuthResult();
+        result.setStatus(AuthResult.RESULT_STATUS_ERROR);
 
         BufferedReader reader = null;
         InputStream stream = null;
@@ -39,7 +39,7 @@ public class LoginConnector {
 
                 if (connection.getResponseCode() == 200) {
                     stream = connection.getInputStream();
-                    result.setStatus(LoginResult.RESULT_STATUS_SUCCESS);
+                    result.setStatus(AuthResult.RESULT_STATUS_SUCCESS);
                 } else {
                     stream = connection.getErrorStream();
 

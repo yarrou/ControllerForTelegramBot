@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BackupActivity">
@@ -92,7 +91,6 @@
 
 
     <Button
-        android:id="@+id/buttonCancelRestore"
         android:layout_width="129dp"
         android:layout_height="48dp"
         android:layout_marginTop="48dp"
@@ -104,7 +102,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
-        android:id="@+id/buttonConfirmRestore"
         android:layout_width="129dp"
         android:layout_height="48dp"
         android:layout_marginStart="64dp"

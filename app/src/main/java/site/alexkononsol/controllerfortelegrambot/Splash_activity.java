@@ -8,9 +8,6 @@ import androidx.core.view.MenuItemCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -23,9 +20,7 @@ public class Splash_activity extends AppCompatActivity {
     private static boolean isFirstRun = true;
     private ShareActionProvider shareActionProvider;
 
-    /*public Splash_activity() {
-       if (BuildConfig.DEBUG) StrictMode.enableDefaults();
-    }*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +64,17 @@ public class Splash_activity extends AppCompatActivity {
     }
 
     private void runMainProcess(){
-        Intent intent = new Intent(Splash_activity.this, MainActivity.class);
+        /* this part of the code is needed in order to be able to log in before the main window of the program is displayed
+        Intent intent = null;
+        if(SettingsManager.getSettings().getUserName()!=null){
+            intent = new Intent(Splash_activity.this,MainActivity.class);
+        }else intent = new Intent(Splash_activity.this, LoginActivity.class);*/
+        Intent intent = new Intent(Splash_activity.this,MainActivity.class);
         startActivity(intent);
         finish();
     }
+
+
     @Override
     protected void onResume() {
         super.onResume();
