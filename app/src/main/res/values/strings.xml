@@ -51,6 +51,7 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="nameSettingsActivity">Settings</string>
     <string name="userAccountTitle">User account</string>
     <string name="logoutButtonText">Log out</string>
+    <string name="sign_in_button_text">Sign in</string>
     <string name="nameTextSizeSettings">Text size</string>
     <string name="textSizeSmall">Small</string>
     <string name="textSizeNormal">Normal</string>

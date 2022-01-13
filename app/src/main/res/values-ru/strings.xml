@@ -44,7 +44,8 @@
 
     <string name="nameSettingsActivity">Настройки</string>
     <string name="userAccountTitle">Учетная запись</string>
-    <string name="logoutButtonText">Log out</string>
+    <string name="logoutButtonText">Выйти</string>
+    <string name="sign_in_button_text">Войти</string>
     <string name="nameTextSizeSettings">Размер текста</string>
     <string name="textSizeSmall">Маленький</string>
     <string name="textSizeNormal">Средний</string>

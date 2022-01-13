@@ -35,6 +35,7 @@ import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -193,21 +194,28 @@ public class SettingActivity extends AppCompatActivity {
 
                     new Thread(new Runnable() {
                         public void run() {
-                            SettingsManager.getSettings().setAuthToken(null);
-                            SettingsManager.getSettings().setUserName(null);
-                            SettingsManager.save();
+                            if(SettingsManager.getSettings().getUserName()!=null){
+                                SettingsManager.getSettings().setAuthToken(null);
+                                SettingsManager.getSettings().setUserName(null);
+                                SettingsManager.save();
 
-                            authInfo.post(new Runnable() {
-                                public void run() {
-                                    authInfo.setText(getString(R.string.anonimous));
-                                }
-                            });
-                            logoutButton.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    logoutButton.setVisibility(View.INVISIBLE);
-                                }
-                            });
+                                authInfo.post(new Runnable() {
+                                    public void run() {
+                                        authInfo.setText(getString(R.string.anonimous));
+                                    }
+                                });
+                                logoutButton.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        logoutButton.setText(getString(R.string.sign_in_button_text));
+                                    }
+                                });
+                            }else {
+                                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
 
                         }
                     }).start();
@@ -280,29 +288,15 @@ public class SettingActivity extends AppCompatActivity {
         }
         return content;
     }
-    private void onLogout(View view){
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        executor.execute(() -> {
-            //Background work here
-
-
-            handler.post(() -> {
-                //UI Thread work here
-                viewInfoAboutAccount();
-                logoutButton.setVisibility(View.INVISIBLE);
-            });
-        });
-    }
     private void viewInfoAboutAccount(){
 
             if(SettingsManager.getSettings().getAuthToken()!=null){
                 authInfo.setText(getString(R.string.authInfo) + SettingsManager.getSettings().getUserName());
-                logoutButton.setVisibility(View.VISIBLE);
+
             }else {
                 authInfo.setText(getString(R.string.anonimous));
+                logoutButton.setText(getString(R.string.sign_in_button_text));
             }
 
     }
