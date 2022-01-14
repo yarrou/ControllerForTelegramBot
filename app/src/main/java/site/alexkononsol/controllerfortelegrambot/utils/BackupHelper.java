@@ -22,7 +22,7 @@ public class BackupHelper {
             OutputStreamWriter myOutWriter =
                     new OutputStreamWriter(fOut);
 
-            myOutWriter.append(SettingsManager.getStringSettings());
+            myOutWriter.append(SettingsManager.getStringBackupSettings());
             myOutWriter.close();
             fOut.close();
             return myFile.getPath();

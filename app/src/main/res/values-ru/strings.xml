@@ -87,4 +87,10 @@
     <string name="sign_up_button_text">Регистрация</string>
     <string name="continue_offer">или продолжить без аккаунта</string>
     <string name="continue_button_text">продолжить</string>
+
+    <string name="registration_title">Регистрация</string>
+    <string name="registration_email_prompt">ваш действительный EMAIL</string>
+    <string name="registration_password_length_prompt">не менее пяти символов</string>
+    <string name="registration_password_repeat_prompt">повторите пароль</string>
+    <string name="registration_button_text">Создать аккаунт</string>
 </resources>

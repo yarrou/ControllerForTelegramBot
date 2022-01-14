@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ControllerForTelegramBot"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.registration.RegistrationActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true" />
         <activity

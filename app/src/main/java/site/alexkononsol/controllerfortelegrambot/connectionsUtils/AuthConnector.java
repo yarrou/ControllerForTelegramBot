@@ -10,10 +10,12 @@ import java.net.URL;
 
 import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
 import site.alexkononsol.controllerfortelegrambot.entity.result.AuthResult;
+import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
-public class LoginConnector {
+public class AuthConnector {
+    private static String path = SettingsManager.getSettings().getHostName();
 
-    public static LoginResult loginRequest(String userName, String password, String path) {
+    public static AuthResult authRequest(String userName, String password, String endpoint) {
         UserForm userForm = new UserForm(userName, password);
         AuthResult result = new AuthResult();
         result.setStatus(AuthResult.RESULT_STATUS_ERROR);
@@ -24,7 +26,7 @@ public class LoginConnector {
         HttpURLConnection connection = null;
         try {
             try {
-                URL url = new URL(path + "/login");
+                URL url = new URL(path + endpoint);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json; utf-8");
