@@ -89,6 +89,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
             android:text="@string/sign_up_button_text"
+            android:onClick="onRegistration"
             android:textAllCaps="false"
             android:textSize="18sp" />
     </LinearLayout>

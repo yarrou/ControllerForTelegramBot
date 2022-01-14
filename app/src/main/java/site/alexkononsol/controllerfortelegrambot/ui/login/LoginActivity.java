@@ -17,6 +17,7 @@ import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.AuthConnector;
 import site.alexkononsol.controllerfortelegrambot.entity.result.AuthResult;
+import site.alexkononsol.controllerfortelegrambot.ui.registration.RegistrationActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
@@ -29,14 +30,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        textViewLogin = (TextView) findViewById(R.id.username);
+        textViewPassword = (TextView)findViewById(R.id.password);
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        textViewLogin = (TextView) findViewById(R.id.username);
-        textViewPassword = (TextView) findViewById(R.id.password);
-
     }
 
     public void onLogin(View view){
@@ -64,6 +66,14 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void onContinue(View view){
         Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+    public void onRegistration(View view){
+        String login = textViewLogin.getText().toString();
+        String password = textViewPassword.getText().toString();
+        Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+        intent.putExtra("username",login);
+        intent.putExtra("password",password);
         startActivity(intent);
     }
 }
