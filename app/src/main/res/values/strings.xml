@@ -93,5 +93,11 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="continue_offer">or continue without an account</string>
     <string name="continue_button_text">continue</string>
 
+    <string name="registration_title">Registration</string>
+    <string name="registration_email_prompt">your valid EMAIL</string>
+    <string name="registration_password_length_prompt">at least five characters</string>
+    <string name="registration_password_repeat_prompt">repeat the password</string>
+    <string name="registration_button_text">Create an account</string>
+
 
 </resources>
