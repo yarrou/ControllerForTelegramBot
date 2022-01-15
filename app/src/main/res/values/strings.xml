@@ -98,6 +98,9 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="registration_password_length_prompt">at least five characters</string>
     <string name="registration_password_repeat_prompt">repeat the password</string>
     <string name="registration_button_text">Create an account</string>
+    <string name="warning_passwords_don_t_match">passwords don\'t match</string>
+    <string name="warning_password_is_too_short">the password must be at least 5 characters long</string>
+    <string name="registration_success_message">you have successfully registered, log in</string>
 
 
 </resources>
