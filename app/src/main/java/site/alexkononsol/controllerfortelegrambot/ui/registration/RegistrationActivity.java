@@ -4,9 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.AuthConnector;
+import site.alexkononsol.controllerfortelegrambot.entity.RegistrationForm;
+import site.alexkononsol.controllerfortelegrambot.entity.result.AuthResult;
+import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
+import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.RegistrationFormValidator;
+import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class RegistrationActivity extends AppCompatActivity {
     private EditText usernameEditText;
@@ -31,5 +46,33 @@ public class RegistrationActivity extends AppCompatActivity {
         if(login!=null) usernameEditText.setText(login);
         if(password!=null) passwordEditText.setText(password);
 
+    }
+    private RegistrationForm getRegistrationForm(){
+        RegistrationForm form = new RegistrationForm(usernameEditText.getText().toString(),passwordEditText.getText().toString(),passwordRepeatEditText.getText().toString());
+        return form;
+    }
+    public void onRegistration(View view){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        RegistrationForm form = getRegistrationForm();
+        executor.execute(() -> {
+            //Background work here
+            RegistrationFormValidator validator = new RegistrationFormValidator(this);
+            AuthResult result = validator.regFormValidate(form);
+            if(result.getStatus()<200){
+                result = AuthConnector.authRequest(form.getUserLogin(),form.getPassword(), Constants.ENDPOINT_REGISTRATION);
+            }
+            AuthResult finalResult = result;
+            handler.post(() -> {
+                //UI Thread work here
+                if(finalResult.getStatus()<200){
+                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                    intent.putExtra("messageSuccess",getString(R.string.registration_success_message));
+                    startActivity(intent);
+                    finish();
+                }else Toast.makeText(getBaseContext(), finalResult.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            });
+        });
     }
 }
