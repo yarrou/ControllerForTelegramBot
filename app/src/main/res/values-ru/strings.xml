@@ -93,4 +93,7 @@
     <string name="registration_password_length_prompt">не менее пяти символов</string>
     <string name="registration_password_repeat_prompt">повторите пароль</string>
     <string name="registration_button_text">Создать аккаунт</string>
+    <string name="warning_passwords_don_t_match">пароли не совпадают</string>
+    <string name="warning_password_is_too_short">пароль должен быть не менее 5 символов</string>
+    <string name="registration_success_message">вы успешно зарегистрировались, войдите в систему</string>
 </resources>
