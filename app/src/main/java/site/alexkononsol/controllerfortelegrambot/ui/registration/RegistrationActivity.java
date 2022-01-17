@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutorService;
@@ -27,6 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText passwordRepeatEditText;
+    private TextView resultRegistrationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class RegistrationActivity extends AppCompatActivity {
         usernameEditText = (EditText)findViewById(R.id.username_reg);
         passwordEditText =(EditText) findViewById(R.id.password_reg);
         passwordRepeatEditText = (EditText) findViewById(R.id.repeat_password);
+        resultRegistrationView = (TextView) findViewById(R.id.resultRegistrationView);
     }
 
     @Override
@@ -70,8 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     intent.putExtra("messageSuccess",getString(R.string.registration_success_message));
                     startActivity(intent);
                     finish();
-                }else Toast.makeText(getBaseContext(), finalResult.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                }else resultRegistrationView.setText(finalResult.getMessage());//Toast.makeText(getBaseContext(), finalResult.getMessage(), Toast.LENGTH_SHORT).show();
             });
         });
     }
