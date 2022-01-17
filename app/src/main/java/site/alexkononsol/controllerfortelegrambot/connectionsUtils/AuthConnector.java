@@ -1,5 +1,8 @@
 package site.alexkononsol.controllerfortelegrambot.connectionsUtils;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,15 +10,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 
 import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
 import site.alexkononsol.controllerfortelegrambot.entity.result.AuthResult;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class AuthConnector {
-    private static String path = SettingsManager.getSettings().getHostName();
+    private String path;
+    private Context context;
 
-    public static AuthResult authRequest(String userName, String password, String endpoint) {
+    public AuthConnector(Context context) {
+        this.context = context;
+    }
+
+    public AuthResult authRequest(String userName, String password, String endpoint) {
+        path = SettingsManager.getSettings().getHostName();
         UserForm userForm = new UserForm(userName, password);
         AuthResult result = new AuthResult();
         result.setStatus(AuthResult.RESULT_STATUS_ERROR);
@@ -26,7 +36,7 @@ public class AuthConnector {
         HttpURLConnection connection = null;
         try {
             try {
-                URL url = new URL(path + endpoint);
+                URL url = new URL(path + endpoint + "?lang=" + Locale.getDefault().getLanguage());
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json; utf-8");
