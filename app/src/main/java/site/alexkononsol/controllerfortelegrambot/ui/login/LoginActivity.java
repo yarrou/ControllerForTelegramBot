@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView textViewLogin;
     private TextView textViewPassword;
+    private TextView textViewResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +34,23 @@ public class LoginActivity extends AppCompatActivity {
 
         textViewLogin = (TextView) findViewById(R.id.username);
         textViewPassword = (TextView)findViewById(R.id.password);
+        textViewResult = (TextView) findViewById(R.id.resultOnLoginView);
 
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("messageSuccess");
+        if (message!=null){
+            textViewResult.post(new Runnable() {
+                @Override
+                public void run() {
+                    textViewResult.setText(message);
+                }
+            });
+        }
     }
 
     public void onLogin(View view){
@@ -49,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             //Background work here
             String userName = textViewLogin.getText().toString();
             String hostPath = SettingsManager.getSettings().getHostName();
-            AuthResult result = AuthConnector.authRequest(userName,textViewPassword.getText().toString(), Constants.ENDPOINT_LOGIN);
+            AuthResult result = new AuthConnector(this).authRequest(userName,textViewPassword.getText().toString(), Constants.ENDPOINT_LOGIN);
 
             handler.post(() -> {
                 //UI Thread work here
@@ -59,8 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     SettingsManager.getSettings().setAuthToken(result.getMessage());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else Toast.makeText(getBaseContext(), result.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                }else textViewResult.setText(result.getMessage());//Toast.makeText(getBaseContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
             });
         });
     }
