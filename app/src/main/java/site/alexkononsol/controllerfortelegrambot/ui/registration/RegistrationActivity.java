@@ -60,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
             RegistrationFormValidator validator = new RegistrationFormValidator(this);
             AuthResult result = validator.regFormValidate(form);
             if(result.getStatus()<200){
-                result = AuthConnector.authRequest(form.getUserLogin(),form.getPassword(), Constants.ENDPOINT_REGISTRATION);
+                result =new AuthConnector(this).authRequest(form.getUserLogin(),form.getPassword(), Constants.ENDPOINT_REGISTRATION);
             }
             AuthResult finalResult = result;
             handler.post(() -> {
