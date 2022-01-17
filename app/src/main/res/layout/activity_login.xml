@@ -43,16 +43,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="64dp"
 
+        android:layout_marginTop="76dp"
         android:onClick="onLogin"
         android:text="@string/action_sign_in"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -88,13 +85,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
-            android:text="@string/sign_up_button_text"
             android:onClick="onRegistration"
+            android:text="@string/sign_up_button_text"
             android:textAllCaps="false"
             android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="381dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -112,10 +110,20 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"
             android:onClick="onContinue"
-            android:text="@string/continue_button_text"/>
+            android:text="@string/continue_button_text" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/resultOnLoginView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
