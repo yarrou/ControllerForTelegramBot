@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,9 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 public class MainActivity extends AppCompatActivity {
 
     private ShareActionProvider shareActionProvider;
+    private Button putButton;
+    private Button postButton;
+    private Button delButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,23 @@ public class MainActivity extends AppCompatActivity {
             String toastTextNotHost = getString(R.string.toastTextNotHost);
             Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
         }
+
+        putButton = (Button) findViewById(R.id.buttonPut);
+        postButton = (Button) findViewById(R.id.buttonPost);
+        delButton = (Button) findViewById(R.id.buttonDel);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String userLogin = SettingsManager.getSettings().getUserName();
+        //if the user is not logged in to the account, the buttons for adding, changing and deleting information in the database are not active
+        if(userLogin==null){
+            putButton.setEnabled(false);
+            postButton.setEnabled(false);
+            delButton.setEnabled(false);
+        }
+
     }
 
 
