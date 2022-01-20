@@ -139,10 +139,12 @@ public class ContentUrlProvider {
         BufferedReader reader=null;
         InputStream stream = null;
         HttpURLConnection connection = null;
+        String token = SettingsManager.getSettings().getAuthToken();
         try {
             URL url=new URL(path);
             connection =(HttpURLConnection)url.openConnection();
             connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("auth-token",token);
             connection.setReadTimeout(10000);
             connection.connect();
             if (connection.getResponseCode()==200){
@@ -171,18 +173,20 @@ public class ContentUrlProvider {
     }
 
     public static String getContentPost(String path,String name,String description) throws IOException {
-
+        String token = SettingsManager.getSettings().getAuthToken();
         City city = new City(name, description);
         BufferedReader reader = null;
         InputStream stream = null;
         OutputStream os = null;
         HttpURLConnection connection = null;
+
         try {
             URL url = new URL(path + "/city");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("auth-token",token);
             connection.setDoOutput(true);
             connection.setReadTimeout(10000);
             connection.connect();
@@ -215,6 +219,7 @@ public class ContentUrlProvider {
     }
 
     public static String getContentPut(String path,String name,String description) throws IOException {
+        String token = SettingsManager.getSettings().getAuthToken();
         City city = new City(name, description);
         BufferedReader reader = null;
         InputStream stream = null;
@@ -226,6 +231,7 @@ public class ContentUrlProvider {
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("auth-token",token);
             connection.setDoOutput(true);
             connection.setReadTimeout(10000);
             connection.connect();
