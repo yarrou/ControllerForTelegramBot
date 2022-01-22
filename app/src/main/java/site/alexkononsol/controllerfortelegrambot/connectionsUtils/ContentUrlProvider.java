@@ -20,6 +20,7 @@ import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class ContentUrlProvider {
+    private static final String basicUrl = SettingsManager.getSettings().getHostName();
 
     public static List<City> getContentSearch(String path) throws IOException {
 
@@ -100,12 +101,13 @@ public class ContentUrlProvider {
         }
     }
 
-    public static String getContentGet(String path) throws IOException {
+    public static String getContentGet(String value) throws IOException {
         BufferedReader reader=null;
         InputStream stream = null;
         HttpURLConnection connection = null;
+        String stringUrl = basicUrl + Constants.ENDPOINT_GET + value;
         try {
-            URL url=new URL(path);
+            URL url=new URL(stringUrl);
             connection =(HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.setReadTimeout(10000);

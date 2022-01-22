@@ -46,8 +46,8 @@ public class GetActivity extends AppCompatActivity {
                         try{
                             TextView getTextView = (TextView) findViewById(R.id.getRequest);
                             String request = getTextView.getText().toString();
-                            String query = Constants.ENDPOINT_GET + RequestEncoder.getRequest(request);
-                            String content = ContentUrlProvider.getContentGet(host + query);
+                            String query =  RequestEncoder.getRequest(request);
+                            String content = ContentUrlProvider.getContentGet( query);
                             contentView.post(new Runnable() {
                                 public void run() {
                                     contentView.setText(content);
