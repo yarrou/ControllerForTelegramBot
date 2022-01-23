@@ -57,7 +57,7 @@ public class PostActivity extends AppCompatActivity {
                                 post.addLangParam();
                                 post.addJsonHeaders();
                                 post.setBody(new City(cityName,cityDescription));
-                                String content = post.send().getData().toString(); //ContentUrlProvider.getContentPost(host, cityName, cityDescription);
+                                String content = post.send().getData();
                                 contentView.post(new Runnable() {
                                     public void run() {
                                         contentView.setText(content);
