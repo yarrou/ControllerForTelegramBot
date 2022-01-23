@@ -17,7 +17,7 @@ import java.util.Map;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
-public class Request {
+public class RequestToServer {
 
 
     private HttpURLConnection connection;
@@ -33,7 +33,7 @@ public class Request {
     }
 
 
-    public Request(String endpoint, RequestType type){
+    public RequestToServer(String endpoint, RequestType type){
         this.basicUrl += endpoint;
         this.type = type;
         headers = new HashMap<>();

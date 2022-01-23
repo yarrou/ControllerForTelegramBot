@@ -15,7 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Request;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
@@ -51,7 +51,7 @@ public class DelActivity extends AppCompatActivity {
 
                                 String cityName = getTextView.getText().toString();
                                 String query = RequestEncoder.getRequest(cityName);
-                                Request del = new Request(Constants.ENDPOINT_DEL_CITY, RequestType.DELETE);
+                                RequestToServer del = new RequestToServer(Constants.ENDPOINT_DEL_CITY, RequestType.DELETE);
                                 del.addParam("city",query);
                                 del.addLangParam();
                                 del.addAuthHeader();

@@ -19,13 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Request;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
@@ -74,7 +73,7 @@ public class SearchActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                            Request search = new Request(Constants.ENDPOINT_SEARCH_CITY, RequestType.GET);
+                            RequestToServer search = new RequestToServer(Constants.ENDPOINT_SEARCH_CITY, RequestType.GET);
                             search.addLangParam();
                             search.addParam("city",request);
 

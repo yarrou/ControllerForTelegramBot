@@ -13,7 +13,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Request;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
@@ -52,7 +52,7 @@ public class PostActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                Request post = new Request(Constants.ENDPOINT_POST_CITY, RequestType.POST);
+                                RequestToServer post = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.POST);
                                 post.addAuthHeader();
                                 post.addLangParam();
                                 post.addJsonHeaders();

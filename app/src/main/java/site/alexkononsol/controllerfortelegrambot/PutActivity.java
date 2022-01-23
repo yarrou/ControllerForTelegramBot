@@ -13,10 +13,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.io.IOException;
-
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Request;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
@@ -53,7 +50,7 @@ public class PutActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         public void run() {
                             try{
-                                Request put = new Request(Constants.ENDPOINT_POST_CITY, RequestType.PUT);
+                                RequestToServer put = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.PUT);
                                 put.addAuthHeader();
                                 put.addLangParam();
                                 put.addJsonHeaders();
