@@ -29,7 +29,7 @@ public class ContentUrlProvider {
         HttpURLConnection connection = null;
         String host = SettingsManager.getSettings().getHostName();
         ArrayList<City> cities = new ArrayList<>();
-        String query =  Constants.SEARCH_PATH + RequestEncoder.getRequest(path);
+        String query =  Constants.ENDPOINT_SEARCH_CITY + RequestEncoder.getRequest(path);
         try {
             URL url=new URL(host+query);
             connection =(HttpURLConnection)url.openConnection();
@@ -105,7 +105,7 @@ public class ContentUrlProvider {
         BufferedReader reader=null;
         InputStream stream = null;
         HttpURLConnection connection = null;
-        String stringUrl = basicUrl + Constants.ENDPOINT_GET + value;
+        String stringUrl = basicUrl + Constants.ENDPOINT_GET_CITY + value;
         try {
             URL url=new URL(stringUrl);
             connection =(HttpURLConnection)url.openConnection();

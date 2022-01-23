@@ -25,13 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Request;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 
 public class SearchActivity extends AppCompatActivity {
     Context context = this;
-    List<City> content;
+    List<City> citiesList;
     String cityName;
 
 
@@ -52,10 +54,10 @@ public class SearchActivity extends AppCompatActivity {
         TextView searchTextView = (TextView) findViewById(R.id.searchHint);
 
         if(savedInstanceState!=null){
-            content = (ArrayList<City>) savedInstanceState.getSerializable("listCity");
+            citiesList = (ArrayList<City>) savedInstanceState.getSerializable("listCity");
             cityName = savedInstanceState.getString("cityName");
             searchTextView.setText(cityName);
-            viewListCity(content);
+            viewListCity(citiesList);
         }
 
         ImageButton searchButton = (ImageButton) findViewById(R.id.localSearchButton);
@@ -72,10 +74,14 @@ public class SearchActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                            content = ContentUrlProvider.getContentSearch(request);
-                            viewListCity(content);
+                            Request search = new Request(Constants.ENDPOINT_SEARCH_CITY, RequestType.GET);
+                            search.addLangParam();
+                            search.addParam("city",request);
 
-                        } catch (IOException ex) {
+                            citiesList = search.send().getCitiesList();//ContentUrlProvider.getContentSearch(request);
+                            viewListCity(citiesList);
+
+                        } catch (Exception ex) {
                             contentView.post(new Runnable() {
                                 public void run() {
                                     searchInfo.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
@@ -94,7 +100,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(SearchActivity.this, ViewCityActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("city", content.get(position));
+                bundle.putSerializable("city", citiesList.get(position));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -109,8 +115,8 @@ public class SearchActivity extends AppCompatActivity {
         if(cityName != null){
             savedInstanceState.putString("cityName",cityName);
         }
-        if (content != null) {
-            savedInstanceState.putSerializable("listCity",(Serializable) content);
+        if (citiesList != null) {
+            savedInstanceState.putSerializable("listCity",(Serializable) citiesList);
         }
 
     }

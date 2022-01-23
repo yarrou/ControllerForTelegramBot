@@ -6,8 +6,6 @@ import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +26,6 @@ import androidx.core.view.MenuItemCompat;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
@@ -227,7 +223,7 @@ public class SettingActivity extends AppCompatActivity {
 
         String host = SettingsManager.getSettings().getHostName();
         if (host == null||host.equals("")) {
-            editText.setHint(Constants.DEFAULT_HOST_NAME);
+            editText.setHint(Constants.DEFAULT_HOST_URL);
         } else editText.setText(SettingsManager.getSettings().getHostName());
         TextView nameBotView = (TextView) findViewById(R.id.nameBot);
         Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);

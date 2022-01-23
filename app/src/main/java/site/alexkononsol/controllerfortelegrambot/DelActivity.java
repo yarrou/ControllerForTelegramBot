@@ -15,7 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Request;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
@@ -48,9 +49,13 @@ public class DelActivity extends AppCompatActivity {
                         public void run() {
                             try {
 
-                                String request = getTextView.getText().toString();
-                                String query = Constants.ENDPOINT_DEL + RequestEncoder.getRequest(request);
-                                String content = ContentUrlProvider.getContentDel(host + query);
+                                String cityName = getTextView.getText().toString();
+                                String query = RequestEncoder.getRequest(cityName);
+                                Request del = new Request(Constants.ENDPOINT_DEL_CITY, RequestType.DELETE);
+                                del.addParam("city",query);
+                                del.addLangParam();
+                                del.addAuthHeader();
+                                String content = del.send().getData().toString();
                                 contentView.post(new Runnable() {
                                     public void run() {
                                         contentView.setText(content);
