@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class RequestToServer {
@@ -36,6 +36,12 @@ public class RequestToServer {
     public RequestToServer(String endpoint, RequestType type){
         this.basicUrl += endpoint;
         this.type = type;
+        headers = new HashMap<>();
+        params = new HashMap<>();
+    }
+    public RequestToServer(String url,String endpoint){
+        this.basicUrl = url + endpoint;
+        this.type = RequestType.GET;
         headers = new HashMap<>();
         params = new HashMap<>();
     }
