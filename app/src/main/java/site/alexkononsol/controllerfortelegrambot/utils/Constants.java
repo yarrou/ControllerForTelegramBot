@@ -12,4 +12,5 @@ public class Constants {
     public static final String ENDPOINT_SEARCH_CITY = "/find";
     public static final String ENDPOINT_LOGIN = "/login";
     public static final String ENDPOINT_REGISTRATION = "/registration";
+    public static final String ENDPOINT_BOT_NAME = "/name";
 }
