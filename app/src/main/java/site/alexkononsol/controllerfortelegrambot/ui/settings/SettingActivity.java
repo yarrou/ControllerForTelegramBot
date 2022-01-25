@@ -25,12 +25,11 @@ import androidx.core.content.FileProvider;
 import androidx.core.view.MenuItemCompat;
 
 import java.io.File;
-import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
@@ -272,14 +271,16 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private String getNameBot() {
-        String request = ((TextView) findViewById(R.id.hostName)).getText().toString();
-        if (request.equals("")) {
-            request = ((TextView) findViewById(R.id.hostName)).getHint().toString();
+        String serverUrl = ((TextView) findViewById(R.id.hostName)).getText().toString();
+        if (serverUrl.equals("")) {
+            serverUrl = ((TextView) findViewById(R.id.hostName)).getHint().toString();
         }
         String content = null;
         try {
-            content = ContentUrlProvider.getContentNameBot(request + "/name");
-        } catch (IOException ex) {
+            RequestToServer request = new RequestToServer(serverUrl,Constants.ENDPOINT_BOT_NAME);
+            request.addLangParam();
+            content = request.send().getData();
+        } catch (Exception ex) {
             content = getString(R.string.nameBotNotAnswer);
         }
         return content;
