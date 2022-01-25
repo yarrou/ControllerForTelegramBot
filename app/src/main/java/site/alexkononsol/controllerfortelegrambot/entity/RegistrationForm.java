@@ -23,4 +23,8 @@ public class RegistrationForm {
         return repeatPassword;
     }
 
+    public UserForm getUserForm(){
+        return new UserForm(userLogin,password);
+    }
+
 }

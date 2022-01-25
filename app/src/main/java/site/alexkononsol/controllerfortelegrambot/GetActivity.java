@@ -15,7 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
@@ -45,9 +46,12 @@ public class GetActivity extends AppCompatActivity {
                     public void run() {
                         try{
                             TextView getTextView = (TextView) findViewById(R.id.getRequest);
-                            String request = getTextView.getText().toString();
-                            String query =  RequestEncoder.getRequest(request);
-                            String content = ContentUrlProvider.getContentGet( query);
+                            String nameCity = getTextView.getText().toString();
+                            String query =  RequestEncoder.getRequest(nameCity);
+                            RequestToServer get = new RequestToServer(Constants.ENDPOINT_GET_CITY, RequestType.GET);
+                            get.addParam("city",query);
+                            get.addLangParam();
+                            String content = get.send().getData().toString();
                             contentView.post(new Runnable() {
                                 public void run() {
                                     contentView.setText(content);

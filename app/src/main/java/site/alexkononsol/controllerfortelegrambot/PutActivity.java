@@ -13,10 +13,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.io.IOException;
-
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ContentUrlProvider;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -49,14 +50,19 @@ public class PutActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         public void run() {
                             try{
-                                String content = ContentUrlProvider.getContentPut(host ,cityName,cityDescription);
+                                RequestToServer put = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.PUT);
+                                put.addAuthHeader();
+                                put.addLangParam();
+                                put.addJsonHeaders();
+                                put.setBody(new City(cityName,cityDescription));
+                                String content = put.send().getData();
                                 contentView.post(new Runnable() {
                                     public void run() {
                                         contentView.setText(content);
                                     }
                                 });
                             }
-                            catch (IOException ex){
+                            catch (Exception ex){
                                 contentView.post(new Runnable() {
                                     public void run() {
                                         contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
