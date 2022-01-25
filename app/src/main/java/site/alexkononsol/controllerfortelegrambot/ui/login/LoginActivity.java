@@ -8,15 +8,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.AuthConnector;
-import site.alexkononsol.controllerfortelegrambot.entity.result.AuthResult;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
 import site.alexkononsol.controllerfortelegrambot.ui.registration.RegistrationActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView textViewLogin;
     private TextView textViewPassword;
+    private TextView textViewResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,23 @@ public class LoginActivity extends AppCompatActivity {
 
         textViewLogin = (TextView) findViewById(R.id.username);
         textViewPassword = (TextView)findViewById(R.id.password);
+        textViewResult = (TextView) findViewById(R.id.resultOnLoginView);
 
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("messageSuccess");
+        if (message!=null){
+            textViewResult.post(new Runnable() {
+                @Override
+                public void run() {
+                    textViewResult.setText(message);
+                }
+            });
+        }
     }
 
     public void onLogin(View view){
@@ -49,18 +62,23 @@ public class LoginActivity extends AppCompatActivity {
             //Background work here
             String userName = textViewLogin.getText().toString();
             String hostPath = SettingsManager.getSettings().getHostName();
-            AuthResult result = AuthConnector.authRequest(userName,textViewPassword.getText().toString(), Constants.ENDPOINT_LOGIN);
+            UserForm userForm = new UserForm(userName, textViewPassword.getText().toString());
+            RequestToServer loginRequest = new RequestToServer(Constants.ENDPOINT_LOGIN, RequestType.POST);
+            loginRequest.addAuthHeader();
+            loginRequest.addLangParam();
+            loginRequest.addJsonHeaders();
+            loginRequest.setBody(userForm);
+            ServerResponse response = loginRequest.send();
 
             handler.post(() -> {
                 //UI Thread work here
                 String output = null;
-                if(result.getStatus()<200){
+                if(response.getCode()==200){
                     SettingsManager.getSettings().setUserName(userName);
-                    SettingsManager.getSettings().setAuthToken(result.getMessage());
+                    SettingsManager.getSettings().setAuthToken(response.getData());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else Toast.makeText(getBaseContext(), result.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                }else textViewResult.setText(response.getData());
             });
         });
     }
