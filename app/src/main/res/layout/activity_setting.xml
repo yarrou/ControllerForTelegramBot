@@ -176,6 +176,25 @@
                 android:paddingBottom="@dimen/paddingSmall"
                 android:text="@string/backupText"
                 android:textSize="@dimen/subMenuTextSize" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/paddingSmall">
+                <TextView
+                    android:id="@+id/backup_file_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nameBackupTitle"/>
+                <EditText
+                    android:inputType="textAutoComplete"
+                    android:id="@+id/backup_file_name_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="25"
+                    android:paddingHorizontal="12dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -206,7 +225,7 @@
 
                 <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="36dp"
                     android:background="@drawable/loadbacup"
                     android:contentDescription="@string/backupLoadText"
                     android:onClick="onShowFileChooser" />

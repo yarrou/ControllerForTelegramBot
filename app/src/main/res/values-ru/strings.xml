@@ -53,7 +53,7 @@
     <string name="viewHelpOnStart">показывать описание при старте программы</string>
 
     <string name="backupText">Резервное копирование</string>
-    <string name="backupSaveText">создать бекап по пути : /sdcard/ControllerForTelegramBot/backup.bp</string>
+    <string name="backupSaveText">создать бекап по пути : /sdcard/ControllerForTelegramBot/</string>
     <string name="backupLoadText">выбрать файл для восстановления из резервной копии</string>
     <string name="backupToastSuccessfully">резервная копия создана : </string>
     <string name="authInfo">вы вошли в систему как : </string>
@@ -71,6 +71,7 @@
 
     <string name="backupActivityTitle">Восстановление настроек</string>
     <string name="aboutRestoreSettings">Будут восстановлены следующие настройки: </string>
+    <string name="nameBackupTitle">название</string>
 
     <string name="yes">да</string>
     <string name="no">нет</string>
