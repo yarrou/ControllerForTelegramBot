@@ -6,6 +6,7 @@ import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,8 @@ public class SettingActivity extends AppCompatActivity {
     private Button logoutButton;
     private TextView authInfo;
     private EditText editText;
+    private String backupName;
+    private EditText backupFileNameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class SettingActivity extends AppCompatActivity {
         authInfo = (TextView) findViewById(R.id.authSettingsStatus);
         logoutButton = (Button) findViewById(R.id.logoutButton) ;
         editText = (EditText) findViewById(R.id.hostName);
+        backupFileNameEditText = (EditText) findViewById(R.id.backup_file_name_value);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,7 +71,7 @@ public class SettingActivity extends AppCompatActivity {
         shareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         //!!!Attention!!! needs to be redone
-        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/ControllerForTelegramBot/backup.bp");
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/ControllerForTelegramBot/" + backupName + ".bp");
         setShareActionIntent(file);
         return super.onCreateOptionsMenu(menu);
     }
@@ -128,11 +132,15 @@ public class SettingActivity extends AppCompatActivity {
 
     public void onSaveBackup(View view) {
         // write on SD card file data in the text box
+        String nameFile = backupFileNameEditText.getText().toString();
+        Log.d("DEBUG","fileName = "+nameFile);
         try {
-            String backupPath = BackupHelper.createBackup("null");
+
+            String backupPath = BackupHelper.createBackup(nameFile);
             Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
+            e.printStackTrace();
             Toast.makeText(getBaseContext(), e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
@@ -181,6 +189,8 @@ public class SettingActivity extends AppCompatActivity {
 
     private void interfaceView() {
 
+        viewNameBackup();
+        backupName = backupFileNameEditText.getText().toString();
         //if the user is logged in , then his login is displayed in the settings
         viewInfoAboutAccount();
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -295,7 +305,13 @@ public class SettingActivity extends AppCompatActivity {
                 authInfo.setText(getString(R.string.anonimous));
                 logoutButton.setText(getString(R.string.sign_in_button_text));
             }
-
+    }
+    private void viewNameBackup(){
+        backupName = SettingsManager.getSettings().getBackupName();
+        if(backupName==null){
+            backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
+        }
+        backupFileNameEditText.setText(backupName);
     }
 
 }
