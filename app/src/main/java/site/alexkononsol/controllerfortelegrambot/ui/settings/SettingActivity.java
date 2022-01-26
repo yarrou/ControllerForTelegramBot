@@ -95,10 +95,11 @@ public class SettingActivity extends AppCompatActivity {
         shareActionProvider.setShareIntent(intent);
     }
 
+    //saving settings
     public void onSaveSetting(View view) {
-        EditText editText = (EditText) findViewById(R.id.hostName);
         String host = editText.getText().toString();
         SettingsManager.getSettings().setHostName(host);
+        SettingsManager.getSettings().setBackupName(backupFileNameEditText.getText().toString());
         SettingsManager.save();
         String toastTextSavedSettings = getString(R.string.saveSettingsToast);
         Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
@@ -190,7 +191,7 @@ public class SettingActivity extends AppCompatActivity {
     private void interfaceView() {
 
         viewNameBackup();
-        backupName = backupFileNameEditText.getText().toString();
+        //backupName = backupFileNameEditText.getText().toString();
         //if the user is logged in , then his login is displayed in the settings
         viewInfoAboutAccount();
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +313,7 @@ public class SettingActivity extends AppCompatActivity {
             backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
         }
         backupFileNameEditText.setText(backupName);
+
     }
 
 }
