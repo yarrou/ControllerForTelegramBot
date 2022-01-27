@@ -72,6 +72,7 @@
     <string name="backupActivityTitle">Восстановление настроек</string>
     <string name="aboutRestoreSettings">Будут восстановлены следующие настройки: </string>
     <string name="nameBackupTitle">название</string>
+    <string name="storage_permission_denied">отказано в доступе к внутреннему хранилищу</string>
 
     <string name="yes">да</string>
     <string name="no">нет</string>

@@ -3,7 +3,9 @@ package site.alexkononsol.controllerfortelegrambot.ui.settings;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeLargeRadio;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -18,10 +20,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.MenuItemCompat;
 
@@ -45,6 +50,9 @@ public class SettingActivity extends AppCompatActivity {
     private EditText editText;
     private String backupName;
     private EditText backupFileNameEditText;
+    private String backupPath;
+
+    private static final int STORAGE_PERMISSION_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,20 +140,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void onSaveBackup(View view) {
-        // write on SD card file data in the text box
-        String nameFile = backupFileNameEditText.getText().toString();
-        Log.d("DEBUG","fileName = "+nameFile);
-        try {
-
-            String backupPath = BackupHelper.createBackup(nameFile);
-            Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
-                    Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getBaseContext(), e.getMessage(),
-                    Toast.LENGTH_SHORT).show();
-        }
-
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
     }
 
     private static final int FILE_SELECT_CODE = 1;
@@ -313,7 +308,54 @@ public class SettingActivity extends AppCompatActivity {
             backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
         }
         backupFileNameEditText.setText(backupName);
-
     }
 
+    // Function to check and request permission.
+    public void checkPermission(String permission, int requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(SettingActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(SettingActivity.this, new String[] { permission }, requestCode);
+        }
+        else {
+            saveBackup();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode,
+                permissions,
+                grantResults);
+
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                saveBackup();
+                //Toast.makeText(SettingActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(SettingActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void saveBackup(){
+        // write on SD card file data in the text box
+        String nameFile = backupFileNameEditText.getText().toString();
+        Log.d("DEBUG","fileName = "+nameFile);
+        try {
+
+            backupPath = BackupHelper.createBackup(nameFile);
+            Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 }

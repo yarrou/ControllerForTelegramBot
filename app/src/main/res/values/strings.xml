@@ -77,6 +77,7 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="backupActivityTitle">Restore settings</string>
     <string name="aboutRestoreSettings">The following settings will be restored: </string>
     <string name="nameBackupTitle">name</string>
+    <string name="storage_permission_denied">Storage Permission Denied</string>
 
     <string name="yes">yes</string>
     <string name="no">no</string>
