@@ -1,6 +1,7 @@
 package site.alexkononsol.controllerfortelegrambot.utils;
 
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -31,5 +32,22 @@ public class BackupHelper {
             myOutWriter.close();
             fOut.close();
             return myFile.getPath();
+    }
+
+    public static String createTempBackup(String name, Context context) throws IOException {
+        File cacheDir = context.getCacheDir();
+        Log.d("DEBUG","backup dir path = " + cacheDir.getPath());
+        File tempBackupFile = File.createTempFile(name,".bp",cacheDir);
+        Log.d("DEBUG","path backup file is "+ tempBackupFile.getPath());
+        //tempBackupFile.createNewFile();
+        //Log.d("DEBUG","backup file created");
+        FileOutputStream fOut = new FileOutputStream(tempBackupFile);
+        OutputStreamWriter myOutWriter =
+                new OutputStreamWriter(fOut);
+
+        myOutWriter.append(SettingsManager.getStringBackupSettings());
+        myOutWriter.close();
+        fOut.close();
+        return tempBackupFile.getPath();
     }
 }
