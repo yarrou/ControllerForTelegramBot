@@ -11,8 +11,8 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 
@@ -85,7 +85,8 @@ public class Splash_activity extends AppCompatActivity {
                     isFirstRun = false;
                     SharedPreferenceAssistant.initSharedPreferences(Splash_activity.this);
                     SettingsManager.initSettings();
-
+                    SettingsManager.getSettings().setHostName(Constants.DEFAULT_HOST_URL);
+                    SettingsManager.save();
                     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                     setSupportActionBar(toolbar);
                     boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
