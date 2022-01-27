@@ -31,6 +31,7 @@ import androidx.core.content.FileProvider;
 import androidx.core.view.MenuItemCompat;
 
 import java.io.File;
+import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
@@ -79,7 +80,13 @@ public class SettingActivity extends AppCompatActivity {
         shareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         //!!!Attention!!! needs to be redone
-        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/ControllerForTelegramBot/" + backupName + ".bp");
+        File file = null;
+        try {
+            file = new File(BackupHelper.createTempBackup(backupName, SettingActivity.this));
+        } catch (IOException e) {
+            Log.e("ERROR","don't create temp file",e);
+            e.printStackTrace();
+        }
         setShareActionIntent(file);
         return super.onCreateOptionsMenu(menu);
     }
