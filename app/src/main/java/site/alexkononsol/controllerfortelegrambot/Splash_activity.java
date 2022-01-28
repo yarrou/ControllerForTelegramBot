@@ -11,8 +11,11 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
+import java.io.File;
+
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
 
@@ -64,6 +67,8 @@ public class Splash_activity extends AppCompatActivity {
     }
 
     private void runMainProcess(){
+        File cashFolder = this.getCacheDir();
+        FileUtils.cleanFiles(".bp",cashFolder);
         /* this part of the code is needed in order to be able to log in before the main window of the program is displayed
         Intent intent = null;
         if(SettingsManager.getSettings().getUserName()!=null){
@@ -85,7 +90,8 @@ public class Splash_activity extends AppCompatActivity {
                     isFirstRun = false;
                     SharedPreferenceAssistant.initSharedPreferences(Splash_activity.this);
                     SettingsManager.initSettings();
-
+                    SettingsManager.getSettings().setHostName(Constants.DEFAULT_HOST_URL);
+                    SettingsManager.save();
                     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                     setSupportActionBar(toolbar);
                     boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();

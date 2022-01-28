@@ -8,6 +8,7 @@ public class Settings {
     boolean viewHelpOnStart;
     String authToken;
     String userName;
+    String backupName;
 
     public Settings() {
         this.textSize = "normal";
@@ -46,6 +47,14 @@ public class Settings {
 
     public String getHostName() {
         return hostName;
+    }
+
+    public String getBackupName() {
+        return backupName;
+    }
+
+    public void setBackupName(String backupName) {
+        this.backupName = backupName;
     }
 
     public void setHostName(String hostName) {
