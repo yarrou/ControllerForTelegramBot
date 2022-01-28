@@ -79,7 +79,6 @@ public class SettingActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        //!!!Attention!!! needs to be redone
         File file = null;
         try {
             file = new File(BackupHelper.createTempBackup(backupName, SettingActivity.this));
