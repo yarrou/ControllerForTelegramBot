@@ -3,9 +3,12 @@ package site.alexkononsol.controllerfortelegrambot.ui.settings;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeLargeRadio;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +20,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.MenuItemCompat;
 
 import java.io.File;
+import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
@@ -42,6 +49,11 @@ public class SettingActivity extends AppCompatActivity {
     private Button logoutButton;
     private TextView authInfo;
     private EditText editText;
+    private String backupName;
+    private EditText backupFileNameEditText;
+    private String backupPath;
+
+    private static final int STORAGE_PERMISSION_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,7 @@ public class SettingActivity extends AppCompatActivity {
         authInfo = (TextView) findViewById(R.id.authSettingsStatus);
         logoutButton = (Button) findViewById(R.id.logoutButton) ;
         editText = (EditText) findViewById(R.id.hostName);
+        backupFileNameEditText = (EditText) findViewById(R.id.backup_file_name_value);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,8 +79,13 @@ public class SettingActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        //!!!Attention!!! needs to be redone
-        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/ControllerForTelegramBot/backup.bp");
+        File file = null;
+        try {
+            file = new File(BackupHelper.createTempBackup(backupName, SettingActivity.this));
+        } catch (IOException e) {
+            Log.e("ERROR","don't create temp file",e);
+            e.printStackTrace();
+        }
         setShareActionIntent(file);
         return super.onCreateOptionsMenu(menu);
     }
@@ -91,10 +109,11 @@ public class SettingActivity extends AppCompatActivity {
         shareActionProvider.setShareIntent(intent);
     }
 
+    //saving settings
     public void onSaveSetting(View view) {
-        EditText editText = (EditText) findViewById(R.id.hostName);
         String host = editText.getText().toString();
         SettingsManager.getSettings().setHostName(host);
+        SettingsManager.getSettings().setBackupName(backupFileNameEditText.getText().toString());
         SettingsManager.save();
         String toastTextSavedSettings = getString(R.string.saveSettingsToast);
         Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
@@ -127,16 +146,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void onSaveBackup(View view) {
-        // write on SD card file data in the text box
-        try {
-            String backupPath = BackupHelper.createBackup("null");
-            Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
-                    Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(getBaseContext(), e.getMessage(),
-                    Toast.LENGTH_SHORT).show();
-        }
-
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
     }
 
     private static final int FILE_SELECT_CODE = 1;
@@ -181,6 +191,8 @@ public class SettingActivity extends AppCompatActivity {
 
     private void interfaceView() {
 
+        viewNameBackup();
+        //backupName = backupFileNameEditText.getText().toString();
         //if the user is logged in , then his login is displayed in the settings
         viewInfoAboutAccount();
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -295,7 +307,61 @@ public class SettingActivity extends AppCompatActivity {
                 authInfo.setText(getString(R.string.anonimous));
                 logoutButton.setText(getString(R.string.sign_in_button_text));
             }
-
+    }
+    private void viewNameBackup(){
+        backupName = SettingsManager.getSettings().getBackupName();
+        if(backupName==null){
+            backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
+        }
+        backupFileNameEditText.setText(backupName);
     }
 
+    // Function to check and request permission.
+    public void checkPermission(String permission, int requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(SettingActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(SettingActivity.this, new String[] { permission }, requestCode);
+        }
+        else {
+            saveBackup();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode,
+                permissions,
+                grantResults);
+
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                saveBackup();
+                //Toast.makeText(SettingActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(SettingActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void saveBackup(){
+        // write on SD card file data in the text box
+        String nameFile = backupFileNameEditText.getText().toString();
+        Log.d("DEBUG","fileName = "+nameFile);
+        try {
+
+            backupPath = BackupHelper.createBackup(nameFile);
+            Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 }
