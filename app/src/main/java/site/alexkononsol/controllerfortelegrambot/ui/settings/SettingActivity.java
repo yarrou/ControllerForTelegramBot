@@ -7,7 +7,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -310,7 +309,7 @@ public class SettingActivity extends AppCompatActivity {
     }
     private void viewNameBackup(){
         backupName = SettingsManager.getSettings().getBackupName();
-        if(backupName==null){
+        if(backupName==null||backupName==""){
             backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
         }
         backupFileNameEditText.setText(backupName);

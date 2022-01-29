@@ -92,8 +92,6 @@ public class Splash_activity extends AppCompatActivity {
                     isFirstRun = false;
                     SharedPreferenceAssistant.initSharedPreferences(Splash_activity.this);
                     SettingsManager.initSettings();
-                    SettingsManager.getSettings().setHostName(Constants.DEFAULT_HOST_URL);
-                    SettingsManager.save();
                     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                     setSupportActionBar(toolbar);
                     boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();

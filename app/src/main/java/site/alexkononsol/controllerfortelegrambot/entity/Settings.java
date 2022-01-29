@@ -13,11 +13,13 @@ public class Settings {
     public Settings() {
         this.textSize = "normal";
         this.viewHelpOnStart = true;
+        this.backupName = "backup";
     }
     public Settings(Settings settings){
         this.textSize = settings.getTextSize();
         this.viewHelpOnStart = settings.isViewHelpOnStart();
         this.hostName = settings.getHostName();
+        this.backupName = settings.getBackupName();
     }
 
     public String getAuthToken() {
