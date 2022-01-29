@@ -1,10 +1,12 @@
 package site.alexkononsol.controllerfortelegrambot.ui.settings;
 
+import static java.lang.String.format;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeLargeRadio;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -189,7 +191,7 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private void interfaceView() {
-
+        viewInfoAboutVersionApp();
         viewNameBackup();
         //backupName = backupFileNameEditText.getText().toString();
         //if the user is logged in , then his login is displayed in the settings
@@ -306,6 +308,18 @@ public class SettingActivity extends AppCompatActivity {
                 authInfo.setText(getString(R.string.anonimous));
                 logoutButton.setText(getString(R.string.sign_in_button_text));
             }
+    }
+    private void viewInfoAboutVersionApp(){
+        TextView versionView = findViewById(R.id.settings_version_title_textview);
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            versionView.setText(format(getString(R.string.version_app), version));
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("ERROR","don't viewed version app",e);
+            e.printStackTrace();
+        }
     }
     private void viewNameBackup(){
         backupName = SettingsManager.getSettings().getBackupName();

@@ -45,7 +45,6 @@ public class Splash_activity extends AppCompatActivity {
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getString(R.string.greeting)).append("\n").append(getString(R.string.helpText));
-        //String text = getString(R.string.helpText);
         setShareActionIntent(stringBuilder.toString());
         return super.onCreateOptionsMenu(menu);
     }

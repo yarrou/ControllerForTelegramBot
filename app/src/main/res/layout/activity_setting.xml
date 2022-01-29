@@ -241,6 +241,10 @@
                     android:paddingStart="@dimen/paddingNormal"
                     android:text="@string/backupLoadText" />
             </LinearLayout>
+            <TextView
+                android:id="@+id/settings_version_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
