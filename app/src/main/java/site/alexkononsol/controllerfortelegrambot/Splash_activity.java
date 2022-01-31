@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.io.File;
 
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
@@ -35,6 +37,9 @@ public class Splash_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        if(!DeviceTypeHelper.isTablet(this)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         showVersionApp();
     }
     @Override
