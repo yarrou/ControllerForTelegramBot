@@ -1,6 +1,7 @@
 package site.alexkononsol.controllerfortelegrambot;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(!DeviceTypeHelper.isTablet(this)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -91,24 +96,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void onGetRequest(View view){
-        Intent intent = new Intent(this,GetActivity.class);
-        startActivity(intent);
-    }
-    public void onPostRequest(View view){
-        Intent intent = new Intent(this,PostActivity.class);
-        startActivity(intent);
-    }
-    public void onPutRequest(View view){
-        Intent intent = new Intent(this,PutActivity.class);
-        startActivity(intent);
-    }
-    public void onDelRequest(View view){
-        Intent intent = new Intent(this, DelActivity.class);
-        startActivity(intent);
-    }
-    public void onSearch(View view){
-        Intent intent = new Intent(this,SearchActivity.class);
-        startActivity(intent);
-    }
+
 }
