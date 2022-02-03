@@ -6,6 +6,7 @@ import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Requ
 import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -60,6 +62,8 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         authInfo = (TextView) findViewById(R.id.authSettingsStatus);
         logoutButton = (Button) findViewById(R.id.logoutButton) ;

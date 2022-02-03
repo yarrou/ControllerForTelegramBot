@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,6 +30,7 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Requ
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 
 public class SearchActivity extends AppCompatActivity {
     Context context = this;
@@ -41,6 +43,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
