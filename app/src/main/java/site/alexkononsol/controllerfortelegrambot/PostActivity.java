@@ -39,48 +39,7 @@ public class PostActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-        TextView contentView = (TextView) findViewById(R.id.postResponse);
-        Button getButton = (Button) findViewById(R.id.buttonPost);
-        String host = SettingsManager.getSettings().getHostName();
 
-        getButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView cityNameView = (TextView) findViewById(R.id.postRequest);
-                TextView cityDescriptionView = (TextView) findViewById(R.id.postRequestDescription);
-                //checking for non-emptiness
-                if (TextValidator.noEmptyValidation(cityNameView)&&TextValidator.noEmptyValidation(cityDescriptionView)) {
-                    String cityName = cityNameView.getText().toString();
-                    String cityDescription = cityDescriptionView.getText().toString();
-                    contentView.setText(getString(R.string.toastLoading));
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-                                RequestToServer post = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.POST);
-                                post.addAuthHeader();
-                                post.addLangParam();
-                                post.addJsonHeaders();
-                                post.setBody(new City(cityName,cityDescription));
-                                String content = post.send().getData();
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(content);
-                                    }
-                                });
-                            } catch (Exception ex) {
-
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
-                }
-            }
-        });
     }
 
     //Menu of Toolbar

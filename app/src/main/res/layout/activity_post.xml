@@ -10,40 +10,9 @@
     <include
         layout="@layout/toolbar_main"
         android:id="@+id/toolbar" />
-
-
-    <EditText
-        android:id="@+id/postRequest"
-        android:inputType="textAutoCorrect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:ems="12"
-        android:hint="@string/ptHintName" />
-
-    <EditText
-        android:id="@+id/postRequestDescription"
+    <fragment
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:hint="@string/ptHintDescription"
-        android:inputType="textMultiLine|textAutoCorrect|textAutoComplete"
-        android:lines="5" />
-
-    <Button
-        android:id="@+id/buttonPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:text="@string/requestButton" />
-
-    <TextView
-        android:id="@+id/postResponse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
+        android:layout_height="match_parent"
+        android:id="@+id/post_fragment_activity"
+        android:name="site.alexkononsol.controllerfortelegrambot.PostFragment"/>
 </LinearLayout>
