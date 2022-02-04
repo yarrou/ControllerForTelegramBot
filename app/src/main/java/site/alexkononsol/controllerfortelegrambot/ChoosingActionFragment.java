@@ -1,10 +1,8 @@
 package site.alexkononsol.controllerfortelegrambot;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +11,25 @@ import android.widget.Button;
 public class ChoosingActionFragment extends Fragment {
     private View view;
 
+    static interface Listener {
+        void actionChoose(String action);
+    }
+
+    private Listener listener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (Listener) context;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_choosing_action, container, false);
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -29,7 +39,7 @@ public class ChoosingActionFragment extends Fragment {
         getButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onGetRequest();
+                listener.actionChoose("get");
             }
         });
 
@@ -38,7 +48,7 @@ public class ChoosingActionFragment extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSearch();
+                listener.actionChoose("search");
             }
         });
 
@@ -47,7 +57,7 @@ public class ChoosingActionFragment extends Fragment {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPostRequest();
+                listener.actionChoose("post");
             }
         });
 
@@ -56,7 +66,7 @@ public class ChoosingActionFragment extends Fragment {
         put.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPutRequest();
+                listener.actionChoose("put");
             }
         });
 
@@ -65,28 +75,8 @@ public class ChoosingActionFragment extends Fragment {
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDelRequest();
+                listener.actionChoose("del");
             }
         });
-    }
-    public void onGetRequest(){
-        Intent intent = new Intent(view.getContext(),GetActivity.class);
-        startActivity(intent);
-    }
-    public void onPostRequest(){
-        Intent intent = new Intent(view.getContext(),PostActivity.class);
-        startActivity(intent);
-    }
-    public void onPutRequest(){
-        Intent intent = new Intent(view.getContext(),PutActivity.class);
-        startActivity(intent);
-    }
-    public void onDelRequest(){
-        Intent intent = new Intent(view.getContext(), DelActivity.class);
-        startActivity(intent);
-    }
-    public void onSearch(){
-        Intent intent = new Intent(view.getContext(),SearchActivity.class);
-        startActivity(intent);
     }
 }
