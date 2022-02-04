@@ -10,12 +10,9 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_main" />
-
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/choosingActions"
         android:name="site.alexkononsol.controllerfortelegrambot.ChoosingActionFragment"/>
-
-
 </LinearLayout>

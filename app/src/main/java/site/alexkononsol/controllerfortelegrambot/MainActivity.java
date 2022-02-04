@@ -13,12 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ChoosingActionFragment.Listener {
 
     private ShareActionProvider shareActionProvider;
     private Button putButton;
@@ -96,5 +98,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public void actionChoose(String action) {
+        View fragmentContainer = findViewById(R.id.fragment_container);
+        switch (action){
+            case ("get"):
+                if(fragmentContainer!=null) transactionFragment(new GetFragment());
+                else startActivity(new Intent(this,GetActivity.class));
+                break;
+            case ("search"):
+                if(fragmentContainer!=null) transactionFragment(new SearchFragment());
+                else startActivity(new Intent(this,SearchActivity.class));
+                break;
+            case ("post"):
+                if (fragmentContainer!=null) transactionFragment(new PostFragment());
+                else startActivity(new Intent(this,PostActivity.class));
+                break;
+            case ("put"):
+                if(fragmentContainer!=null) transactionFragment(new PutFragment());
+                else startActivity(new Intent(this,PutActivity.class));
+                break;
+            case ("del"):
+                if(fragmentContainer!=null) transactionFragment(new DelFragment());
+                else startActivity(new Intent(this,PutActivity.class));
+                break;
+        }
+    }
+    private void transactionFragment(Fragment fragment){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 }
