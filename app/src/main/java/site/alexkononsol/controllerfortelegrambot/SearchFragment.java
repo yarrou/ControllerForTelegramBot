@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +41,10 @@ public class SearchFragment extends Fragment {
             cityName = savedInstanceState.getString("cityName");
         }
         return inflater.inflate(R.layout.fragment_search, container, false);
+    }
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("listCity", (Serializable) citiesList);
+        savedInstanceState.putString("cityName",cityName);
     }
 
     @Override
@@ -125,4 +130,6 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+
 }
