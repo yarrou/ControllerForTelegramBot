@@ -1,13 +1,15 @@
 package site.alexkononsol.controllerfortelegrambot.ui.settings;
 
+import static java.lang.String.format;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeLargeRadio;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +42,7 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Requ
 import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -59,6 +62,8 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         authInfo = (TextView) findViewById(R.id.authSettingsStatus);
         logoutButton = (Button) findViewById(R.id.logoutButton) ;
@@ -190,7 +195,7 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private void interfaceView() {
-
+        viewInfoAboutVersionApp();
         viewNameBackup();
         //backupName = backupFileNameEditText.getText().toString();
         //if the user is logged in , then his login is displayed in the settings
@@ -308,9 +313,21 @@ public class SettingActivity extends AppCompatActivity {
                 logoutButton.setText(getString(R.string.sign_in_button_text));
             }
     }
+    private void viewInfoAboutVersionApp(){
+        TextView versionView = findViewById(R.id.settings_version_title_textview);
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            versionView.setText(format(getString(R.string.version_app), version));
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("ERROR","don't viewed version app",e);
+            e.printStackTrace();
+        }
+    }
     private void viewNameBackup(){
         backupName = SettingsManager.getSettings().getBackupName();
-        if(backupName==null){
+        if(backupName==null||backupName==""){
             backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
         }
         backupFileNameEditText.setText(backupName);

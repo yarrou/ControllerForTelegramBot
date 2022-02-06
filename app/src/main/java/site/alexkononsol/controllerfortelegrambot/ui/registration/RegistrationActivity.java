@@ -3,6 +3,7 @@ package site.alexkononsol.controllerfortelegrambot.ui.registration;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,6 +21,7 @@ import site.alexkononsol.controllerfortelegrambot.entity.RegistrationForm;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.RegistrationFormValidator;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -32,6 +34,9 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         usernameEditText = (EditText)findViewById(R.id.username_reg);
         passwordEditText =(EditText) findViewById(R.id.password_reg);
         passwordRepeatEditText = (EditText) findViewById(R.id.repeat_password);

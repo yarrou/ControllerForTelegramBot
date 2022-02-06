@@ -3,6 +3,7 @@ package site.alexkononsol.controllerfortelegrambot.ui.login;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,6 +21,7 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Requ
 import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
 import site.alexkononsol.controllerfortelegrambot.ui.registration.RegistrationActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         textViewLogin = (TextView) findViewById(R.id.username);
         textViewPassword = (TextView)findViewById(R.id.password);

@@ -20,17 +20,14 @@
         <activity
             android:name=".ui.registration.RegistrationActivity"
             android:parentActivityName=".ui.login.LoginActivity"
-            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:parentActivityName=".ui.settings.SettingActivity"
-            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".Splash_activity"
-            android:exported="true"
-            android:screenOrientation="portrait">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -41,11 +38,9 @@
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/backupActivityTitle"
-            android:parentActivityName=".ui.settings.SettingActivity"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".ui.settings.SettingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -66,61 +61,53 @@
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/viewCityNameLabel"
-            android:parentActivityName=".SearchActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".SearchActivity"/>
         <activity
             android:name=".SearchActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/searchName"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".HelpActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/helpNameLabel"
-            android:parentActivityName=".Splash_activity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".Splash_activity"/>
         <activity
             android:name=".ui.settings.SettingActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:label="@string/nameSettingsActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".DelActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/nameDel"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PostActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/namePost"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PutActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/namePut"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".GetActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/nameGet"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
-            android:exported="true"
-            android:screenOrientation="portrait">
+            android:exported="true">
         </activity>
 
         <provider

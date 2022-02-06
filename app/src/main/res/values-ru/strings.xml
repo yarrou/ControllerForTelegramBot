@@ -58,6 +58,8 @@
     <string name="backupToastSuccessfully">резервная копия создана : </string>
     <string name="authInfo">вы вошли в систему как : </string>
     <string name="anonimous">вы не вошли, минимум функций</string>
+    <string name="version">версия : %s</string>
+    <string name="version_app">версия приложения : %s</string>
 
     <string name="viewCityNameLabel">Город</string>
 

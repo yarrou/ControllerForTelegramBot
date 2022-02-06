@@ -1,20 +1,28 @@
 package site.alexkononsol.controllerfortelegrambot;
 
+import static java.lang.String.format;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.io.File;
 
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.SharedPreferenceAssistant;
@@ -29,11 +37,8 @@ public class Splash_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-       //
-
-
-
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        showVersionApp();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,7 +48,6 @@ public class Splash_activity extends AppCompatActivity {
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getString(R.string.greeting)).append("\n").append(getString(R.string.helpText));
-        String text = getString(R.string.helpText);
         setShareActionIntent(stringBuilder.toString());
         return super.onCreateOptionsMenu(menu);
     }
@@ -90,8 +94,6 @@ public class Splash_activity extends AppCompatActivity {
                     isFirstRun = false;
                     SharedPreferenceAssistant.initSharedPreferences(Splash_activity.this);
                     SettingsManager.initSettings();
-                    SettingsManager.getSettings().setHostName(Constants.DEFAULT_HOST_URL);
-                    SettingsManager.save();
                     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                     setSupportActionBar(toolbar);
                     boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
@@ -104,6 +106,18 @@ public class Splash_activity extends AppCompatActivity {
             }, secondsDelayed * 1000);
         }else {
             runMainProcess();
+        }
+    }
+    private void showVersionApp(){
+        TextView versionTextView = (TextView) findViewById(R.id.version_text_view);
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            versionTextView.setText(format(getString(R.string.version), version));
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("ERROR","don't viewed version app",e);
+            e.printStackTrace();
         }
     }
 }

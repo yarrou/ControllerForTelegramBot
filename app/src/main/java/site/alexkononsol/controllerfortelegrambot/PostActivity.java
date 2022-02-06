@@ -1,6 +1,7 @@
 package site.alexkononsol.controllerfortelegrambot;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Requ
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -28,6 +30,8 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -35,48 +39,7 @@ public class PostActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-        TextView contentView = (TextView) findViewById(R.id.postResponse);
-        Button getButton = (Button) findViewById(R.id.buttonPost);
-        String host = SettingsManager.getSettings().getHostName();
 
-        getButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView cityNameView = (TextView) findViewById(R.id.postRequest);
-                TextView cityDescriptionView = (TextView) findViewById(R.id.postRequestDescription);
-                //checking for non-emptiness
-                if (TextValidator.noEmptyValidation(cityNameView)&&TextValidator.noEmptyValidation(cityDescriptionView)) {
-                    String cityName = cityNameView.getText().toString();
-                    String cityDescription = cityDescriptionView.getText().toString();
-                    contentView.setText(getString(R.string.toastLoading));
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-                                RequestToServer post = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.POST);
-                                post.addAuthHeader();
-                                post.addLangParam();
-                                post.addJsonHeaders();
-                                post.setBody(new City(cityName,cityDescription));
-                                String content = post.send().getData();
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(content);
-                                    }
-                                });
-                            } catch (Exception ex) {
-
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
-                }
-            }
-        });
     }
 
     //Menu of Toolbar
