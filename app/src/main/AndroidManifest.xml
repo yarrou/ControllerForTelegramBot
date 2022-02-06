@@ -84,6 +84,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settings.SettingActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:label="@string/nameSettingsActivity"
             android:parentActivityName=".MainActivity"
