@@ -10,58 +10,9 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_main" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/paddingSmall"
-        android:layout_marginTop="12dp"
-        android:text="@string/choiceOfAction" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:onClick="onSearch"
-        android:text="@string/buttonSearch" />
-
-    <Button
-        android:id="@+id/buttonGet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:onClick="onGetRequest"
-        android:text="@string/buttonGet" />
-
-    <Button
-        android:id="@+id/buttonPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:onClick="onPostRequest"
-        android:text="@string/buttonPost" />
-
-    <Button
-        android:id="@+id/buttonPut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:onClick="onPutRequest"
-        android:text="@string/buttonPut" />
-
-    <Button
-        android:id="@+id/buttonDel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:onClick="onDelRequest"
-        android:text="@string/buttonDel" />
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/choosingActions"
+        android:name="site.alexkononsol.controllerfortelegrambot.ChoosingActionFragment"/>
 </LinearLayout>

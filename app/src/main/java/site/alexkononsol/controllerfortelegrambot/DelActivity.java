@@ -1,6 +1,7 @@
 package site.alexkononsol.controllerfortelegrambot;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.Requ
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
+import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -30,51 +32,15 @@ public class DelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_del);
 
+        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        TextView contentView = (TextView) findViewById(R.id.delResponse);
-        Button delButton = (Button) findViewById(R.id.buttonDel);
-        String host = SettingsManager.getSettings().getHostName();
-        delButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView getTextView = (TextView) findViewById(R.id.delRequest);
-                if (TextValidator.noEmptyValidation(getTextView)) {
-                    contentView.setText(getString(R.string.toastLoading));
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
 
-                                String cityName = getTextView.getText().toString();
-                                String query = RequestEncoder.getRequest(cityName);
-                                RequestToServer del = new RequestToServer(Constants.ENDPOINT_DEL_CITY, RequestType.DELETE);
-                                del.addParam("city",query);
-                                del.addLangParam();
-                                del.addAuthHeader();
-                                String content = del.send().getData().toString();
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(content);
-                                    }
-                                });
-                            } catch (IOException ex) {
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText("Ошибка: " + ex.getMessage() + ex.getLocalizedMessage());
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
-                }
-            }
-
-        });
     }
 
     //Menu of Toolbar
