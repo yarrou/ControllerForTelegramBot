@@ -105,4 +105,13 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="warning_passwords_don_t_match">passwords don\'t match</string>
     <string name="warning_password_is_too_short">the password must be at least 5 characters long</string>
     <string name="registration_success_message">you have successfully registered, log in</string>
+
+    <string name="about_fragment_update_textView">check for a new version</string>
+    <string name="about_fragment_new_version_exist">a new version is available : %s</string>
+    <string name="about_fragment_no_update">the latest version is used</string>
+    <string name="about_fragment_button_update">update</string>
+    <string name="about_fragment_button_download">download</string>
+    <string name="about_fragment_download_description">Downloading %s</string>
+    <string name="about_fragment_download_view">the file will be saved in Downloads</string>
+
 </resources>
