@@ -241,12 +241,11 @@
                     android:paddingStart="@dimen/paddingNormal"
                     android:text="@string/backupLoadText" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/settings_version_title_textview"
-                android:layout_width="wrap_content"
+            <fragment
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="version info"/>
+                android:id="@+id/fragment_about"
+                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.AboutProgramFragment"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
