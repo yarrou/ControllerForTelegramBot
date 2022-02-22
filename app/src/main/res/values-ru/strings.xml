@@ -101,6 +101,7 @@
     <string name="warning_password_is_too_short">пароль должен быть не менее 5 символов</string>
     <string name="registration_success_message">вы успешно зарегистрировались, войдите в систему</string>
 
+    <string name="about_fragment_title">О приложении</string>
     <string name="about_fragment_update_textView">проверить обновление</string>
     <string name="about_fragment_new_version_exist">доступна новая версия : %s</string>
     <string name="about_fragment_no_update">используется последняя версия</string>

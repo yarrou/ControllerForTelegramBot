@@ -47,7 +47,7 @@ public class AboutProgramFragment extends Fragment {
         super.onStart();
         view = getView();
         viewInfoAboutVersionApp();
-        updateButton = (Button) view.findViewById(R.id.about_fragmetn_button);
+        updateButton = (Button) view.findViewById(R.id.about_fragment_button);
         contentView = view.findViewById(R.id.about_fragment_update_textView);
         contentView.setText(getString(R.string.about_fragment_update_textView));
         if (isUpdate) {
