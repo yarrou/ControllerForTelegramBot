@@ -360,7 +360,7 @@ public class SettingActivity extends AppCompatActivity {
         Log.d("DEBUG","fileName = "+nameFile);
         try {
 
-            backupPath = BackupHelper.createBackup(nameFile);
+            backupPath = BackupHelper.createBackup(nameFile,this);
             Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
