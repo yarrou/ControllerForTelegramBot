@@ -1,5 +1,8 @@
 package site.alexkononsol.controllerfortelegrambot.utils;
 
+import static site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper.getLogDirPath;
+import static site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper.getLogFilePath;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -27,7 +30,7 @@ public class FileUtils {
                 Log.d("DEBUG","created log dir");
                 programDir.mkdir();
             }
-            File myFile = new File(logDirPath + "/programLog.txt" );
+            File myFile = new File(getLogFilePath((Context) object) );
             Log.d("DEBUG","path log file is "+ myFile.getPath());
             if (!myFile.exists()){
                 myFile.createNewFile();
@@ -43,9 +46,7 @@ public class FileUtils {
             Log.e(LogHelper.TAG,e.getMessage(),e);
         }
     }
-    public static String getLogDirPath(Context context) throws IOException {
-        return context.getExternalFilesDir(null).getCanonicalPath();
-    }
+
 
     public static String convertStreamToString(InputStream is) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
