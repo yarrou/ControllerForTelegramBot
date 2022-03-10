@@ -115,4 +115,8 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="about_fragment_download_description">Downloading %s</string>
     <string name="about_fragment_download_view">the file will be saved in Downloads</string>
 
+    <string name="logging_fragment_title">Logging</string>
+    <string name="logging_checkbox_title">save logs</string>
+    <string name="logging_file_path">in %s file</string>
+
 </resources>
