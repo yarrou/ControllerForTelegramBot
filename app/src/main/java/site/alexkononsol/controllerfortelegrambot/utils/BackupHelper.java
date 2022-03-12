@@ -51,6 +51,6 @@ public class BackupHelper {
         return tempBackupFile.getPath();
     }
     public static String getBackupDirPath(Context context) throws IOException {
-        return context.getExternalFilesDir(null).getCanonicalPath().toString();
+        return context.getExternalFilesDir(null).getCanonicalPath();
     }
 }
