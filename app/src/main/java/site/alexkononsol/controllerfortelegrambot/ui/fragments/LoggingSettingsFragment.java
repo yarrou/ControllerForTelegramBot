@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-
-import java.io.IOException;
-
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -34,23 +31,19 @@ public class LoggingSettingsFragment extends Fragment {
         super.onStart();
         logging = getView().findViewById(R.id.checkBox_logging);
         TextView logFilePathView = getView().findViewById(R.id.logging_file_path_title);
-        try {
-            String logFilePath = format(getString(R.string.logging_file_path), LogHelper.getLogFilePath(getContext()));
-            logFilePathView.setText(logFilePath);
-            logging.setText(getString(R.string.logging_checkbox_title));
-            logging.setChecked(SettingsManager.getSettings().isLogging());
-            logging.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new Thread(new Runnable() {
-                        public void run() {
-                           SettingsManager.getSettings().setLogging(logging.isChecked());
-                        }
-                    }).start();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String logFilePath = format(getString(R.string.logging_file_path), LogHelper.getLogFilePath());
+        logFilePathView.setText(logFilePath);
+        logging.setText(getString(R.string.logging_checkbox_title));
+        logging.setChecked(SettingsManager.getSettings().isLogging());
+        logging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    public void run() {
+                       SettingsManager.getSettings().setLogging(logging.isChecked());
+                    }
+                }).start();
+            }
+        });
     }
 }
