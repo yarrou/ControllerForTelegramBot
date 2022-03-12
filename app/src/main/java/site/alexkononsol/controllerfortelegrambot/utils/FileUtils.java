@@ -23,14 +23,14 @@ public class FileUtils {
     public static void writeLog(Object object,String log){
 
         try {
-            String logDirPath = getLogDirPath((Context) object);
+            String logDirPath = getLogDirPath();
             Log.d("DEBUG","log dir path = " + logDirPath);
             File programDir = new File(logDirPath);
             if(!programDir.exists()){
                 Log.d("DEBUG","created log dir");
                 programDir.mkdir();
             }
-            File myFile = new File(getLogFilePath((Context) object) );
+            File myFile = new File(getLogFilePath());
             Log.d("DEBUG","path log file is "+ myFile.getPath());
             if (!myFile.exists()){
                 myFile.createNewFile();
