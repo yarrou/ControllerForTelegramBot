@@ -9,13 +9,18 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 public class LogHelper {
     public static final String TAG = "ControllerForTelegramBot";
     private static final String LOG_NAME = "programLog.txt";
+    private static String logDirPath ;
 
-    public static String getLogDirPath(Context context) throws IOException {
-        return context.getExternalFilesDir(null).getCanonicalPath();
+    public static String getLogDirPath() {
+        return logDirPath;
+    }
+    public static void setLogDirPath(String logDirPath) {
+        LogHelper.logDirPath = logDirPath;
     }
 
-    public static String getLogFilePath(Context context) throws IOException {
-        return getLogDirPath(context) + "/" + LOG_NAME;
+
+    public static String getLogFilePath(){
+        return getLogDirPath() + "/" + LOG_NAME;
     }
 
     public static void logError(Object object, String message, Throwable e) {
