@@ -9,6 +9,7 @@ public class Settings {
     String authToken;
     String userName;
     String backupName;
+    boolean isLogging;
 
     public Settings() {
         this.textSize = "normal";
@@ -20,6 +21,7 @@ public class Settings {
         this.viewHelpOnStart = settings.isViewHelpOnStart();
         this.hostName = settings.getHostName();
         this.backupName = settings.getBackupName();
+        this.isLogging = settings.isLogging();
     }
 
     public String getAuthToken() {
@@ -70,6 +72,15 @@ public class Settings {
     public void setViewHelpOnStart(boolean viewHelpOnStart) {
         this.viewHelpOnStart = viewHelpOnStart;
     }
+
+    public boolean isLogging() {
+        return isLogging;
+    }
+
+    public void setLogging(boolean logging) {
+        isLogging = logging;
+    }
+
     public static Settings getSettingsFromString(String value){
         Gson gson = new Gson();
         Settings settings = gson.fromJson(value, Settings.class);

@@ -231,7 +231,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    android:background="@drawable/loadbacup"
+                    android:background="@drawable/load_backup"
                     android:contentDescription="@string/backupLoadText"
                     android:onClick="onShowFileChooser" />
 
@@ -246,6 +246,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/fragment_about"
                 android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.AboutProgramFragment"/>
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_logging"
+                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.LoggingSettingsFragment"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
