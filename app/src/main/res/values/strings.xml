@@ -106,6 +106,7 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="warning_password_is_too_short">the password must be at least 5 characters long</string>
     <string name="registration_success_message">you have successfully registered, log in</string>
 
+    <string name="about_fragment_title">About app</string>
     <string name="about_fragment_update_textView">check for a new version</string>
     <string name="about_fragment_new_version_exist">a new version is available : %s</string>
     <string name="about_fragment_no_update">the latest version is used</string>
@@ -113,5 +114,12 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="about_fragment_button_download">download</string>
     <string name="about_fragment_download_description">Downloading %s</string>
     <string name="about_fragment_download_view">the file will be saved in Downloads</string>
+
+    <string name="logging_fragment_title">Logging</string>
+    <string name="logging_checkbox_title">save logs</string>
+    <string name="logging_file_path">in %s file</string>
+
+    <string name="request_permission_text">For the normal functioning of the application, it needs the rights to read and write information. This is necessary for functions such as creating a backup of settings and restoring from it, creating a file with logs, as well as for the ability to download and install an application update. Without granting this permission, further operation of the program is impossible.</string>
+    <string name="request_permission_button">Grant permission</string>
 
 </resources>

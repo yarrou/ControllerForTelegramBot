@@ -1,13 +1,11 @@
 package site.alexkononsol.controllerfortelegrambot.ui.settings;
 
-import static java.lang.String.format;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeLargeRadio;
 import static site.alexkononsol.controllerfortelegrambot.R.id.textSizeSmallRadio;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,10 +61,11 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (!DeviceTypeHelper.isTablet(this))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         authInfo = (TextView) findViewById(R.id.authSettingsStatus);
-        logoutButton = (Button) findViewById(R.id.logoutButton) ;
+        logoutButton = (Button) findViewById(R.id.logoutButton);
         editText = (EditText) findViewById(R.id.hostName);
         backupFileNameEditText = (EditText) findViewById(R.id.backup_file_name_value);
 
@@ -88,7 +87,7 @@ public class SettingActivity extends AppCompatActivity {
         try {
             file = new File(BackupHelper.createTempBackup(backupName, SettingActivity.this));
         } catch (IOException e) {
-            Log.e("ERROR","don't create temp file",e);
+            Log.e("ERROR", "don't create temp file", e);
             e.printStackTrace();
         }
         setShareActionIntent(file);
@@ -153,6 +152,34 @@ public class SettingActivity extends AppCompatActivity {
     public void onSaveBackup(View view) {
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
     }
+    // Function to check and request permission.
+    public void checkPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(SettingActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+            // Requesting the permission
+            ActivityCompat.requestPermissions(SettingActivity.this, new String[]{permission}, requestCode);
+        } else {
+            saveBackup();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode,
+                permissions,
+                grantResults);
+
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                saveBackup();
+                //Toast.makeText(SettingActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(SettingActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private static final int FILE_SELECT_CODE = 1;
 
@@ -203,41 +230,39 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    new Thread(new Runnable() {
-                        public void run() {
-                            if(SettingsManager.getSettings().getUserName()!=null){
-                                SettingsManager.getSettings().setAuthToken(null);
-                                SettingsManager.getSettings().setUserName(null);
-                                SettingsManager.save();
+                new Thread(new Runnable() {
+                    public void run() {
+                        if (SettingsManager.getSettings().getUserName() != null) {
+                            SettingsManager.getSettings().setAuthToken(null);
+                            SettingsManager.getSettings().setUserName(null);
+                            SettingsManager.save();
 
-                                authInfo.post(new Runnable() {
-                                    public void run() {
-                                        authInfo.setText(getString(R.string.anonimous));
-                                    }
-                                });
-                                logoutButton.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        logoutButton.setText(getString(R.string.sign_in_button_text));
-                                    }
-                                });
-                            }else {
-                                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-
-
+                            authInfo.post(new Runnable() {
+                                public void run() {
+                                    authInfo.setText(getString(R.string.anonimous));
+                                }
+                            });
+                            logoutButton.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    logoutButton.setText(getString(R.string.sign_in_button_text));
+                                }
+                            });
+                        } else {
+                            Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
-                    }).start();
-                }
+
+
+                    }
+                }).start();
+            }
         });
 
 
-
-
         String host = SettingsManager.getSettings().getHostName();
-        if (host == null||host.equals("")) {
+        if (host == null || host.equals("")) {
             editText.setHint(Constants.DEFAULT_HOST_URL);
         } else editText.setText(SettingsManager.getSettings().getHostName());
         TextView nameBotView = (TextView) findViewById(R.id.nameBot);
@@ -293,7 +318,7 @@ public class SettingActivity extends AppCompatActivity {
         }
         String content = null;
         try {
-            RequestToServer request = new RequestToServer(serverUrl,Constants.ENDPOINT_BOT_NAME);
+            RequestToServer request = new RequestToServer(serverUrl, Constants.ENDPOINT_BOT_NAME);
             request.addLangParam();
             content = request.send().getData();
         } catch (Exception ex) {
@@ -302,65 +327,33 @@ public class SettingActivity extends AppCompatActivity {
         return content;
     }
 
-    private void viewInfoAboutAccount(){
+    private void viewInfoAboutAccount() {
 
-            if(SettingsManager.getSettings().getAuthToken()!=null){
-                authInfo.setText(getString(R.string.authInfo) + SettingsManager.getSettings().getUserName());
+        if (SettingsManager.getSettings().getAuthToken() != null) {
+            authInfo.setText(getString(R.string.authInfo) + SettingsManager.getSettings().getUserName());
 
-            }else {
-                authInfo.setText(getString(R.string.anonimous));
-                logoutButton.setText(getString(R.string.sign_in_button_text));
-            }
+        } else {
+            authInfo.setText(getString(R.string.anonimous));
+            logoutButton.setText(getString(R.string.sign_in_button_text));
+        }
     }
 
-    private void viewNameBackup(){
+    private void viewNameBackup() {
         backupName = SettingsManager.getSettings().getBackupName();
-        if(backupName==null||backupName==""){
+        if (backupName == null || backupName == "") {
             backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
         }
         backupFileNameEditText.setText(backupName);
     }
 
-    // Function to check and request permission.
-    public void checkPermission(String permission, int requestCode)
-    {
-        if (ContextCompat.checkSelfPermission(SettingActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
 
-            // Requesting the permission
-            ActivityCompat.requestPermissions(SettingActivity.this, new String[] { permission }, requestCode);
-        }
-        else {
-            saveBackup();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode,
-                permissions,
-                grantResults);
-
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                saveBackup();
-                //Toast.makeText(SettingActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(SettingActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void saveBackup(){
+    private void saveBackup() {
         // write on SD card file data in the text box
         String nameFile = backupFileNameEditText.getText().toString();
-        Log.d("DEBUG","fileName = "+nameFile);
+        Log.d("DEBUG", "fileName = " + nameFile);
         try {
 
-            backupPath = BackupHelper.createBackup(nameFile);
+            backupPath = BackupHelper.createBackup(nameFile, this);
             Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
