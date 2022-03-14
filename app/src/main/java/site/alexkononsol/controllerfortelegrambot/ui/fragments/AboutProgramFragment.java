@@ -25,6 +25,7 @@ import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.utils.ApkInstaller;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
@@ -136,9 +137,13 @@ public class AboutProgramFragment extends Fragment {
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,fileName);
         downloadmanager.enqueue(request);
+        String path = Environment.getExternalStorageDirectory().getPath() +"/Download/" + fileName;
+        Log.d("AboutProgramFragment download()","download file path is " + path);
+        ApkInstaller.installApplication(getContext(),path);
         contentView.post(new Runnable() {
             @Override
             public void run() {
+
                 contentView.setText(getString(R.string.about_fragment_download_view));
             }
         });
