@@ -54,8 +54,6 @@ public class SettingActivity extends AppCompatActivity {
     private EditText backupFileNameEditText;
     private String backupPath;
 
-    private static final int STORAGE_PERMISSION_CODE = 101;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,34 +148,18 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void onSaveBackup(View view) {
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-    }
-    // Function to check and request permission.
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(SettingActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
-            // Requesting the permission
-            ActivityCompat.requestPermissions(SettingActivity.this, new String[]{permission}, requestCode);
-        } else {
-            saveBackup();
-        }
-    }
+        // write on SD card file data in the text box
+        String nameFile = backupFileNameEditText.getText().toString();
+        Log.d("DEBUG", "fileName = " + nameFile);
+        try {
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode,
-                permissions,
-                grantResults);
-
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                saveBackup();
-                //Toast.makeText(SettingActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(SettingActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-            }
+            backupPath = BackupHelper.createBackup(nameFile, this);
+            Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -211,7 +193,6 @@ public class SettingActivity extends AppCompatActivity {
                 }
                 break;
         }
-
     }
 
     @Override
@@ -253,8 +234,6 @@ public class SettingActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-
-
                     }
                 }).start();
             }
@@ -285,7 +264,6 @@ public class SettingActivity extends AppCompatActivity {
                         }
                     }).start();
                 }
-
             }
         });
 
@@ -328,10 +306,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void viewInfoAboutAccount() {
-
         if (SettingsManager.getSettings().getAuthToken() != null) {
             authInfo.setText(getString(R.string.authInfo) + SettingsManager.getSettings().getUserName());
-
         } else {
             authInfo.setText(getString(R.string.anonimous));
             logoutButton.setText(getString(R.string.sign_in_button_text));
@@ -344,22 +320,5 @@ public class SettingActivity extends AppCompatActivity {
             backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
         }
         backupFileNameEditText.setText(backupName);
-    }
-
-
-    private void saveBackup() {
-        // write on SD card file data in the text box
-        String nameFile = backupFileNameEditText.getText().toString();
-        Log.d("DEBUG", "fileName = " + nameFile);
-        try {
-
-            backupPath = BackupHelper.createBackup(nameFile, this);
-            Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
-                    Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getBaseContext(), e.getMessage(),
-                    Toast.LENGTH_SHORT).show();
-        }
     }
 }
