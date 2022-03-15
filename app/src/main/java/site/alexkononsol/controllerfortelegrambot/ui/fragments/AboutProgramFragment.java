@@ -12,11 +12,11 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +25,17 @@ import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
+import site.alexkononsol.controllerfortelegrambot.utils.ApkInstaller;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class AboutProgramFragment extends Fragment {
-    private View view;
     private boolean isUpdate;
     private Button updateButton;
     TextView contentView;
     String newVersion;
+    private Switch autoInstall;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,10 +47,11 @@ public class AboutProgramFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        view = getView();
         viewInfoAboutVersionApp();
-        updateButton = (Button) view.findViewById(R.id.about_fragment_button);
-        contentView = view.findViewById(R.id.about_fragment_update_textView);
+
+        autoInstall = getView().findViewById(R.id.about_fragment_switch);
+        updateButton = (Button) getView().findViewById(R.id.about_fragment_button);
+        contentView = getView().findViewById(R.id.about_fragment_update_textView);
         contentView.setText(getString(R.string.about_fragment_update_textView));
         if (isUpdate) {
             updateButton.setText(getString(R.string.about_fragment_button_download));
@@ -69,7 +72,7 @@ public class AboutProgramFragment extends Fragment {
                             contentView.post(new Runnable() {
                                 public void run() {
                                     contentView.setText(getString(R.string.error) + ex.getMessage() + ex.getLocalizedMessage());
-                                    Log.d("error",ex.getMessage(),ex);
+                                    LogHelper.logError(AboutProgramFragment.this,"error",ex);
                                     Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -89,8 +92,7 @@ public class AboutProgramFragment extends Fragment {
             versionView.setText(format(getString(R.string.version_app), version));
 
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e("ERROR", "don't viewed version app", e);
-            e.printStackTrace();
+            LogHelper.logError(this,"don't viewed version app",e);
         }
     }
 
@@ -105,6 +107,12 @@ public class AboutProgramFragment extends Fragment {
         if (response.getCode()==200){
             isUpdate = true;
             newVersion = response.getData();
+            autoInstall.post(new Runnable() {
+                @Override
+                public void run() {
+                    autoInstall.setVisibility(View.VISIBLE);
+                }
+            });
             updateButton.post(new Runnable() {
                 @Override
                 public void run() {
@@ -139,8 +147,12 @@ public class AboutProgramFragment extends Fragment {
         contentView.post(new Runnable() {
             @Override
             public void run() {
+
                 contentView.setText(getString(R.string.about_fragment_download_view));
             }
         });
+        String path = Environment.getExternalStorageDirectory().getPath() +"/Download/" + fileName;
+        LogHelper.logDebug(this,"download file path is " + path);
+        if (autoInstall.isChecked()) ApkInstaller.installApplication(getContext(),path);
     }
 }

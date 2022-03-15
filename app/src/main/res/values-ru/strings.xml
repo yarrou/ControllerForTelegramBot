@@ -109,6 +109,7 @@
     <string name="about_fragment_button_download">скачать</string>
     <string name="about_fragment_download_description">Скачивание %s</string>
     <string name="about_fragment_download_view">файл будет сохранен в Загрузках</string>
+    <string name="about_fragment_switch_auto_install">автоустановка</string>
 
     <string name="logging_fragment_title">Логирование</string>
     <string name="logging_checkbox_title">сохранять логи</string>
