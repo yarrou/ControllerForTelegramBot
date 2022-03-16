@@ -3,7 +3,6 @@ package site.alexkononsol.controllerfortelegrambot.utils;
 import static site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper.getLogDirPath;
 import static site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper.getLogFilePath;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
