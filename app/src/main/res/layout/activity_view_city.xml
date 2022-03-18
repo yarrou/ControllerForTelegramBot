@@ -9,24 +9,13 @@
     <include
         layout="@layout/toolbar_main"
         android:id="@+id/toolbar" />
-
-    <TextView
-        android:id="@+id/infoCityName"
-        android:layout_width="107dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="32dp"
-
+    <FrameLayout
+        android:id="@+id/view_city_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/infoCityDescription"
-        android:layout_width="375dp"
-        android:layout_height="557dp"
-        android:layout_marginTop="52dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoCityName" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:paddingTop="?attr/actionBarSize"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
