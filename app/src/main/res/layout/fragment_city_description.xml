@@ -9,8 +9,7 @@
     tools:context=".ui.fragments.CityDescriptionFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/description_fragment_city_name"
@@ -38,7 +37,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_fragment_city_created" />
+            app:layout_constraintTop_toBottomOf="@+id/description_fragment_city_created"
+            android:paddingBottom="@dimen/paddingSmall"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:layout_width="match_parent"
