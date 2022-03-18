@@ -33,6 +33,10 @@ public class CityDescriptionFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    public static CityDescriptionFragment newInstance(City city){
+        Gson gson = new Gson();
+        return newInstance(gson.toJson(city));
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
