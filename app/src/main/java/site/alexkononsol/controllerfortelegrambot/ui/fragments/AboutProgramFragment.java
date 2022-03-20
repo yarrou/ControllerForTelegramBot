@@ -3,7 +3,10 @@ package site.alexkononsol.controllerfortelegrambot.ui.fragments;
 import static java.lang.String.format;
 
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -36,6 +39,7 @@ public class AboutProgramFragment extends Fragment {
     TextView contentView;
     String newVersion;
     private Switch autoInstall;
+    private String path;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +52,6 @@ public class AboutProgramFragment extends Fragment {
     public void onStart() {
         super.onStart();
         viewInfoAboutVersionApp();
-
         autoInstall = getView().findViewById(R.id.about_fragment_switch);
         updateButton = (Button) getView().findViewById(R.id.about_fragment_button);
         contentView = getView().findViewById(R.id.about_fragment_update_textView);
@@ -151,8 +154,20 @@ public class AboutProgramFragment extends Fragment {
                 contentView.setText(getString(R.string.about_fragment_download_view));
             }
         });
-        String path = Environment.getExternalStorageDirectory().getPath() +"/Download/" + fileName;
+        path = Environment.getExternalStorageDirectory().getPath() +"/Download/" + fileName;
         LogHelper.logDebug(this,"download file path is " + path);
-        if (autoInstall.isChecked()) ApkInstaller.installApplication(getContext(),path);
+    }
+    BroadcastReceiver broadcast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (autoInstall.isChecked()) ApkInstaller.installApplication(getContext(),path);
+        }
+    };
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(
+                DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        getActivity().registerReceiver(broadcast, intentFilter);
     }
 }
