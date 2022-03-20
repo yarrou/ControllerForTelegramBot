@@ -1,7 +1,6 @@
 package site.alexkononsol.controllerfortelegrambot.entity;
 
 import com.google.gson.Gson;
-
 import java.io.Serializable;
 
 public class UserForm implements Serializable {

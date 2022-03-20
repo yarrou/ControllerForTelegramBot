@@ -117,4 +117,8 @@
 
     <string name="request_permission_text">Для нормального функционирования приложения ему необходимы права на чтение и запись информации. Это необходимо для таких функций как создание бекапа настроек и восстановления из него, создание файла с логами, а так же для возможности скачивания и установки обновления приложения. Без предоставления этого разрешения дальнейшая работа программы невозможна.</string>
     <string name="request_permission_button">Предоставить разрешения</string>
+
+    <string name="description_fragment_city_created_text">дата создания %s</string>
+    <string name="description_fragment_city_modify_text">дата модификации %s</string>
+    <string name="is_unknown">неизвестно</string>
 </resources>
