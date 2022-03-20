@@ -2,11 +2,11 @@ package site.alexkononsol.controllerfortelegrambot.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
 import site.alexkononsol.controllerfortelegrambot.entity.Settings;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 
 public class SharedPreferenceAssistant {
 
@@ -14,7 +14,6 @@ public class SharedPreferenceAssistant {
     private static SharedPreferences.Editor mEditor;
 
     public static void initSharedPreferences(Context context){
-
         mSharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
     }
@@ -24,14 +23,11 @@ public class SharedPreferenceAssistant {
         String result = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_SETTINGS, null);
         Gson gson = new Gson();
         Settings settings = gson.fromJson(result, Settings.class);
-
         return settings;
     }
     public static void save(String result){
-
         Gson gson = new Gson();
         Settings settings = gson.fromJson(result, Settings.class);
-
         save(settings);
     }
 
@@ -47,18 +43,17 @@ public class SharedPreferenceAssistant {
         }
         catch (Exception e){
             e.printStackTrace();
+            LogHelper.logError(SharedPreferenceAssistant.class,e.getCause() + " - " + e.getMessage(),e);
         }
     }
     public static String getStringSettings(Settings settings){
         String result = null;
         try {
-
             Gson gson = new Gson();
              result = gson.toJson(settings);
-
         }
         catch (Exception e){
-            Log.v("ERROR","the problem of getting the settings",e);
+            LogHelper.logError(SharedPreferenceAssistant.class,"the problem of getting the settings",e);
         }
         finally {
             return result;
