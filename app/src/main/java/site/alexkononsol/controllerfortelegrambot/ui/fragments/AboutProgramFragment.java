@@ -86,6 +86,13 @@ public class AboutProgramFragment extends Fragment {
             }
 
         });
+        autoInstall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsManager.getSettings().setAutoInstall(autoInstall.isChecked());
+            }
+        });
+
     }
 
     private void viewInfoAboutVersionApp() {
@@ -163,5 +170,6 @@ public class AboutProgramFragment extends Fragment {
         IntentFilter intentFilter = new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         getActivity().registerReceiver(broadcast, intentFilter);
+        autoInstall.setChecked(SettingsManager.getSettings().isAutoInstall());
     }
 }
