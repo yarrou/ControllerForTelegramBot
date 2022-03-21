@@ -110,12 +110,6 @@ public class AboutProgramFragment extends Fragment {
         if (response.getCode()==200){
             isUpdate = true;
             newVersion = response.getData();
-            autoInstall.post(new Runnable() {
-                @Override
-                public void run() {
-                    autoInstall.setVisibility(View.VISIBLE);
-                }
-            });
             updateButton.post(new Runnable() {
                 @Override
                 public void run() {
