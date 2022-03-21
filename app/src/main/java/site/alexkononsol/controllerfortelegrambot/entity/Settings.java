@@ -10,6 +10,7 @@ public class Settings {
     String userName;
     String backupName;
     boolean isLogging;
+    boolean isAutoInstall;
 
     public Settings() {
         this.textSize = "normal";
@@ -22,11 +23,19 @@ public class Settings {
         this.hostName = settings.getHostName();
         this.backupName = settings.getBackupName();
         this.isLogging = settings.isLogging();
+        this.isAutoInstall = settings.isAutoInstall;
     }
 
     public String getAuthToken() {
-
         return authToken;
+    }
+
+    public boolean isAutoInstall() {
+        return isAutoInstall;
+    }
+
+    public void setAutoInstall(boolean autoInstall) {
+        isAutoInstall = autoInstall;
     }
 
     public void setAuthToken(String authToken) {
