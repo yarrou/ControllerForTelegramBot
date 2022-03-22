@@ -37,6 +37,7 @@ import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.HelpActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
@@ -85,7 +86,7 @@ public class SettingActivity extends AppCompatActivity {
         try {
             file = new File(BackupHelper.createTempBackup(backupName, SettingActivity.this));
         } catch (IOException e) {
-            Log.e("ERROR", "don't create temp file", e);
+            LogHelper.logError(this,"don't create temp file",e);
             e.printStackTrace();
         }
         setShareActionIntent(file);
@@ -150,13 +151,13 @@ public class SettingActivity extends AppCompatActivity {
     public void onSaveBackup(View view) {
         // write on SD card file data in the text box
         String nameFile = backupFileNameEditText.getText().toString();
-        Log.d("DEBUG", "fileName = " + nameFile);
         try {
-
             backupPath = BackupHelper.createBackup(nameFile, this);
+            LogHelper.logDebug(this,"backup created " + backupPath);
             Toast.makeText(getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
+            LogHelper.logError(this,e.getMessage(),e);
             e.printStackTrace();
             Toast.makeText(getBaseContext(), e.getMessage(),
                     Toast.LENGTH_SHORT).show();
@@ -300,6 +301,7 @@ public class SettingActivity extends AppCompatActivity {
             request.addLangParam();
             content = request.send().getData();
         } catch (Exception ex) {
+            LogHelper.logError(this,"error",ex);
             content = getString(R.string.nameBotNotAnswer);
         }
         return content;
