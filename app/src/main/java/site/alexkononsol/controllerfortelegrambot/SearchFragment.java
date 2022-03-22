@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 
 
@@ -84,6 +85,7 @@ public class SearchFragment extends Fragment {
                             viewListCity(citiesList);
 
                         } catch (Exception ex) {
+                            LogHelper.logError(SearchFragment.this,ex.getMessage(),ex);
                             contentView.post(new Runnable() {
                                 public void run() {
                                     searchInfo.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
@@ -130,6 +132,4 @@ public class SearchFragment extends Fragment {
             }
         });
     }
-
-
 }
