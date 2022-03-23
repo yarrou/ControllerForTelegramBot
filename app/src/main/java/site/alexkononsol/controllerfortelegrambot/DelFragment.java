@@ -16,6 +16,7 @@ import java.io.IOException;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
@@ -59,9 +60,10 @@ public class DelFragment extends Fragment {
                                     }
                                 });
                             } catch (IOException ex) {
+                                LogHelper.logError(DelFragment.this,ex.getMessage(),ex);
                                 contentView.post(new Runnable() {
                                     public void run() {
-                                        contentView.setText("Ошибка: " + ex.getMessage() + ex.getLocalizedMessage());
+                                        contentView.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
                                         Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
                                     }
                                 });
