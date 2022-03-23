@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class RequestToServer {
@@ -110,6 +111,7 @@ public class RequestToServer {
                 }
             }
         }catch (IOException e){
+            LogHelper.logError(this,e.getMessage() + " : " + e.getCause(),e);
             serverResponse.setCode(400);
             serverResponse.setData(e.getLocalizedMessage());
         }
