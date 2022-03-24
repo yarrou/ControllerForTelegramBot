@@ -22,9 +22,10 @@
         android:id="@+id/checkBox_logging"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
         android:minHeight="48dp"
+        android:text="@string/logging_checkbox_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logging_title" />
 
@@ -32,9 +33,19 @@
         android:id="@+id/logging_file_path_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/logging_file_path"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.705"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_logging" />
+
+    <TextView
+        android:id="@+id/size_logs_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/size_logs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logging_file_path_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
