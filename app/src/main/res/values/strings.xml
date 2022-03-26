@@ -120,6 +120,7 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="logging_checkbox_title">save logs</string>
     <string name="logging_file_path">in %s file</string>
     <string name="size_logs">logs size %s</string>
+    <string name="clear_logs">clear logs</string>
 
     <string name="request_permission_text">For the normal functioning of the application, it needs the rights to read and write information. This is necessary for functions such as creating a backup of settings and restoring from it, creating a file with logs, as well as for the ability to download and install an application update. Without granting this permission, further operation of the program is impossible.</string>
     <string name="request_permission_button">Grant permission</string>
@@ -127,6 +128,4 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="description_fragment_city_created_text">date of creation : %s</string>
     <string name="description_fragment_city_modify_text">date of modification : %s</string>
     <string name="is_unknown">is unknown</string>
-
-
 </resources>

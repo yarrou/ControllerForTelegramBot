@@ -115,6 +115,7 @@
     <string name="logging_checkbox_title">сохранять логи</string>
     <string name="logging_file_path">в файле %s</string>
     <string name="size_logs">размер логов %s</string>
+    <string name="clear_logs">очистить логи</string>
 
     <string name="request_permission_text">Для нормального функционирования приложения ему необходимы права на чтение и запись информации. Это необходимо для таких функций как создание бекапа настроек и восстановления из него, создание файла с логами, а так же для возможности скачивания и установки обновления приложения. Без предоставления этого разрешения дальнейшая работа программы невозможна.</string>
     <string name="request_permission_button">Предоставить разрешения</string>
