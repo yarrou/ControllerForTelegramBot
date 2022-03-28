@@ -7,10 +7,10 @@ android {
 
     defaultConfig {
         applicationId "site.alexkononsol.controllerfortelegrambot"
-        minSdk 23
+        minSdk 27
         targetSdk 31
         versionCode 1
-        versionName "1.5.11"
+        versionName "1.6.0"
         setProperty("archivesBaseName", "ControllerForTelegramBot" + " v-" + versionName )
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
