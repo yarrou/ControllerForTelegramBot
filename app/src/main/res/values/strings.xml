@@ -15,7 +15,7 @@
     <string name="buttonSearch">Search</string>
     <string name="searchName">Search</string>
     <string name="searchHint">starts with</string>
-    <string name="searchInfoLoadingText">Loading...</string>
+    <string name="searchInfoLoadingText">Loading</string>
     <string name="notFoundResult">no matches found</string>
 
     <string name="buttonDel">Delete</string>
@@ -69,7 +69,7 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="error">Error</string>
     <string name="toastSelectFile">Select a File to Upload</string>
     <string name="toastNeedInstallFileManager">Please install a File Manager</string>
-    <string name="toastLoading">Loading...</string>
+    <string name="toastLoading">Loading</string>
 
     <string name="action_share">Share</string>
     <string name="greeting">Hi, I am using the DB management app </string>
@@ -83,8 +83,8 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
 
     <string name="yes">yes</string>
     <string name="no">no</string>
-    <string name="confirm">confirm</string>
-    <string name="cancel">cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 
     <string name="successfullyRestoreSettings">settings have been successfully applied</string>
 
@@ -119,6 +119,8 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="logging_fragment_title">Logging</string>
     <string name="logging_checkbox_title">save logs</string>
     <string name="logging_file_path">in %s file</string>
+    <string name="size_logs">logs size %s</string>
+    <string name="clear_logs">clear logs</string>
 
     <string name="request_permission_text">For the normal functioning of the application, it needs the rights to read and write information. This is necessary for functions such as creating a backup of settings and restoring from it, creating a file with logs, as well as for the ability to download and install an application update. Without granting this permission, further operation of the program is impossible.</string>
     <string name="request_permission_button">Grant permission</string>
@@ -126,5 +128,4 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="description_fragment_city_created_text">date of creation : %s</string>
     <string name="description_fragment_city_modify_text">date of modification : %s</string>
     <string name="is_unknown">is unknown</string>
-
 </resources>

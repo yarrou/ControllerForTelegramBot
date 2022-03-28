@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import site.alexkononsol.controllerfortelegrambot.entity.Settings;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -91,6 +92,7 @@ public class BackupActivity extends AppCompatActivity {
             }else showHelp.setText(getString(R.string.no));
 
         } catch (Exception e) {
+            LogHelper.logError(this,e.getMessage(),e);
             Toast.makeText(getBaseContext(),getString(R.string.error) +  e.getMessage(),
                     Toast.LENGTH_SHORT).show();
 

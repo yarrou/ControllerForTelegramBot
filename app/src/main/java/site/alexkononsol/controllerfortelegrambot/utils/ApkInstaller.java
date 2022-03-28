@@ -24,9 +24,7 @@ public class ApkInstaller {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            LogHelper.logError(LogHelper.TAG, "Error in opening file!", e);
-            Log.e("TAG", "Error in opening the file!");
+            LogHelper.logError(ApkInstaller.class, "Error in opening file!", e);
         }
     }
 

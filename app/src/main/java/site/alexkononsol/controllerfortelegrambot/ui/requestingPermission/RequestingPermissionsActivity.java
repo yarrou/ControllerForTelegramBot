@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import site.alexkononsol.controllerfortelegrambot.R;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.PermissionButtonFragment;
 
 public class RequestingPermissionsActivity extends AppCompatActivity implements PermissionButtonFragment.Listener {
@@ -42,9 +43,11 @@ public class RequestingPermissionsActivity extends AppCompatActivity implements 
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                LogHelper.logDebug(this,"Storage Permission Allow");
                 finish();
                 //Toast.makeText(SettingActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
+                LogHelper.logDebug(this,"Storage Permission Denied");
                 Toast.makeText(this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }

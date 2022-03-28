@@ -14,6 +14,7 @@ import android.widget.Toast;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
@@ -59,6 +60,7 @@ public class PutFragment extends Fragment {
                                 });
                             }
                             catch (Exception ex){
+                                LogHelper.logError(PutFragment.this,ex.getMessage(),ex);
                                 contentView.post(new Runnable() {
                                     public void run() {
                                         contentView.setText(getString(R.string.error) + ": " + ex.getMessage());

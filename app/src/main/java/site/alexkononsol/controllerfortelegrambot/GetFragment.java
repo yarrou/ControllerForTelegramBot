@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.IOException;
+
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
@@ -50,11 +52,12 @@ public class GetFragment extends Fragment {
                             get.addParam("city", query);
                             get.addLangParam();
                             ServerResponse response = get.send();
-                            if (response.getCode()==200){
+                            if (response.getCode() == 200) {
                                 transactionFragment(CityDescriptionFragment.newInstance(response.getData()));
-                            }else transactionFragment(ErrorFragment.newInstance(response.getData()));
+                            } else
+                                transactionFragment(ErrorFragment.newInstance(response.getData()));
                         } catch (IOException ex) {
-                            LogHelper.logError(GetFragment.this,"error" + ex.getMessage(),ex);
+                            LogHelper.logError(GetFragment.this, ex.getMessage(), ex);
                             transactionFragment(ErrorFragment.newInstance(getString(R.string.error) + " : " + ex.getMessage() + ex.toString()));
                             Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                         }
@@ -63,7 +66,8 @@ public class GetFragment extends Fragment {
             }
         });
     }
-    private void transactionFragment(Fragment fragment){
+
+    private void transactionFragment(Fragment fragment) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.get_result_container, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

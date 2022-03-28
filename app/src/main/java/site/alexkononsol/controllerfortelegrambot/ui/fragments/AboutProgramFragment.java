@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
@@ -19,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +38,7 @@ public class AboutProgramFragment extends Fragment {
     private Button updateButton;
     TextView contentView;
     String newVersion;
-    private Switch autoInstall;
+    private SwitchCompat autoInstall;
     private String path;
 
     @Override
@@ -86,6 +86,13 @@ public class AboutProgramFragment extends Fragment {
             }
 
         });
+        autoInstall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsManager.getSettings().setAutoInstall(autoInstall.isChecked());
+            }
+        });
+
     }
 
     private void viewInfoAboutVersionApp() {
@@ -110,12 +117,6 @@ public class AboutProgramFragment extends Fragment {
         if (response.getCode()==200){
             isUpdate = true;
             newVersion = response.getData();
-            autoInstall.post(new Runnable() {
-                @Override
-                public void run() {
-                    autoInstall.setVisibility(View.VISIBLE);
-                }
-            });
             updateButton.post(new Runnable() {
                 @Override
                 public void run() {
@@ -169,5 +170,6 @@ public class AboutProgramFragment extends Fragment {
         IntentFilter intentFilter = new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         getActivity().registerReceiver(broadcast, intentFilter);
+        autoInstall.setChecked(SettingsManager.getSettings().isAutoInstall());
     }
 }
