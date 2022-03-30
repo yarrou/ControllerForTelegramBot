@@ -50,7 +50,6 @@ public class SettingActivity extends AppCompatActivity {
     private ShareActionProvider shareActionProvider;
     private Button logoutButton;
     private TextView authInfo;
-    private EditText editText;
     private String backupName;
     private EditText backupFileNameEditText;
     private String backupPath;
@@ -65,7 +64,6 @@ public class SettingActivity extends AppCompatActivity {
 
         authInfo = (TextView) findViewById(R.id.authSettingsStatus);
         logoutButton = (Button) findViewById(R.id.logoutButton);
-        editText = (EditText) findViewById(R.id.hostName);
         backupFileNameEditText = (EditText) findViewById(R.id.backup_file_name_value);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -114,7 +112,7 @@ public class SettingActivity extends AppCompatActivity {
 
     //saving settings
     public void onSaveSetting(View view) {
-        String host = editText.getText().toString();
+        String host = ((EditText)findViewById(R.id.hostName)).getText().toString();//input field is in HostSettingsFragment
         SettingsManager.getSettings().setHostName(host);
         SettingsManager.getSettings().setBackupName(backupFileNameEditText.getText().toString());
         SettingsManager.save();
@@ -158,7 +156,6 @@ public class SettingActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             LogHelper.logError(this,e.getMessage(),e);
-            e.printStackTrace();
             Toast.makeText(getBaseContext(), e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
@@ -240,34 +237,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-
-        String host = SettingsManager.getSettings().getHostName();
-        if (host == null || host.equals("")) {
-            editText.setHint(Constants.DEFAULT_HOST_URL);
-        } else editText.setText(SettingsManager.getSettings().getHostName());
-        TextView nameBotView = (TextView) findViewById(R.id.nameBot);
-        Button testButton = (Button) findViewById(R.id.buttonSettingsGetNameBot);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView hostNameView = (TextView) findViewById(R.id.hostName);
-                if (TextValidator.noEmptyValidation(hostNameView)) {  //checking for non-emptiness
-                    new Thread(new Runnable() {
-                        public void run() {
-
-                            String content = getNameBot();
-                            nameBotView.post(new Runnable() {
-                                public void run() {
-                                    nameBotView.setText(content);
-                                }
-                            });
-
-                        }
-                    }).start();
-                }
-            }
-        });
-
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
         int id = radioGroup.getCheckedRadioButtonId();
 
@@ -290,22 +259,6 @@ public class SettingActivity extends AppCompatActivity {
         helpOnStart.setChecked(viewHelpOnStart);
     }
 
-    private String getNameBot() {
-        String serverUrl = ((TextView) findViewById(R.id.hostName)).getText().toString();
-        if (serverUrl.equals("")) {
-            serverUrl = ((TextView) findViewById(R.id.hostName)).getHint().toString();
-        }
-        String content = null;
-        try {
-            RequestToServer request = new RequestToServer(serverUrl, Constants.ENDPOINT_BOT_NAME);
-            request.addLangParam();
-            content = request.send().getData();
-        } catch (Exception ex) {
-            LogHelper.logError(this,"error",ex);
-            content = getString(R.string.nameBotNotAnswer);
-        }
-        return content;
-    }
 
     private void viewInfoAboutAccount() {
         if (SettingsManager.getSettings().getAuthToken() != null) {

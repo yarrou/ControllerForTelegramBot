@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,8 +7,8 @@
     tools:context=".ui.settings.SettingActivity">
 
     <include
-        layout="@layout/toolbar_settings"
-        android:id="@+id/toolbar" />
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_settings" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,47 +24,11 @@
             android:orientation="vertical"
             android:padding="@dimen/paddingSmall">
 
-
-            <LinearLayout
+            <fragment
+                android:id="@+id/host_settings_fragment"
+                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.HostSettingsFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hostNameTitle" />
-
-                <EditText
-
-                    android:id="@+id/hostName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="25"
-                    android:inputType="textAutoComplete"
-                    android:paddingHorizontal="12dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/buttonSettingsGetNameBot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/buttonSettingsGetNameBot" />
-
-                <TextView
-                    android:id="@+id/nameBot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/paddingNormal" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -241,16 +204,18 @@
                     android:paddingStart="@dimen/paddingNormal"
                     android:text="@string/backupLoadText" />
             </LinearLayout>
+
             <fragment
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/fragment_logging"
-                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.LoggingSettingsFragment"/>
-            <fragment
+                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.LoggingSettingsFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <fragment
                 android:id="@+id/fragment_about"
-                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.AboutProgramFragment"/>
+                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.AboutProgramFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>
