@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             postButton.setEnabled(false);
             delButton.setEnabled(false);
         }
-
     }
-
 
     //Menu of Toolbar
     @Override
