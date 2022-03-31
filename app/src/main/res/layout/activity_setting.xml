@@ -50,89 +50,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/logoutButtonText" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/paddingNormal"
-                android:paddingBottom="@dimen/paddingSmall"
-                android:text="@string/settingsHelpName"
-                android:textSize="@dimen/subMenuTextSize" />
-
-            <CheckBox
-                android:id="@+id/viewHelpOnStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onViewHelpOnStart"
-                android:paddingBottom="@dimen/paddingNormal"
-                android:text="@string/viewHelpOnStart" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/paddingSmall"
-                android:text="@string/nameTextSizeSettings"
-                android:textSize="@dimen/smallTextSize" />
-
-            <RadioGroup
-                android:id="@+id/radioTextSize"
+            <fragment
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/paddingSmall">
-
-                <RadioButton
-                    android:id="@+id/textSizeSmallRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:onClick="onTextSizeButton"
-                    android:text="@string/textSizeSmall"
-                    android:textSize="@dimen/smallTextSize" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:onClick="onTextSizeButton"
-                    android:text="@string/textSizeNormal"
-                    android:textSize="@dimen/normalTextSize" />
-
-                <RadioButton
-                    android:id="@+id/textSizeLargeRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:onClick="onTextSizeButton"
-                    android:text="@string/textSizeLarge"
-                    android:textSize="@dimen/bigTextSize" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/paddingNormal">
-
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/info"
-                    android:contentDescription="@string/settingsHelpButton"
-                    android:onClick="onSettingsHelpInfo"
-                    android:paddingBottom="@dimen/paddingNormal"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/paddingSmall"
-                    android:text="@string/settingsHelpButton"
-                    tools:ignore="RtlSymmetry" />
-            </LinearLayout>
-
+                android:id="@+id/help_settings_fragment"
+                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.HelpSettingsFragment"/>
 
             <TextView
                 android:layout_width="wrap_content"
