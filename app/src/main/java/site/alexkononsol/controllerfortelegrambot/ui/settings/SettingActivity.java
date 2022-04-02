@@ -120,32 +120,6 @@ public class SettingActivity extends AppCompatActivity {
         Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
     }
 
-    public void onSettingsHelpInfo(View view) {
-        Intent intent = new Intent(this, HelpActivity.class);
-        startActivity(intent);
-    }
-
-    public void onTextSizeButton(View view) {
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
-        int id = radioGroup.getCheckedRadioButtonId();
-        String textSize = "normal";
-        switch (id) {
-            case textSizeLargeRadio:
-                textSize = "large";
-                break;
-            case textSizeSmallRadio:
-                textSize = "small";
-        }
-        SettingsManager.getSettings().setTextSize(textSize);
-        SettingsManager.save();
-    }
-
-    public void onViewHelpOnStart(View view) {
-        boolean checked = ((CheckBox) view).isChecked();
-        SettingsManager.getSettings().setViewHelpOnStart(checked);
-        SettingsManager.save();
-    }
-
     public void onSaveBackup(View view) {
         // write on SD card file data in the text box
         String nameFile = backupFileNameEditText.getText().toString();
@@ -236,27 +210,6 @@ public class SettingActivity extends AppCompatActivity {
                 }).start();
             }
         });
-
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioTextSize);
-        int id = radioGroup.getCheckedRadioButtonId();
-
-        String textSize = SettingsManager.getSettings().getTextSize();
-        int idRadioTextSize = 1;
-        switch (textSize) {
-            case "small":
-                idRadioTextSize = 0;
-                break;
-            case "large":
-                idRadioTextSize = 2;
-                break;
-        }
-
-        RadioButton savedCheckedRadioButton = (RadioButton) radioGroup.getChildAt(idRadioTextSize);
-        savedCheckedRadioButton.setChecked(true);
-
-        boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
-        CheckBox helpOnStart = (CheckBox) findViewById(R.id.viewHelpOnStart);
-        helpOnStart.setChecked(viewHelpOnStart);
     }
 
 
