@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.BackupSettingsFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="@dimen/paddingSmall"
+        android:text="@string/backupText"
+        android:textSize="@dimen/subMenuTextSize" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/paddingSmall">
+
+        <TextView
+            android:id="@+id/backup_file_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nameBackupTitle" />
+
+        <EditText
+            android:id="@+id/backup_file_name_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="25"
+            android:inputType="textAutoComplete"
+            android:paddingHorizontal="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/paddingSmall">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/export"
+            android:contentDescription="@string/backupSaveText"
+            android:onClick="onSaveBackup" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/paddingNormal"
+            android:text="@string/backupSaveText"
+            tools:ignore="RtlSymmetry" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/paddingNormal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/load_backup"
+            android:contentDescription="@string/backupLoadText"
+            android:onClick="onShowFileChooser" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/paddingNormal"
+            android:text="@string/backupLoadText" />
+    </LinearLayout>
+
+</LinearLayout>
