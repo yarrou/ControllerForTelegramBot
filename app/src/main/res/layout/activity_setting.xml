@@ -55,8 +55,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/help_settings_fragment"
                 android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.HelpSettingsFragment"/>
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/backup_settings_fragment"
+                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.BackupSettingsFragment"/>
 
-            <TextView
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -125,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/paddingNormal"
                     android:text="@string/backupLoadText" />
-            </LinearLayout>
+            </LinearLayout-->
 
             <fragment
                 android:id="@+id/fragment_logging"
