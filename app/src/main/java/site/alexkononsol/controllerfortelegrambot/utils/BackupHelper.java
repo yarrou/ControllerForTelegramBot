@@ -2,14 +2,12 @@ package site.alexkononsol.controllerfortelegrambot.utils;
 
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-
 
 public class BackupHelper {
     public static String createBackup(String name, Context context) throws IOException {
@@ -34,13 +32,11 @@ public class BackupHelper {
         return myFile.getPath();
     }
 
-    public static String createTempBackup(String name, Context context) throws IOException {
+    public static String createTempBackup( Context context) throws IOException {
         File cacheDir = context.getCacheDir();
         Log.d("DEBUG", "backup dir path = " + cacheDir.getPath());
-        File tempBackupFile = File.createTempFile(name, ".bp", cacheDir);
+        File tempBackupFile = File.createTempFile(getBackupName(), ".bp", cacheDir);
         Log.d("DEBUG", "path backup file is " + tempBackupFile.getPath());
-        //tempBackupFile.createNewFile();
-        //Log.d("DEBUG","backup file created");
         FileOutputStream fOut = new FileOutputStream(tempBackupFile);
         OutputStreamWriter myOutWriter =
                 new OutputStreamWriter(fOut);
@@ -52,5 +48,12 @@ public class BackupHelper {
     }
     public static String getBackupDirPath(Context context) throws IOException {
         return context.getExternalFilesDir(null).getCanonicalPath();
+    }
+    public static String getBackupName(){
+        String backupName = SettingsManager.getSettings().getBackupName();
+        if (backupName == null || backupName == "") {
+            backupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
+        }
+        return backupName;
     }
 }
