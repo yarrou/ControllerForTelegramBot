@@ -31,8 +31,6 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 public class SettingActivity extends AppCompatActivity {
 
     private ShareActionProvider shareActionProvider;
-    private Button logoutButton;
-    private TextView authInfo;
     private EditText backupFileNameEditText;
 
     @Override
@@ -43,8 +41,7 @@ public class SettingActivity extends AppCompatActivity {
         if (!DeviceTypeHelper.isTablet(this))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        authInfo = (TextView) findViewById(R.id.authSettingsStatus);
-        logoutButton = (Button) findViewById(R.id.logoutButton);
+
         backupFileNameEditText = (EditText) findViewById(R.id.backup_file_name_value);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -116,46 +113,8 @@ public class SettingActivity extends AppCompatActivity {
         //viewNameBackup();
         //backupName = backupFileNameEditText.getText().toString();
         //if the user is logged in , then his login is displayed in the settings
-        viewInfoAboutAccount();
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                new Thread(new Runnable() {
-                    public void run() {
-                        if (SettingsManager.getSettings().getUserName() != null) {
-                            SettingsManager.getSettings().setAuthToken(null);
-                            SettingsManager.getSettings().setUserName(null);
-                            SettingsManager.save();
-
-                            authInfo.post(new Runnable() {
-                                public void run() {
-                                    authInfo.setText(getString(R.string.anonimous));
-                                }
-                            });
-                            logoutButton.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    logoutButton.setText(getString(R.string.sign_in_button_text));
-                                }
-                            });
-                        } else {
-                            Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                }).start();
-            }
-        });
     }
 
-    private void viewInfoAboutAccount() {
-        if (SettingsManager.getSettings().getAuthToken() != null) {
-            authInfo.setText(getString(R.string.authInfo) + SettingsManager.getSettings().getUserName());
-        } else {
-            authInfo.setText(getString(R.string.anonimous));
-            logoutButton.setText(getString(R.string.sign_in_button_text));
-        }
-    }
+
 }
