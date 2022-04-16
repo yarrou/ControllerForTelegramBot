@@ -19,6 +19,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
+
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             SectionsPagerAdapter pagerAdapter =
                     new SectionsPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(pagerAdapter);
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(pager);
+
         }
 
 
@@ -161,6 +166,22 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
                     return new PutFragment();
                 case 4:
                     return new DelFragment();
+            }
+            return null;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getResources().getText(R.string.search_tab);
+                case 1:
+                    return getResources().getText(R.string.get_tab);
+                case 2:
+                    return getResources().getText(R.string.post_tab);
+                case 3:
+                    return getResources().getText(R.string.put_tab);
+                case 4:
+                    return getResources().getText(R.string.del_tab);
             }
             return null;
         }
