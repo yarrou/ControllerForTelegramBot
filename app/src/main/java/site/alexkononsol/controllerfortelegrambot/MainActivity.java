@@ -28,9 +28,6 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 public class MainActivity extends AppCompatActivity implements ChoosingActionFragment.Listener {
 
     private ShareActionProvider shareActionProvider;
-    private Button putButton;
-    private Button postButton;
-    private Button delButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +57,8 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             tabLayout.setupWithViewPager(pager);
 
         }
-
-
-        putButton = (Button) findViewById(R.id.buttonPut);
-        postButton = (Button) findViewById(R.id.buttonPost);
-        delButton = (Button) findViewById(R.id.buttonDel);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String userLogin = SettingsManager.getSettings().getUserName();
-        //if the user is not logged in to the account, the buttons for adding, changing and deleting information in the database are not active
-        View view = findViewById(R.id.choosingActions);
-        if(userLogin==null&&view!=null){
-            putButton.setEnabled(false);
-            postButton.setEnabled(false);
-            delButton.setEnabled(false);
-        }
-    }
 
     //Menu of Toolbar
     @Override
