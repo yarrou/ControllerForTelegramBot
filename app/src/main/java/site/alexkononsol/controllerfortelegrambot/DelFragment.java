@@ -23,6 +23,8 @@ import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class DelFragment extends Fragment {
 
+    Button delButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,44 +37,39 @@ public class DelFragment extends Fragment {
         super.onStart();
         View view = getView();
         TextView contentView = (TextView) view.findViewById(R.id.delResponse);
-        Button delButton = (Button) view.findViewById(R.id.buttonDel);
+        delButton = (Button) view.findViewById(R.id.buttonDel);
         String host = SettingsManager.getSettings().getHostName();
-        delButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView getTextView = (TextView) view.findViewById(R.id.delRequest);
-                if (TextValidator.noEmptyValidation(getTextView)) {
-                    contentView.setText(getString(R.string.toastLoading));
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
+        delButton.setOnClickListener(v -> {
+            TextView getTextView = (TextView) view.findViewById(R.id.delRequest);
+            if (TextValidator.noEmptyValidation(getTextView)) {
+                contentView.setText(getString(R.string.toastLoading));
+                new Thread(() -> {
+                    try {
 
-                                String cityName = getTextView.getText().toString();
-                                String query = RequestEncoder.getRequest(cityName);
-                                RequestToServer del = new RequestToServer(Constants.ENDPOINT_DEL_CITY, RequestType.DELETE);
-                                del.addParam("city",query);
-                                del.addLangParam();
-                                del.addAuthHeader();
-                                String content = del.send().getData().toString();
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(content);
-                                    }
-                                });
-                            } catch (IOException ex) {
-                                LogHelper.logError(DelFragment.this,ex.getMessage(),ex);
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
-                                        Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
-                }
+                        String cityName = getTextView.getText().toString();
+                        String query = RequestEncoder.getRequest(cityName);
+                        RequestToServer del = new RequestToServer(Constants.ENDPOINT_DEL_CITY, RequestType.DELETE);
+                        del.addParam("city", query);
+                        del.addLangParam();
+                        del.addAuthHeader();
+                        String content = del.send().getData();
+                        contentView.post(() -> contentView.setText(content));
+                    } catch (IOException ex) {
+                        LogHelper.logError(DelFragment.this, ex.getMessage(), ex);
+                        contentView.post(() -> {
+                            contentView.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
+                            Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }).start();
             }
-
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String userLogin = SettingsManager.getSettings().getUserName();
+        delButton.setEnabled(userLogin != null);
     }
 }
