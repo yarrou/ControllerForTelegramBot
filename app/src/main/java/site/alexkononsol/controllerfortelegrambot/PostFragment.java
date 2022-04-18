@@ -21,6 +21,7 @@ import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class PostFragment extends Fragment {
 
+    Button postButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,46 +35,42 @@ public class PostFragment extends Fragment {
         super.onStart();
         View view = getView();
         TextView contentView = (TextView) view.findViewById(R.id.postResponse);
-        Button getButton = (Button) view.findViewById(R.id.buttonPost);
+        postButton = (Button) view.findViewById(R.id.buttonPost);
         String host = SettingsManager.getSettings().getHostName();
 
-        getButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView cityNameView = (TextView) view.findViewById(R.id.postRequest);
-                TextView cityDescriptionView = (TextView) view.findViewById(R.id.postRequestDescription);
-                //checking for non-emptiness
-                if (TextValidator.noEmptyValidation(cityNameView)&&TextValidator.noEmptyValidation(cityDescriptionView)) {
-                    String cityName = cityNameView.getText().toString();
-                    String cityDescription = cityDescriptionView.getText().toString();
-                    contentView.setText(getString(R.string.toastLoading));
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-                                RequestToServer post = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.POST);
-                                post.addAuthHeader();
-                                post.addLangParam();
-                                post.addJsonHeaders();
-                                post.setBody(new City(cityName,cityDescription));
-                                String content = post.send().getData();
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(content);
-                                    }
-                                });
-                            } catch (Exception ex) {
-                                LogHelper.logError(PostFragment.this,ex.getMessage(),ex);
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
-                                        Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
-                }
+        postButton.setOnClickListener(v -> {
+            TextView cityNameView = (TextView) view.findViewById(R.id.postRequest);
+            TextView cityDescriptionView = (TextView) view.findViewById(R.id.postRequestDescription);
+            //checking for non-emptiness
+            if (TextValidator.noEmptyValidation(cityNameView)&&TextValidator.noEmptyValidation(cityDescriptionView)) {
+                String cityName = cityNameView.getText().toString();
+                String cityDescription = cityDescriptionView.getText().toString();
+                contentView.setText(getString(R.string.toastLoading));
+                new Thread(() -> {
+                    try {
+                        RequestToServer post = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.POST);
+                        post.addAuthHeader();
+                        post.addLangParam();
+                        post.addJsonHeaders();
+                        post.setBody(new City(cityName,cityDescription));
+                        String content = post.send().getData();
+                        contentView.post(() -> contentView.setText(content));
+                    } catch (Exception ex) {
+                        LogHelper.logError(PostFragment.this,ex.getMessage(),ex);
+                        contentView.post(() -> {
+                            contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
+                            Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }).start();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String userLogin = SettingsManager.getSettings().getUserName();
+        postButton.setEnabled(userLogin != null);
     }
 }
