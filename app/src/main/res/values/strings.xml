@@ -128,4 +128,10 @@ City data is stored in the Postgresql database. Adding, editing and deleting dat
     <string name="description_fragment_city_created_text">date of creation : %s</string>
     <string name="description_fragment_city_modify_text">date of modification : %s</string>
     <string name="is_unknown">is unknown</string>
+
+    <string name="search_tab">Search</string>
+    <string name="get_tab">Get</string>
+    <string name="post_tab">Post</string>
+    <string name="put_tab">Put</string>
+    <string name="del_tab">Del</string>
 </resources>

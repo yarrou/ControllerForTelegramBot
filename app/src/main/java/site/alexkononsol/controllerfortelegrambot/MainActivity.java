@@ -14,7 +14,12 @@ import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
@@ -23,9 +28,6 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 public class MainActivity extends AppCompatActivity implements ChoosingActionFragment.Listener {
 
     private ShareActionProvider shareActionProvider;
-    private Button putButton;
-    private Button postButton;
-    private Button delButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +48,17 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
         }
 
-        putButton = (Button) findViewById(R.id.buttonPut);
-        postButton = (Button) findViewById(R.id.buttonPost);
-        delButton = (Button) findViewById(R.id.buttonDel);
-    }
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        if(pager!=null){
+            SectionsPagerAdapter pagerAdapter =
+                    new SectionsPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(pagerAdapter);
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(pager);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String userLogin = SettingsManager.getSettings().getUserName();
-        //if the user is not logged in to the account, the buttons for adding, changing and deleting information in the database are not active
-        if(userLogin==null){
-            putButton.setEnabled(false);
-            postButton.setEnabled(false);
-            delButton.setEnabled(false);
         }
     }
+
 
     //Menu of Toolbar
     @Override
@@ -129,4 +126,46 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
         ft.addToBackStack(null);
         ft.commit();
     }
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+        @Override
+        public int getCount() {
+            return 5;
+        }
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new SearchFragment();
+                case 1:
+                    return new GetFragment();
+                case 2:
+                    return new PostFragment();
+                case 3:
+                    return new PutFragment();
+                case 4:
+                    return new DelFragment();
+            }
+            return null;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getResources().getText(R.string.search_tab);
+                case 1:
+                    return getResources().getText(R.string.get_tab);
+                case 2:
+                    return getResources().getText(R.string.post_tab);
+                case 3:
+                    return getResources().getText(R.string.put_tab);
+                case 4:
+                    return getResources().getText(R.string.del_tab);
+            }
+            return null;
+        }
+    }
 }
+
+

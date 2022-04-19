@@ -21,6 +21,8 @@ import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class PutFragment extends Fragment {
 
+    Button putButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,47 +34,43 @@ public class PutFragment extends Fragment {
         super.onStart();
         View view = getView();
         TextView contentView = (TextView) view.findViewById(R.id.putResponse);
-        Button putButton = (Button)view.findViewById(R.id.buttonPut);
+        putButton = (Button)view.findViewById(R.id.buttonPut);
         String host = SettingsManager.getSettings().getHostName();
-        putButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView cityNameView = (TextView) view.findViewById(R.id.putRequest);
-                TextView cityDescriptionView = (TextView) view.findViewById(R.id.putRequestDescription);
-                //checking for non-emptiness
-                if(TextValidator.noEmptyValidation(cityNameView)&&(TextValidator.noEmptyValidation(cityDescriptionView))){
-                    String cityName = cityNameView.getText().toString();
-                    String cityDescription = cityDescriptionView.getText().toString();
-                    contentView.setText(getString(R.string.toastLoading));
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try{
-                                RequestToServer put = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.PUT);
-                                put.addAuthHeader();
-                                put.addLangParam();
-                                put.addJsonHeaders();
-                                put.setBody(new City(cityName,cityDescription));
-                                String content = put.send().getData();
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(content);
-                                    }
-                                });
-                            }
-                            catch (Exception ex){
-                                LogHelper.logError(PutFragment.this,ex.getMessage(),ex);
-                                contentView.post(new Runnable() {
-                                    public void run() {
-                                        contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
-                                        Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
-                }
-
+        putButton.setOnClickListener(v -> {
+            TextView cityNameView = (TextView) view.findViewById(R.id.putRequest);
+            TextView cityDescriptionView = (TextView) view.findViewById(R.id.putRequestDescription);
+            //checking for non-emptiness
+            if(TextValidator.noEmptyValidation(cityNameView)&&(TextValidator.noEmptyValidation(cityDescriptionView))){
+                String cityName = cityNameView.getText().toString();
+                String cityDescription = cityDescriptionView.getText().toString();
+                contentView.setText(getString(R.string.toastLoading));
+                new Thread(() -> {
+                    try{
+                        RequestToServer put = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.PUT);
+                        put.addAuthHeader();
+                        put.addLangParam();
+                        put.addJsonHeaders();
+                        put.setBody(new City(cityName,cityDescription));
+                        String content = put.send().getData();
+                        contentView.post(() -> contentView.setText(content));
+                    }
+                    catch (Exception ex){
+                        LogHelper.logError(PutFragment.this,ex.getMessage(),ex);
+                        contentView.post(() -> {
+                            contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
+                            Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }).start();
             }
+
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String userLogin = SettingsManager.getSettings().getUserName();
+        putButton.setEnabled(userLogin != null);
     }
 }

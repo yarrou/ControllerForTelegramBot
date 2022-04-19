@@ -123,4 +123,10 @@
     <string name="description_fragment_city_created_text">дата создания %s</string>
     <string name="description_fragment_city_modify_text">дата модификации %s</string>
     <string name="is_unknown">неизвестно</string>
+
+    <string name="search_tab">Поиск</string>
+    <string name="get_tab">Получить</string>
+    <string name="post_tab">Добавить</string>
+    <string name="put_tab">Изменить</string>
+    <string name="del_tab">Удалить</string>
 </resources>
