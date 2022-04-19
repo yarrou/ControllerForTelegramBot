@@ -8,8 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
+
 public class ChoosingActionFragment extends Fragment {
-    private View view;
+    private Button postButton;
+    private Button putButton;
+    private Button delButton;
 
     static interface Listener {
         void actionChoose(String action);
@@ -33,50 +37,35 @@ public class ChoosingActionFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        view = getView();
         //button get
-        Button getButton = view.findViewById(R.id.buttonGet);
-        getButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.actionChoose("get");
-            }
-        });
+        Button getButton = getView().findViewById(R.id.buttonGet);
+        getButton.setOnClickListener(v -> listener.actionChoose("get"));
 
         //button search
-        Button search = view.findViewById(R.id.buttonSearch);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.actionChoose("search");
-            }
-        });
+        Button search = getView().findViewById(R.id.buttonSearch);
+        search.setOnClickListener(v -> listener.actionChoose("search"));
 
         //button post
-        Button post = view.findViewById(R.id.buttonPost);
-        post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.actionChoose("post");
-            }
-        });
+        postButton = getView().findViewById(R.id.buttonPost);
+        postButton.setOnClickListener(v -> listener.actionChoose("post"));
 
         //button put
-        Button put = view.findViewById(R.id.buttonPut);
-        put.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.actionChoose("put");
-            }
-        });
+        putButton = getView().findViewById(R.id.buttonPut);
+        putButton.setOnClickListener(v -> listener.actionChoose("put"));
 
         //button del
-        Button del = view.findViewById(R.id.buttonDel);
-        del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.actionChoose("del");
-            }
-        });
+        delButton = getView().findViewById(R.id.buttonDel);
+        delButton.setOnClickListener(v -> listener.actionChoose("del"));
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        String userLogin = SettingsManager.getSettings().getUserName();
+        //if the user is not logged in to the account, the buttons for adding, changing and deleting information in the database are not active
+        if(userLogin==null){
+            putButton.setEnabled(false);
+            postButton.setEnabled(false);
+            delButton.setEnabled(false);
+        }
     }
 }
