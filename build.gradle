@@ -1,11 +1,19 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility1 = targetCompatibility
+    }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.1'
+        classpath 'com.android.tools.build:gradle:7.1.2'
         // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
 
 
