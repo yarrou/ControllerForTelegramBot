@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import site.alexkononsol.controllerfortelegrambot.R;
@@ -43,11 +44,11 @@ public class RequestingPermissionsActivity extends AppCompatActivity implements 
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                LogHelper.logDebug(this,"Storage Permission Allow");
+                Log.d(LogHelper.TAG,"Storage Permission Allow");
                 finish();
                 //Toast.makeText(SettingActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
-                LogHelper.logDebug(this,"Storage Permission Denied");
+                Log.d(LogHelper.TAG,"Storage Permission Denied");
                 Toast.makeText(this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
