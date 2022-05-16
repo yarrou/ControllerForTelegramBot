@@ -1,5 +1,6 @@
 package site.alexkononsol.controllerfortelegrambot.ui.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,12 +8,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 
 public class CityDescriptionFragment extends Fragment {
 
@@ -33,7 +41,7 @@ public class CityDescriptionFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    public static CityDescriptionFragment newInstance(City city){
+    public static CityDescriptionFragment newInstance(City city) {
         Gson gson = new Gson();
         return newInstance(gson.toJson(city));
     }
@@ -43,7 +51,7 @@ public class CityDescriptionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             Gson gson = new Gson();
-            city = gson.fromJson(getArguments().getString(ARG_PARAM1),City.class);
+            city = gson.fromJson(getArguments().getString(ARG_PARAM1), City.class);
         }
     }
 
@@ -61,35 +69,38 @@ public class CityDescriptionFragment extends Fragment {
         TextView cityCreatedDate = getView().findViewById(R.id.description_fragment_city_created);
         TextView cityModifyDate = getView().findViewById(R.id.description_fragment_city_modify);
         TextView cityDescription = getView().findViewById(R.id.description_city_fragment_description);
-        cityNameView.post(new Runnable() {
-            @Override
-            public void run() {
-                cityNameView.setText(city.getName());
-            }
+        ImageView cityImage = getView().findViewById(R.id.image_description);
+        cityNameView.post(() -> cityNameView.setText(city.getName()));
+        cityDescription.post(() -> cityDescription.setText(city.getText()));
+        cityCreatedDate.post(() -> {
+            String cityCreatedText = getString(R.string.description_fragment_city_created_text);
+            if (city.getDateCreated() == null)
+                cityCreatedText = String.format(cityCreatedText, getString(R.string.is_unknown));
+            else
+                cityCreatedText = String.format(cityCreatedText, city.getDateCreated().toString());
+            cityCreatedDate.setText(cityCreatedText);
         });
-        cityDescription.post(new Runnable() {
-            @Override
-            public void run() {
-                cityDescription.setText(city.getText());
-            }
+        cityModifyDate.post(() -> {
+            String cityModifyText = getString(R.string.description_fragment_city_modify_text);
+            if (city.getDateLastModification() == null)
+                cityModifyText = String.format(cityModifyText, getString(R.string.is_unknown));
+            else
+                cityModifyText = String.format(cityModifyText, city.getDateLastModification().toString());
+            cityModifyDate.setText(cityModifyText);
         });
-        cityCreatedDate.post(new Runnable() {
-            @Override
-            public void run() {
-                String cityCreatedText = getString(R.string.description_fragment_city_created_text);
-                if (city.getDateCreated()==null)cityCreatedText=String.format(cityCreatedText,getString(R.string.is_unknown));
-                else cityCreatedText=String.format(cityCreatedText,city.getDateCreated().toString());
-                cityCreatedDate.setText(cityCreatedText);
+        cityImage.post(() -> {
+            try {
+                byte[] imageByteArray = Base64.decodeBase64(city.getPicture().getBytes());
+                InputStream inputStream = new ByteArrayInputStream(imageByteArray);
+
+                Drawable d = Drawable.createFromStream(inputStream, "src name");
+                cityImage.setImageDrawable(d);
+                LogHelper.logDebug(CityDescriptionFragment.this, "the image of the city is displayed");
+            } catch (Exception e) {
+                LogHelper.logError(CityDescriptionFragment.this, e.getMessage(), e);
+                e.printStackTrace();
             }
-        });
-        cityModifyDate.post(new Runnable() {
-            @Override
-            public void run() {
-                String cityModifyText = getString(R.string.description_fragment_city_modify_text);
-                if (city.getDateLastModification()==null)cityModifyText=String.format(cityModifyText,getString(R.string.is_unknown));
-                else cityModifyText=String.format(cityModifyText,city.getDateLastModification().toString());
-                cityModifyDate.setText(cityModifyText);
-            }
+
         });
     }
 }
