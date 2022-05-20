@@ -9,16 +9,29 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import site.alexkononsol.controllerfortelegrambot.entity.City;
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
+
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.CityDescriptionFragment;
+import site.alexkononsol.controllerfortelegrambot.ui.fragments.ErrorFragment;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
+import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 
 public class ViewCityActivity extends AppCompatActivity {
+    private String cityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +48,33 @@ public class ViewCityActivity extends AppCompatActivity {
 
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        City city = (City) bundle.getSerializable("city");
-        transactionFragment(CityDescriptionFragment.newInstance(city));
-        /*TextView nameCity =(TextView) findViewById(R.id.infoCityName);
-        nameCity.setText(city.getName());
-        TextView descriptionCity = (TextView) findViewById(R.id.infoCityDescription);
-        descriptionCity.setText(city.getText());*/
+        cityName = bundle.getString("city");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        AtomicReference<ServerResponse> response = new AtomicReference<ServerResponse>();
+        executor.execute(() -> {
+            try {
+                String query = RequestEncoder.getRequest(cityName);
+                RequestToServer get = new RequestToServer(Constants.ENDPOINT_GET_CITY, RequestType.GET);
+                get.addParam("city", query);
+                get.addLangParam();
+                response.set(get.send());
+            }catch (IOException ex) {
+            LogHelper.logError(ViewCityActivity.this, ex.getMessage(), ex);
+            response.get().setData(getString(R.string.error) + " : " + ex.getMessage() + ex.toString());
+        }
+            handler.post(() -> {
+                //UI Thread work here
+                if (response.get().getCode() == 200) {
+                    transactionFragment(CityDescriptionFragment.newInstance(response.get().getData()));
+                } else
+                    transactionFragment(ErrorFragment.newInstance(response.get().getData()));
+            });
+        });
     }
 
     //Menu of Toolbar
