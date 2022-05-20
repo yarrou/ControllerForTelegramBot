@@ -41,7 +41,7 @@ public class ServerResponse {
         Object object = gson.fromJson(data, type);
         return object;
     }
-    public List<City> getCitiesList(){
-        return  (List<City>) getObjectData(new TypeToken<ArrayList<City>>() {}.getType());
+    public List<String> getCitiesList(){
+        return  (List<String>) getObjectData(new TypeToken<ArrayList<String>>() {}.getType());
     }
 }
