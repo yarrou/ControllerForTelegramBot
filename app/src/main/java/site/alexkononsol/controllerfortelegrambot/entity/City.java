@@ -66,6 +66,12 @@ public class City implements Serializable {
         this.text = text;
     }
 
+    public City(String name, String text, String picture) {
+        this.name = name;
+        this.text = text;
+        this.picture = picture;
+    }
+
     @Override
     public String toString() {
         Gson gson = new Gson();
