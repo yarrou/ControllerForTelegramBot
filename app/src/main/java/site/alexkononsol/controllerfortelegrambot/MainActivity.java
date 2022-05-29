@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +19,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
+import site.alexkononsol.controllerfortelegrambot.dao.CityDao;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -28,6 +29,9 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 public class MainActivity extends AppCompatActivity implements ChoosingActionFragment.Listener {
 
     private ShareActionProvider shareActionProvider;
+    private TabLayout tabLayout;
+    private ViewPager pager;
+    private Bundle changeBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
         if(!DeviceTypeHelper.isTablet(this)){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,17 +51,26 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
         }
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         if(pager!=null){
             SectionsPagerAdapter pagerAdapter =
                     new SectionsPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(pagerAdapter);
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(pager);
 
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        changeBundle = intent.getExtras();
+        if(changeBundle != null){
+            if(pager != null) changeTabSelect();
+        }
+    }
 
     //Menu of Toolbar
     @Override
@@ -143,7 +155,12 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
                 case 2:
                     return new PostFragment();
                 case 3:
-                    return new PutFragment();
+                    if (changeBundle != null) {
+                        CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
+                        Gson gson = new Gson();
+                        return PutFragment.newInstance(gson.toJson(city));
+                    }
+                    else return new PutFragment();
                 case 4:
                     return new DelFragment();
             }
@@ -165,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             }
             return null;
         }
+    }
+    void changeTabSelect(){
+        tabLayout.setScrollPosition(3,0f,true);
+        pager.setCurrentItem(3);
     }
 }
 
