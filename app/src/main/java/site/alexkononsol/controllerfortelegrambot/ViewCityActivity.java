@@ -14,6 +14,8 @@ import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,6 +25,8 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncode
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.dao.CityDao;
+import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.CityDescriptionFragment;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.ErrorFragment;
@@ -30,7 +34,7 @@ import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 
-public class ViewCityActivity extends AppCompatActivity {
+public class ViewCityActivity extends AppCompatActivity implements CityDescriptionFragment.Listener {
     private String cityName;
 
     @Override
@@ -38,7 +42,8 @@ public class ViewCityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_city);
 
-        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (!DeviceTypeHelper.isTablet(this))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,6 +55,7 @@ public class ViewCityActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         cityName = bundle.getString("city");
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -63,14 +69,17 @@ public class ViewCityActivity extends AppCompatActivity {
                 get.addParam("city", query);
                 get.addLangParam();
                 response.set(get.send());
-            }catch (IOException ex) {
-            LogHelper.logError(ViewCityActivity.this, ex.getMessage(), ex);
-            response.get().setData(getString(R.string.error) + " : " + ex.getMessage() + ex.toString());
-        }
+            } catch (IOException ex) {
+                LogHelper.logError(ViewCityActivity.this, ex.getMessage(), ex);
+                response.get().setData(getString(R.string.error) + " : " + ex.getMessage() + ex);
+            }
             handler.post(() -> {
                 //UI Thread work here
                 if (response.get().getCode() == 200) {
-                    transactionFragment(CityDescriptionFragment.newInstance(response.get().getData()));
+                    Gson gson = new Gson();
+                    City city = gson.fromJson(response.get().getData(), City.class);
+                    CityDao cityDao = new CityDao(city, ViewCityActivity.this);
+                    transactionFragment(CityDescriptionFragment.newInstance(gson.toJson(cityDao)));
                 } else
                     transactionFragment(ErrorFragment.newInstance(response.get().getData()));
             });
@@ -83,6 +92,7 @@ public class ViewCityActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -94,11 +104,22 @@ public class ViewCityActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    private void transactionFragment(Fragment fragment){
+
+    private void transactionFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.view_city_container, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    public void actionChangeCity(CityDao city) {
+        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("action", "change");
+        bundle.putSerializable("cityDao", city);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 }
