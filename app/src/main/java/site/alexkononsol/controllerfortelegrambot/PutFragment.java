@@ -66,11 +66,12 @@ public class PutFragment extends Fragment {
             cityDao = gson.fromJson(getArguments().getString(ARG_PARAM1), CityDao.class);
         }
     }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Gson gson = new Gson();
         String jsonFromCityDao = gson.toJson(cityDao);
-        savedInstanceState.putString(ARG_PARAM1,jsonFromCityDao);
+        savedInstanceState.putString(ARG_PARAM1, jsonFromCityDao);
 
 
     }
@@ -81,63 +82,54 @@ public class PutFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_put, container, false);
     }
+
     @Override
     public void onStart() {
         super.onStart();
         TextView contentView = (TextView) getView().findViewById(R.id.putResponse);
         service = new CityPictureService(getContext());
-        putButton = (Button)getView().findViewById(R.id.buttonPut);
+        putButton = (Button) getView().findViewById(R.id.buttonPut);
         cityImage = getView().findViewById(R.id.city_picture);
         cityNameView = (TextView) getView().findViewById(R.id.putRequest);
         cityDescriptionView = (TextView) getView().findViewById(R.id.putRequestDescription);
-        if (cityDao != null){
-            LogHelper.logDebug(this,"image temp file path is : " + cityDao.getPictureFilePath());
+        if (cityDao != null) {
+            LogHelper.logDebug(this, "image temp file path is : " + cityDao.getPictureFilePath());
             cityNameView.post(() -> {
                 cityNameView.setText(cityDao.getName());
             });
-            cityDescriptionView.post(()->{
+            cityDescriptionView.post(() -> {
                 cityDescriptionView.setText(cityDao.getText());
             });
-            cityImage.post(() -> {
-                try {
-                    Drawable d = service.getDrawableFromCityDao(cityDao);
-                    cityImage.setImageDrawable(d);
-                } catch (Exception e) {
-                    LogHelper.logError(PutFragment.this, e.getMessage(), e);
-                    e.printStackTrace();
-                }
-            });
-        }
-        else {
-            City city = new City("","",service.getPictureAlsStringFromDrawable(cityImage.getDrawable()));
-            cityDao = new CityDao(city,getContext());
+
+        } else {
+            City city = new City("", "", service.getPictureAlsStringFromDrawable(cityImage.getDrawable()));
+            cityDao = new CityDao(city, getContext());
         }
         cityImage.setOnClickListener(v -> pickFromGallery());
         putButton.setOnClickListener(v -> {
 
             //checking for non-emptiness
-            if(TextValidator.noEmptyValidation(cityNameView)&&(TextValidator.noEmptyValidation(cityDescriptionView))){
+            if (TextValidator.noEmptyValidation(cityNameView) && (TextValidator.noEmptyValidation(cityDescriptionView))) {
                 String cityName = cityNameView.getText().toString();
                 String cityDescription = cityDescriptionView.getText().toString();
                 BitmapDrawable bitmapDrawable = ((BitmapDrawable) cityImage.getDrawable());
-                Bitmap bitmap = bitmapDrawable .getBitmap();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] imageInByte = stream.toByteArray();
                 String cityPictureString = new String(Base64.encodeBase64(imageInByte));
                 contentView.setText(getString(R.string.toastLoading));
                 new Thread(() -> {
-                    try{
+                    try {
                         RequestToServer put = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.PUT);
                         put.addAuthHeader();
                         put.addLangParam();
                         put.addJsonHeaders();
-                        put.setBody(new City(cityName,cityDescription,cityPictureString));
+                        put.setBody(new City(cityName, cityDescription, cityPictureString));
                         String content = put.send().getData();
                         contentView.post(() -> contentView.setText(content));
-                    }
-                    catch (Exception ex){
-                        LogHelper.logError(PutFragment.this,ex.getMessage(),ex);
+                    } catch (Exception ex) {
+                        LogHelper.logError(PutFragment.this, ex.getMessage(), ex);
                         contentView.post(() -> {
                             contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
                             Toast.makeText(getView().getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -154,32 +146,42 @@ public class PutFragment extends Fragment {
         super.onResume();
         String userLogin = SettingsManager.getSettings().getUserName();
         putButton.setEnabled(userLogin != null);
+        cityImage.post(() -> {
+            try {
+                Drawable d = service.getDrawableFromCityDao(cityDao);
+                cityImage.setImageDrawable(d);
+            } catch (Exception e) {
+                LogHelper.logError(PutFragment.this, e.getMessage(), e);
+                e.printStackTrace();
+            }
+        });
     }
-    private void pickFromGallery(){
+
+    private void pickFromGallery() {
         //Create an Intent with action as ACTION_PICK
-        Intent intent=new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(Intent.ACTION_PICK);
         //Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         // Sets the type as image/*. This ensures only components of type image are selected
         intent.setType("image/*");
         //We pass an extra array with the accepted mime types. This will ensure only components with these MIME types as targeted.
         String[] mimeTypes = {"image/jpeg", "image/png"};
-        intent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         // Launching the Intent
-        startActivityForResult(intent,GALLERY_REQUEST_CODE);
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
     }
-    public void onActivityResult(int requestCode,int resultCode,Intent data){
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Result code is RESULT_OK only if the user selects an Image
         if (resultCode == Activity.RESULT_OK)
-            switch (requestCode){
+            switch (requestCode) {
                 case GALLERY_REQUEST_CODE:
                     //data.getData returns the content URI for the selected Image
                     Uri selectedImage = data.getData();
-                    LogHelper.logDebug(this,"run onActivityResult");
                     cityImage.post(() -> {
                         Drawable tempDrawable = null;
                         try {
                             InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedImage);
-                             tempDrawable = Drawable.createFromStream(inputStream, selectedImage.toString() );
+                            tempDrawable = Drawable.createFromStream(inputStream, selectedImage.toString());
                         } catch (FileNotFoundException e) {
                             tempDrawable = getResources().getDrawable(R.drawable.city_drawable);
                         }
