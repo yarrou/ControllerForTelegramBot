@@ -38,7 +38,7 @@ import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class PutFragment extends Fragment {
 
-    private CityDao cityDao;
+    private static CityDao cityDao;
     private TextView cityNameView;
     private TextView cityDescriptionView;
     private static final String ARG_PARAM1 = "jsonFromCityDao";
