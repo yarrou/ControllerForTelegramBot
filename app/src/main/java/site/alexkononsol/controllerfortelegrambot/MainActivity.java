@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
     private TabLayout tabLayout;
     private ViewPager pager;
     private Bundle changeBundle;
+    private View fragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             pager.setAdapter(pagerAdapter);
             tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(pager);
-
         }
+        fragmentContainer = findViewById(R.id.fragment_container);
     }
 
     @Override
@@ -69,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
         changeBundle = intent.getExtras();
         if(changeBundle != null){
             if(pager != null) changeTabSelect();
+            else if(fragmentContainer != null&& changeBundle.getString("action").equals("change")){
+                CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
+                Gson gson = new Gson();
+                changeBundle = null;
+                transactionFragment(PutFragment.newInstance(gson.toJson(city)));
+            }
         }
     }
 
@@ -81,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getString(R.string.greeting)).append("\n").append(getString(R.string.helpText));
-        String text = getString(R.string.helpText);
         setShareActionIntent(stringBuilder.toString());
         return super.onCreateOptionsMenu(menu);
     }
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
 
     @Override
     public void actionChoose(String action) {
-        View fragmentContainer = findViewById(R.id.fragment_container);
+
         switch (action){
             case ("get"):
                 if(fragmentContainer!=null) transactionFragment(new GetFragment());
