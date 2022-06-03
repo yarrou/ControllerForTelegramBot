@@ -24,6 +24,7 @@ public class CityDescriptionFragment extends Fragment {
 
     public static interface Listener {
         void actionChangeCity(CityDao cityDao);
+        void actionDeleteCity(String name);
     }
     private Listener listener;
 
@@ -79,7 +80,9 @@ public class CityDescriptionFragment extends Fragment {
         TextView cityDescription = getView().findViewById(R.id.description_city_fragment_description);
         ImageView cityImage = getView().findViewById(R.id.image_description);
         ImageButton cityChangeImageButton = getView().findViewById(R.id.changeThisCityButton);
+        ImageButton deleteCity = getView().findViewById(R.id.fastDeleteCityButton);
 
+        deleteCity.setOnClickListener(v -> listener.actionDeleteCity(cityDao.getName()));
         cityChangeImageButton.setOnClickListener(v -> listener.actionChangeCity(cityDao));
         cityNameView.post(() -> cityNameView.setText(cityDao.getName()));
         cityDescription.post(() -> cityDescription.setText(cityDao.getText()));
