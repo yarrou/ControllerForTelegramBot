@@ -28,6 +28,9 @@ import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class MainActivity extends AppCompatActivity implements ChoosingActionFragment.Listener {
 
+    private final int CHANGE_CITY_CODE = 1;
+    private final int DELETE_CITY_CODE = 2;
+
     private ShareActionProvider shareActionProvider;
     private TabLayout tabLayout;
     private ViewPager pager;
@@ -69,12 +72,18 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
         Intent intent = getIntent();
         changeBundle = intent.getExtras();
         if(changeBundle != null){
-            if(pager != null) changeTabSelect();
-            else if(fragmentContainer != null&& changeBundle.getString("action").equals("change")){
+            if(pager != null){
+                if (changeBundle.getInt("action") == CHANGE_CITY_CODE) changeTabSelect();
+                else if(changeBundle.getInt("action") == DELETE_CITY_CODE) deleteTabSelect();
+            }
+            else if(fragmentContainer != null&& changeBundle.getInt("action")==CHANGE_CITY_CODE){
                 CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
                 Gson gson = new Gson();
                 changeBundle = null;
                 transactionFragment(PutFragment.newInstance(gson.toJson(city)));
+            }
+            else if(fragmentContainer != null && changeBundle.getInt("action")==DELETE_CITY_CODE){
+                transactionFragment(DelFragment.newInstance(changeBundle.getString("cityName")));
             }
         }
     }
@@ -161,13 +170,16 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
                 case 2:
                     return new PostFragment();
                 case 3:
-                    if (changeBundle != null) {
+                    if (changeBundle != null&& changeBundle.getInt("action")==CHANGE_CITY_CODE) {
                         CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
                         Gson gson = new Gson();
                         return PutFragment.newInstance(gson.toJson(city));
                     }
                     else return new PutFragment();
                 case 4:
+                    if(changeBundle != null && changeBundle.getInt("action")== DELETE_CITY_CODE){
+                        return DelFragment.newInstance(changeBundle.getString("cityName"));
+                    }
                     return new DelFragment();
             }
             return null;
@@ -192,6 +204,10 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
     void changeTabSelect(){
         tabLayout.setScrollPosition(3,0f,true);
         pager.setCurrentItem(3);
+    }
+    private void deleteTabSelect(){
+        tabLayout.setScrollPosition(4,0f,true);
+        pager.setCurrentItem(4);
     }
 }
 
