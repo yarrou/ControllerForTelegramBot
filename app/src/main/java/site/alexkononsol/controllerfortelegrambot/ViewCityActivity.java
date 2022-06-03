@@ -36,6 +36,8 @@ import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 
 public class ViewCityActivity extends AppCompatActivity implements CityDescriptionFragment.Listener {
     private String cityName;
+    private final int CHANGE_CITY_CODE = 1;
+    private final int DELETE_CITY_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +118,17 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
     public void actionChangeCity(CityDao city) {
         Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("action", "change");
+        bundle.putInt("action", CHANGE_CITY_CODE);
         bundle.putSerializable("cityDao", city);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+    public void actionDeleteCity(String cityName){
+        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("action", DELETE_CITY_CODE);
+        bundle.putString("cityName",cityName);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
