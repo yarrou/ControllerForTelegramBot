@@ -23,7 +23,28 @@ import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
 public class DelFragment extends Fragment {
 
-    Button delButton;
+    private Button delButton;
+    private static String cityName;
+    private static final String ARG_PARAM1 = "cityName";
+
+    public static DelFragment newInstance(String cityName) {
+        DelFragment fragment = new DelFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, cityName);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public DelFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            cityName = getArguments().getString(ARG_PARAM1);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,10 +58,13 @@ public class DelFragment extends Fragment {
         super.onStart();
         View view = getView();
         TextView contentView = (TextView) view.findViewById(R.id.delResponse);
+        TextView getTextView = (TextView) view.findViewById(R.id.delRequest);
+        if (cityName != null) {
+            getTextView.post(() -> getTextView.setText(cityName));
+        }
         delButton = (Button) view.findViewById(R.id.buttonDel);
-        String host = SettingsManager.getSettings().getHostName();
         delButton.setOnClickListener(v -> {
-            TextView getTextView = (TextView) view.findViewById(R.id.delRequest);
+
             if (TextValidator.noEmptyValidation(getTextView)) {
                 contentView.setText(getString(R.string.toastLoading));
                 new Thread(() -> {

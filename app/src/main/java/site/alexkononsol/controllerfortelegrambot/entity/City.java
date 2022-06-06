@@ -11,6 +11,15 @@ public class City implements Serializable {
     private String text;
     private Timestamp dateCreated;
     private Timestamp dateLastModification;
+    private String picture;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public int getId() {
         return id;
@@ -56,6 +65,13 @@ public class City implements Serializable {
         this.name = name;
         this.text = text;
     }
+
+    public City(String name, String text, String picture) {
+        this.name = name;
+        this.text = text;
+        this.picture = picture;
+    }
+
     @Override
     public String toString() {
         Gson gson = new Gson();

@@ -14,12 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <fragment
+            android:id="@+id/choosingActions"
+            android:name="site.alexkononsol.controllerfortelegrambot.ChoosingActionFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/choosingActions"
-            android:name="site.alexkononsol.controllerfortelegrambot.ChoosingActionFragment"/>
+            android:layout_weight="0.75" />
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/fragment_container"
             android:layout_width="0dp"

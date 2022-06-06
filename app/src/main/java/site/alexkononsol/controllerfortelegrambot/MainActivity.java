@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,14 +19,23 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
+import site.alexkononsol.controllerfortelegrambot.dao.CityDao;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class MainActivity extends AppCompatActivity implements ChoosingActionFragment.Listener {
 
+    private final int CHANGE_CITY_CODE = 1;
+    private final int DELETE_CITY_CODE = 2;
+
     private ShareActionProvider shareActionProvider;
+    private TabLayout tabLayout;
+    private ViewPager pager;
+    private Bundle changeBundle;
+    private View fragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
         if(!DeviceTypeHelper.isTablet(this)){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,17 +55,38 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
         }
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         if(pager!=null){
             SectionsPagerAdapter pagerAdapter =
                     new SectionsPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(pagerAdapter);
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(pager);
-
         }
+        fragmentContainer = findViewById(R.id.fragment_container);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        changeBundle = intent.getExtras();
+        if(changeBundle != null){
+            if(pager != null){
+                if (changeBundle.getInt("action") == CHANGE_CITY_CODE) changeTabSelect();
+                else if(changeBundle.getInt("action") == DELETE_CITY_CODE) deleteTabSelect();
+            }
+            else if(fragmentContainer != null&& changeBundle.getInt("action")==CHANGE_CITY_CODE){
+                CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
+                Gson gson = new Gson();
+                changeBundle = null;
+                transactionFragment(PutFragment.newInstance(gson.toJson(city)));
+            }
+            else if(fragmentContainer != null && changeBundle.getInt("action")==DELETE_CITY_CODE){
+                transactionFragment(DelFragment.newInstance(changeBundle.getString("cityName")));
+            }
+        }
+    }
 
     //Menu of Toolbar
     @Override
@@ -69,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getString(R.string.greeting)).append("\n").append(getString(R.string.helpText));
-        String text = getString(R.string.helpText);
         setShareActionIntent(stringBuilder.toString());
         return super.onCreateOptionsMenu(menu);
     }
@@ -95,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
 
     @Override
     public void actionChoose(String action) {
-        View fragmentContainer = findViewById(R.id.fragment_container);
+
         switch (action){
             case ("get"):
                 if(fragmentContainer!=null) transactionFragment(new GetFragment());
@@ -143,8 +170,16 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
                 case 2:
                     return new PostFragment();
                 case 3:
-                    return new PutFragment();
+                    if (changeBundle != null&& changeBundle.getInt("action")==CHANGE_CITY_CODE) {
+                        CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
+                        Gson gson = new Gson();
+                        return PutFragment.newInstance(gson.toJson(city));
+                    }
+                    else return new PutFragment();
                 case 4:
+                    if(changeBundle != null && changeBundle.getInt("action")== DELETE_CITY_CODE){
+                        return DelFragment.newInstance(changeBundle.getString("cityName"));
+                    }
                     return new DelFragment();
             }
             return null;
@@ -165,6 +200,14 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             }
             return null;
         }
+    }
+    void changeTabSelect(){
+        tabLayout.setScrollPosition(3,0f,true);
+        pager.setCurrentItem(3);
+    }
+    private void deleteTabSelect(){
+        tabLayout.setScrollPosition(4,0f,true);
+        pager.setCurrentItem(4);
     }
 }
 

@@ -141,9 +141,9 @@ public class Splash_activity extends AppCompatActivity {
         }
     }
     private boolean checkStoragePermission() {
-        Log.d(LogHelper.TAG,"checked permission");
+        Log.d(LogHelper.TAG,"checked permission...");
         int permissionWriteExternal = ContextCompat.checkSelfPermission(Splash_activity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        Log.d(LogHelper.TAG,"permission is " + (permissionWriteExternal == PackageManager.PERMISSION_GRANTED));
+        Log.d(LogHelper.TAG,"Permission is " + (permissionWriteExternal == PackageManager.PERMISSION_GRANTED));
         return permissionWriteExternal == PackageManager.PERMISSION_GRANTED;
     }
 }
