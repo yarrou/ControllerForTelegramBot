@@ -16,6 +16,8 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +26,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
+
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.ApkInstaller;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
@@ -61,109 +69,86 @@ public class AboutProgramFragment extends Fragment {
         } else {
             updateButton.setText(getString(R.string.about_fragment_button_update));
         }
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contentView.setText(getString(R.string.toastLoading));
-                new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                            if (isUpdate) download();
-                            else update();
+        updateButton.setOnClickListener(v -> {
+            contentView.setText(getString(R.string.toastLoading));
+            new Thread(() -> {
+                try {
+                    if (isUpdate) download();
+                    else update();
 
-                        } catch (Exception ex) {
-                            contentView.post(new Runnable() {
-                                public void run() {
-                                    contentView.setText(getString(R.string.error) + ex.getMessage() + ex.getLocalizedMessage());
-                                    LogHelper.logError(AboutProgramFragment.this,"error",ex);
-                                    Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                }).start();
-
-            }
+                } catch (Exception ex) {
+                    contentView.post(() -> {
+                        contentView.setText(new StringBuilder().append(getString(R.string.error)).append(ex.getMessage()).append(ex.getLocalizedMessage()).toString());
+                        LogHelper.logError(AboutProgramFragment.this, ex.getMessage(), ex);
+                        Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            }).start();
 
         });
-        autoInstall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SettingsManager.getSettings().setAutoInstall(autoInstall.isChecked());
-            }
-        });
+        autoInstall.setOnClickListener(view -> SettingsManager.getSettings().setAutoInstall(autoInstall.isChecked()));
 
     }
 
     private void viewInfoAboutVersionApp() {
         TextView versionView = getView().findViewById(R.id.about_fragment_version_title);
-        try {
-            String version = getCurrentVersion();
-            versionView.setText(format(getString(R.string.version_app), version));
-
-        } catch (PackageManager.NameNotFoundException e) {
-            LogHelper.logError(this,"don't viewed version app",e);
-        }
+        String version = getCurrentVersion();
+        versionView.setText(format(getString(R.string.version_app), version));
     }
 
-    private String getCurrentVersion() throws PackageManager.NameNotFoundException {
-        PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+    private String getCurrentVersion() {
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         return pInfo.versionName;
     }
-    private void update() throws PackageManager.NameNotFoundException {
-        RequestToServer update = new RequestToServer(Constants.ENDPOINT_UPDATE, RequestType.GET);
-        update.addParam("version", getCurrentVersion());
-        ServerResponse response = update.send();
-        if (response.getCode()==200){
-            isUpdate = true;
-            newVersion = response.getData();
-            updateButton.post(new Runnable() {
-                @Override
-                public void run() {
+
+    private void update() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        AtomicReference<ServerResponse> response = new AtomicReference<>();
+        executor.execute(() -> {
+            String param = getCurrentVersion();
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+            response.set(requestToServer.stringRequest(param, RetrofitRequestType.UPDATE));
+            handler.post(() -> {
+                //UI Thread work here
+                if (response.get().getCode() == 200) {
+                    isUpdate = true;
+                    newVersion = response.get().getData().toString();
                     updateButton.setText(getString(R.string.about_fragment_button_download));
-                }
-            });
-            contentView.post(new Runnable() {
-                public void run() {
-                    String newVersionExist = format(getString(R.string.about_fragment_new_version_exist),newVersion);
+                    String newVersionExist = format(getString(R.string.about_fragment_new_version_exist), newVersion);
                     contentView.setText(newVersionExist);
-                }
+                } else contentView.setText(getString(R.string.about_fragment_no_update));
             });
-        }else {
-            contentView.post(new Runnable() {
-                @Override
-                public void run() {
-                    contentView.setText(getString(R.string.about_fragment_no_update));
-                }
-            });
-        }
+        });
     }
-    private void download(){
-        DownloadManager downloadmanager = (DownloadManager)  getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(SettingsManager.getSettings().getHostName()+Constants.ENDPOINT_DOWNLOAD_APP);
-        String fileName = String.format("ControllerForTelegramBot v-%s.apk",newVersion.trim());
+
+    private void download() {
+        DownloadManager downloadmanager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(SettingsManager.getSettings().getHostName() + Constants.ENDPOINT_DOWNLOAD_APP);
+        String fileName = String.format("ControllerForTelegramBot v-%s.apk", newVersion.trim());
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setTitle(fileName);
-        request.setDescription(String.format(getString(R.string.about_fragment_download_description),fileName));
+        request.setDescription(String.format(getString(R.string.about_fragment_download_description), fileName));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,fileName);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
         downloadmanager.enqueue(request);
-        contentView.post(new Runnable() {
-            @Override
-            public void run() {
-
-                contentView.setText(getString(R.string.about_fragment_download_view));
-            }
-        });
-        path = Environment.getExternalStorageDirectory().getPath() +"/Download/" + fileName;
-        LogHelper.logDebug(this,"download file path is " + path);
+        contentView.post(() -> contentView.setText(getString(R.string.about_fragment_download_view)));
+        path = Environment.getExternalStorageDirectory().getPath() + "/Download/" + fileName;
+        LogHelper.logDebug(this, "download file path is " + path);
     }
+
     BroadcastReceiver broadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (autoInstall.isChecked()) ApkInstaller.installApplication(getContext(),path);
+            if (autoInstall.isChecked()) ApkInstaller.installApplication(getContext(), path);
         }
     };
+
     @Override
     public void onResume() {
         super.onResume();
