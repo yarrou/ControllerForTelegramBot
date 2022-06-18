@@ -76,7 +76,7 @@ public class DelFragment extends Fragment {
                         del.addParam("city", query);
                         del.addLangParam();
                         del.addAuthHeader();
-                        String content = del.send().getData();
+                        String content = del.send().getData().toString();
                         contentView.post(() -> contentView.setText(content));
                     } catch (IOException ex) {
                         LogHelper.logError(DelFragment.this, ex.getMessage(), ex);

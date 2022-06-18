@@ -54,8 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
     private RegistrationForm getRegistrationForm(){
-        RegistrationForm form = new RegistrationForm(usernameEditText.getText().toString(),passwordEditText.getText().toString(),passwordRepeatEditText.getText().toString());
-        return form;
+        return new RegistrationForm(usernameEditText.getText().toString(),passwordEditText.getText().toString(),passwordRepeatEditText.getText().toString());
     }
     public void onRegistration(View view){
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -80,7 +79,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     intent.putExtra("messageSuccess",getString(R.string.registration_success_message));
                     startActivity(intent);
                     finish();
-                }else resultRegistrationView.setText(finalResult.getData());
+                }else resultRegistrationView.setText(finalResult.getData().toString());
             });
         });
     }

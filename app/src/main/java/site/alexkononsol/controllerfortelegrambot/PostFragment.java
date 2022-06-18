@@ -71,7 +71,7 @@ public class PostFragment extends Fragment {
                         post.addLangParam();
                         post.addJsonHeaders();
                         post.setBody(new City(cityName,cityDescription,cityPictureString));
-                        String content = post.send().getData();
+                        String content = post.send().getData().toString();
                         contentView.post(() -> contentView.setText(content));
                     } catch (Exception ex) {
                         LogHelper.logError(PostFragment.this,ex.getMessage(),ex);

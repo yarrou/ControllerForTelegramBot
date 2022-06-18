@@ -49,12 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra("messageSuccess");
         if (message!=null){
-            textViewResult.post(new Runnable() {
-                @Override
-                public void run() {
-                    textViewResult.setText(message);
-                }
-            });
+            textViewResult.post(() -> textViewResult.setText(message));
         }
     }
 
@@ -65,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         executor.execute(() -> {
             //Background work here
             String userName = textViewLogin.getText().toString();
-            String hostPath = SettingsManager.getSettings().getHostName();
             UserForm userForm = new UserForm(userName, textViewPassword.getText().toString());
             RequestToServer loginRequest = new RequestToServer(Constants.ENDPOINT_LOGIN, RequestType.POST);
             loginRequest.addAuthHeader();
@@ -79,10 +73,10 @@ public class LoginActivity extends AppCompatActivity {
                 String output = null;
                 if(response.getCode()==200){
                     SettingsManager.getSettings().setUserName(userName);
-                    SettingsManager.getSettings().setAuthToken(response.getData());
+                    SettingsManager.getSettings().setAuthToken(response.getData().toString());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else textViewResult.setText(response.getData());
+                }else textViewResult.setText(response.getData().toString());
             });
         });
     }

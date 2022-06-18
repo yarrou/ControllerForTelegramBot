@@ -79,11 +79,11 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
                 //UI Thread work here
                 if (response.get().getCode() == 200) {
                     Gson gson = new Gson();
-                    City city = gson.fromJson(response.get().getData(), City.class);
+                    City city = (City) response.get().getData();
                     CityDao cityDao = new CityDao(city, ViewCityActivity.this);
                     transactionFragment(CityDescriptionFragment.newInstance(gson.toJson(cityDao)));
                 } else
-                    transactionFragment(ErrorFragment.newInstance(response.get().getData()));
+                    transactionFragment(ErrorFragment.newInstance(response.get().getData().toString()));
             });
         });
     }

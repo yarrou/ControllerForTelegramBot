@@ -126,7 +126,7 @@ public class PutFragment extends Fragment {
                         put.addLangParam();
                         put.addJsonHeaders();
                         put.setBody(new City(cityName, cityDescription, cityPictureString));
-                        String content = put.send().getData();
+                        String content = put.send().getData().toString();
                         contentView.post(() -> contentView.setText(content));
                     } catch (Exception ex) {
                         LogHelper.logError(PutFragment.this, ex.getMessage(), ex);
