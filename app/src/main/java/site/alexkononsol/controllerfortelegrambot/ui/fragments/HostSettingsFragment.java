@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import site.alexkononsol.controllerfortelegrambot.R;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
@@ -40,16 +46,18 @@ public class HostSettingsFragment extends Fragment {
         } else hostNameView.setText(SettingsManager.getSettings().getHostName());
 
         Button testButton = (Button) getView().findViewById(R.id.buttonSettingsGetNameBot);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TextView hostNameView = (TextView) findViewById(R.id.hostName);
-                if (TextValidator.noEmptyValidation(hostNameView)) {  //checking for non-emptiness
-                    new Thread(() -> {
-                        String content = getNameBot();
-                        nameBotView.post(() -> nameBotView.setText(content));
-                    }).start();
-                }
+        testButton.setOnClickListener(v -> {
+            if (TextValidator.noEmptyValidation(hostNameView)) {  //checking for non-emptiness
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Handler handler = new Handler(Looper.getMainLooper());
+                executor.execute(() -> {
+                    //Background work here
+                    String content = getNameBot();
+                    handler.post(() -> {
+                        //UI Thread work here
+                        nameBotView.setText(content);
+                    });
+                });
             }
         });
     }
@@ -59,12 +67,12 @@ public class HostSettingsFragment extends Fragment {
         if (serverUrl.equals("")) {
             serverUrl = hostNameView.getHint().toString();
         }
-        try {
-            RequestToServer request = new RequestToServer(serverUrl, Constants.ENDPOINT_BOT_NAME);
-            request.addLangParam();
-            return request.send().getData();
-        } catch (Exception ex) {
-            LogHelper.logError(this, ex.getMessage(), ex);
+        RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+        ServerResponse response = requestToServer.stringRequest(serverUrl, RetrofitRequestType.NAME);
+        if (response.getCode()==200) {
+            return response.getData().toString();
+        }
+        else {
             return getString(R.string.nameBotNotAnswer);
         }
     }
