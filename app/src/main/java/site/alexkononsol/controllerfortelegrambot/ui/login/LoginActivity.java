@@ -16,11 +16,10 @@ import java.util.concurrent.Executors;
 import site.alexkononsol.controllerfortelegrambot.MainActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
 import site.alexkononsol.controllerfortelegrambot.ui.registration.RegistrationActivity;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
@@ -61,12 +60,14 @@ public class LoginActivity extends AppCompatActivity {
             //Background work here
             String userName = textViewLogin.getText().toString();
             UserForm userForm = new UserForm(userName, textViewPassword.getText().toString());
-            RequestToServer loginRequest = new RequestToServer(Constants.ENDPOINT_LOGIN, RequestType.POST);
+            /*RequestToServer loginRequest = new RequestToServer(Constants.ENDPOINT_LOGIN, RequestType.POST);
             loginRequest.addAuthHeader();
             loginRequest.addLangParam();
             loginRequest.addJsonHeaders();
-            loginRequest.setBody(userForm);
-            ServerResponse response = loginRequest.send();
+            loginRequest.setBody(userForm);*/
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+
+            ServerResponse response = requestToServer.loginOrRegistration(userForm, RetrofitRequestType.LOGIN);//loginRequest.send();
 
             handler.post(() -> {
                 //UI Thread work here
