@@ -21,6 +21,7 @@ import java.util.List;
 
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 
@@ -62,16 +63,12 @@ public class SearchFragment extends Fragment {
             searchInfo.setText(getString(R.string.searchInfoLoadingText));
             searchInfo.setVisibility(View.VISIBLE);
             contentView.setVisibility(View.INVISIBLE);
-            String request = searchTextView.getText().toString();
-            cityName = request;
+            cityName = searchTextView.getText().toString();
 
             new Thread(() -> {
                 try {
-                    RequestToServer search = new RequestToServer(Constants.ENDPOINT_SEARCH_CITY, RequestType.GET);
-                    search.addLangParam();
-                    search.addParam("city",request);
-
-                    citiesNamesList = search.send().getCitiesList();//ContentUrlProvider.getContentSearch(request);
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    citiesNamesList = requestToServer.findCity(cityName).getCitiesList();
                     viewListCity(citiesNamesList);
 
                 } catch (Exception ex) {
@@ -85,15 +82,12 @@ public class SearchFragment extends Fragment {
             }).start();
         });
 
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(view.getContext(), ViewCityActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("city", citiesNamesList.get(position));
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
+        AdapterView.OnItemClickListener itemClickListener = (adapterView, view, position, l) -> {
+            Intent intent = new Intent(view.getContext(), ViewCityActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("city", citiesNamesList.get(position));
+            intent.putExtras(bundle);
+            startActivity(intent);
         };
         contentView.setOnItemClickListener(itemClickListener);
     }

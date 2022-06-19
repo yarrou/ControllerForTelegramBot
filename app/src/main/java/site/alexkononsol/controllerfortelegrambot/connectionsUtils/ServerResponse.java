@@ -42,6 +42,6 @@ public class ServerResponse {
         return object;
     }
     public List<String> getCitiesList(){
-        return  (List<String>) getObjectData(new TypeToken<ArrayList<String>>() {}.getType());
+        return  (List<String>) data;//getObjectData(new TypeToken<ArrayList<String>>() {}.getType());
     }
 }
