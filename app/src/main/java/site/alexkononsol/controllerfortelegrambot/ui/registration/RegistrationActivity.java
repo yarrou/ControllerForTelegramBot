@@ -15,12 +15,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import site.alexkononsol.controllerfortelegrambot.R;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.RegistrationForm;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.RegistrationFormValidator;
 
@@ -65,11 +64,8 @@ public class RegistrationActivity extends AppCompatActivity {
             RegistrationFormValidator validator = new RegistrationFormValidator(this);
             ServerResponse result = validator.regFormValidate(form);
             if(result.getCode()==200){
-                RequestToServer loginRequest = new RequestToServer(Constants.ENDPOINT_REGISTRATION, RequestType.POST);
-                loginRequest.addLangParam();
-                loginRequest.addJsonHeaders();
-                loginRequest.setBody(form.getUserForm());
-                result = loginRequest.send();
+                RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                result = requestToServer.loginOrRegistration(form.getUserForm(), RetrofitRequestType.REGISTRATION);
             }
             ServerResponse finalResult = result;
             handler.post(() -> {
