@@ -14,6 +14,7 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.Api;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ApiInterface;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
+import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
@@ -115,10 +116,10 @@ public class RetrofitRequestToServer {
         return serverResponse;
     }
 
-    public ServerResponse loginOrRegistration(City city,RetrofitRequestType type) {
+    public ServerResponse loginOrRegistration(UserForm userForm, RetrofitRequestType type) {
         Call<String> cityCall;
         apiInterface = Api.getStringClient(url);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), city.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), userForm.toString());
         if(type.type == 2)cityCall = apiInterface.login(body, lang);
         else cityCall = apiInterface.registration(body,lang);
         try {
