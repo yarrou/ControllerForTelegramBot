@@ -39,10 +39,10 @@ public interface ApiInterface {
         Call<String> registration(@Body RequestBody body,@Query("lang") String lang);
 
         @Multipart
-        @POST("/city")
+        @POST("city")
         Call<String> addCity(@Part MultipartBody.Part file, @Part("city") RequestBody city, @Header("auth-token") String token, @Query("lang") String lang);
 
         @Multipart
-        @PUT("/city")
+        @PUT("city")
         Call<String> changeCity(@Part MultipartBody.Part file,@Part("city") RequestBody city,@Header("auth-token") String token,@Query("lang") String lang);
-    }
+}
