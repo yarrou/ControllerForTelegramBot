@@ -1,6 +1,7 @@
 package site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests;
 
-import java.io.File;
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -79,28 +80,28 @@ public class RetrofitRequestToServer {
         return serverResponse;
     }
 
-    public ServerResponse stringRequest(String data,RetrofitRequestType type) {
+    public ServerResponse stringRequest(String data, RetrofitRequestType type) {
         Call<String> cityCall;
         apiInterface = Api.getStringClient(url);
-        switch (type){
+        switch (type) {
             case NAME:
                 apiInterface = Api.getStringClient(data);
-                cityCall =apiInterface.getNameBot(lang);
+                cityCall = apiInterface.getNameBot(lang);
                 break;
             case UPDATE:
-                cityCall = apiInterface.checkUpdate(data,lang);
+                cityCall = apiInterface.checkUpdate(data, lang);
                 break;
             default:
-                cityCall = apiInterface.deleteCity(data,token,lang);
+                cityCall = apiInterface.deleteCity(data, token, lang);
         }
         try {
             Response<String> response = cityCall.execute();
             if (response.isSuccessful()) {
-                LogHelper.logDebug(this,"response is successful");
+                LogHelper.logDebug(this, "response is successful");
                 serverResponse.setCode(response.code());
                 serverResponse.setData(response.body());
             } else {
-                LogHelper.logDebug(this,"response is unsuccessful");
+                LogHelper.logDebug(this, "response is unsuccessful");
                 serverResponse.setCode(response.code());
                 try {
                     serverResponse.setData(response.errorBody().string());
@@ -109,7 +110,7 @@ public class RetrofitRequestToServer {
                 }
             }
         } catch (IOException e) {
-            LogHelper.logError(this,e.getMessage(),e);
+            LogHelper.logError(this, e.getMessage(), e);
             serverResponse.setCode(500);
             serverResponse.setData(e.getLocalizedMessage());
         }
@@ -120,8 +121,8 @@ public class RetrofitRequestToServer {
         Call<String> cityCall;
         apiInterface = Api.getStringClient(url);
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), userForm.toString());
-        if(type.type == 2)cityCall = apiInterface.login(body, lang);
-        else cityCall = apiInterface.registration(body,lang);
+        if (type.type == 2) cityCall = apiInterface.login(body, lang);
+        else cityCall = apiInterface.registration(body, lang);
         try {
             Response<String> response = cityCall.execute();
             if (response.isSuccessful()) {
@@ -143,12 +144,11 @@ public class RetrofitRequestToServer {
         return serverResponse;
     }
 
-    public ServerResponse addOrChangeCity(File file, City city, RetrofitRequestType type) {
+    public ServerResponse addOrChangeCity(byte[] array, City city, RetrofitRequestType type) {
         Call<String> cityCall;
         apiInterface = Api.getStringClient(url);
-        RequestBody imageFileBody = RequestBody.create(MediaType.parse("image/*"),
-                file);
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", "cityImage.jpeg", RequestBody.create(MediaType.parse("image/*"), array));
         RequestBody cityBody = RequestBody.create(MediaType.parse("application/json"), city.toString());
         if (type.type == 7) cityCall = apiInterface.addCity(filePart, cityBody, token, lang);
         else cityCall = apiInterface.changeCity(filePart, cityBody, token, lang);
@@ -158,10 +158,12 @@ public class RetrofitRequestToServer {
                 serverResponse.setCode(response.code());
                 serverResponse.setData(response.body());
             } else {
+                LogHelper.logError(this, "unsuccessful response");
                 serverResponse.setCode(response.code());
                 try {
                     serverResponse.setData(response.errorBody().string());
                 } catch (IOException e) {
+                    LogHelper.logError(this, e.getLocalizedMessage());
                     serverResponse.setData(e.getLocalizedMessage());
                 }
             }
