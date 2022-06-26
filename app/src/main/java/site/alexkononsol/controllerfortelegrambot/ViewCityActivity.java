@@ -16,22 +16,16 @@ import android.view.MenuItem;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
-import site.alexkononsol.controllerfortelegrambot.dao.CityDao;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.CityDescriptionFragment;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.ErrorFragment;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 
 public class ViewCityActivity extends AppCompatActivity implements CityDescriptionFragment.Listener {
@@ -63,25 +57,16 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
         super.onResume();
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-        AtomicReference<ServerResponse> response = new AtomicReference<ServerResponse>();
+        AtomicReference<ServerResponse> response = new AtomicReference<>();
         executor.execute(() -> {
-            try {
-                String query = RequestEncoder.getRequest(cityName);
-                RequestToServer get = new RequestToServer(Constants.ENDPOINT_GET_CITY, RequestType.GET);
-                get.addParam("city", query);
-                get.addLangParam();
-                response.set(get.send());
-            } catch (IOException ex) {
-                LogHelper.logError(ViewCityActivity.this, ex.getMessage(), ex);
-                response.get().setData(getString(R.string.error) + " : " + ex.getMessage() + ex);
-            }
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+            response.set(requestToServer.getCity(cityName));
             handler.post(() -> {
                 //UI Thread work here
                 if (response.get().getCode() == 200) {
                     Gson gson = new Gson();
                     City city = (City) response.get().getData();
-                    CityDao cityDao = new CityDao(city, ViewCityActivity.this);
-                    transactionFragment(CityDescriptionFragment.newInstance(gson.toJson(cityDao)));
+                    transactionFragment(CityDescriptionFragment.newInstance(gson.toJson(city)));
                 } else
                     transactionFragment(ErrorFragment.newInstance(response.get().getData().toString()));
             });
@@ -115,20 +100,20 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
         ft.commit();
     }
 
-    public void actionChangeCity(CityDao city) {
+    public void actionChangeCity(City city) {
         Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("action", CHANGE_CITY_CODE);
-        bundle.putSerializable("cityDao", city);
+        bundle.putSerializable("city", city);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
-    public void actionDeleteCity(String cityName){
+    public void actionDeleteCity(String cityName) {
         Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("action", DELETE_CITY_CODE);
-        bundle.putString("cityName",cityName);
+        bundle.putString("cityName", cityName);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
