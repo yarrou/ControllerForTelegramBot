@@ -9,23 +9,23 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.commons.codec.binary.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -55,32 +55,26 @@ public class PostFragment extends Fragment {
             TextView cityDescriptionView = (TextView) view.findViewById(R.id.postRequestDescription);
             //checking for non-emptiness
             if (TextValidator.noEmptyValidation(cityNameView)&&TextValidator.noEmptyValidation(cityDescriptionView)) {
-                String cityName = cityNameView.getText().toString();
-                String cityDescription = cityDescriptionView.getText().toString();
-                BitmapDrawable bitmapDrawable = ((BitmapDrawable) cityImage.getDrawable());
-                Bitmap bitmap = bitmapDrawable .getBitmap();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] imageInByte = stream.toByteArray();
-                String cityPictureString = new String(Base64.encodeBase64(imageInByte));
-                contentView.setText(getString(R.string.toastLoading));
-                new Thread(() -> {
-                    try {
-                        RequestToServer post = new RequestToServer(Constants.ENDPOINT_POST_CITY, RequestType.POST);
-                        post.addAuthHeader();
-                        post.addLangParam();
-                        post.addJsonHeaders();
-                        post.setBody(new City(cityName,cityDescription,cityPictureString));
-                        String content = post.send().getData().toString();
-                        contentView.post(() -> contentView.setText(content));
-                    } catch (Exception ex) {
-                        LogHelper.logError(PostFragment.this,ex.getMessage(),ex);
-                        contentView.post(() -> {
-                            contentView.setText(getString(R.string.error) + ": " + ex.getMessage());
-                            Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        });
-                    }
-                }).start();
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Handler handler = new Handler(Looper.getMainLooper());
+                executor.execute(() -> {
+                    //Background work here
+                    String cityName = cityNameView.getText().toString();
+                    String cityDescription = cityDescriptionView.getText().toString();
+                    BitmapDrawable bitmapDrawable = ((BitmapDrawable) cityImage.getDrawable());
+                    Bitmap bitmap = bitmapDrawable .getBitmap();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] imageInByte = stream.toByteArray();
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    ServerResponse response = requestToServer.addOrChangeCity(imageInByte, new City(cityName, cityDescription, ""), RetrofitRequestType.POST);
+                    String content = response.getData().toString();
+                    handler.post(() -> {
+                        //UI Thread work here
+                        contentView.setText(content);
+
+                    });
+                });
             }
         });
     }
