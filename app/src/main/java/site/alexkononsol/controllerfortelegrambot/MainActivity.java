@@ -21,7 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
-import site.alexkononsol.controllerfortelegrambot.dao.CityDao;
+import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(!DeviceTypeHelper.isTablet(this)){
+        if (!DeviceTypeHelper.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
 
 
         String isSavedHost = SettingsManager.getSettings().getHostName();
-        if(isSavedHost == null){
+        if (isSavedHost == null) {
             String toastTextNotHost = getString(R.string.toastTextNotHost);
-            Toast.makeText(this,toastTextNotHost , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, toastTextNotHost, Toast.LENGTH_SHORT).show();
         }
 
         pager = (ViewPager) findViewById(R.id.pager);
-        if(pager!=null){
+        if (pager != null) {
             SectionsPagerAdapter pagerAdapter =
                     new SectionsPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(pagerAdapter);
@@ -71,18 +71,20 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
         super.onResume();
         Intent intent = getIntent();
         changeBundle = intent.getExtras();
-        if(changeBundle != null){
-            if(pager != null){
+        if (changeBundle != null) {
+            if (pager != null) {
                 if (changeBundle.getInt("action") == CHANGE_CITY_CODE) changeTabSelect();
-                else if(changeBundle.getInt("action") == DELETE_CITY_CODE) deleteTabSelect();
-            }
-            else if(fragmentContainer != null&& changeBundle.getInt("action")==CHANGE_CITY_CODE){
-                CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
-                Gson gson = new Gson();
+                else if (changeBundle.getInt("action") == DELETE_CITY_CODE) deleteTabSelect();
+            } else if (fragmentContainer != null && changeBundle.getInt("action") == CHANGE_CITY_CODE) {
+                City city = (City) changeBundle.getSerializable("city");
+                PutFragment putFragment = (PutFragment) getSupportFragmentManager().findFragmentByTag("PUT_FRAGMENT");
+                if (putFragment == null) {
+                    Gson gson = new Gson();
+                    putFragment = PutFragment.newInstance(gson.toJson(city));
+                }
                 changeBundle = null;
-                transactionFragment(PutFragment.newInstance(gson.toJson(city)));
-            }
-            else if(fragmentContainer != null && changeBundle.getInt("action")==DELETE_CITY_CODE){
+                transactionFragment(putFragment);
+            } else if (fragmentContainer != null && changeBundle.getInt("action") == DELETE_CITY_CODE) {
                 transactionFragment(DelFragment.newInstance(changeBundle.getString("cityName")));
             }
         }
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
         setShareActionIntent(stringBuilder.toString());
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -122,45 +125,49 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
 
     @Override
     public void actionChoose(String action) {
-
-        switch (action){
+        switch (action) {
             case ("get"):
-                if(fragmentContainer!=null) transactionFragment(new GetFragment());
-                else startActivity(new Intent(this,GetActivity.class));
+                if (fragmentContainer != null) transactionFragment(new GetFragment());
+                else startActivity(new Intent(this, GetActivity.class));
                 break;
             case ("search"):
-                if(fragmentContainer!=null) transactionFragment(new SearchFragment());
-                else startActivity(new Intent(this,SearchActivity.class));
+                if (fragmentContainer != null) transactionFragment(new SearchFragment());
+                else startActivity(new Intent(this, SearchActivity.class));
                 break;
             case ("post"):
-                if (fragmentContainer!=null) transactionFragment(new PostFragment());
-                else startActivity(new Intent(this,PostActivity.class));
+                if (fragmentContainer != null) transactionFragment(new PostFragment());
+                else startActivity(new Intent(this, PostActivity.class));
                 break;
             case ("put"):
-                if(fragmentContainer!=null) transactionFragment(new PutFragment());
-                else startActivity(new Intent(this,PutActivity.class));
+                if (fragmentContainer != null) {
+                    transactionFragment(new PutFragment());
+                } else startActivity(new Intent(this, PutActivity.class));
                 break;
             case ("del"):
-                if(fragmentContainer!=null) transactionFragment(new DelFragment());
-                else startActivity(new Intent(this,PutActivity.class));
+                if (fragmentContainer != null) transactionFragment(new DelFragment());
+                else startActivity(new Intent(this, PutActivity.class));
                 break;
         }
     }
-    private void transactionFragment(Fragment fragment){
+
+    private void transactionFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, fragment);
+        ft.replace(R.id.fragment_container, fragment, "PUT_FRAGMENT");
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
     }
+
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
         @Override
         public int getCount() {
             return 5;
         }
+
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
@@ -170,20 +177,20 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
                 case 2:
                     return new PostFragment();
                 case 3:
-                    if (changeBundle != null&& changeBundle.getInt("action")==CHANGE_CITY_CODE) {
-                        CityDao city = (CityDao) changeBundle.getSerializable("cityDao");
+                    if (changeBundle != null && changeBundle.getInt("action") == CHANGE_CITY_CODE) {
+                        City city = (City) changeBundle.getSerializable("city");
                         Gson gson = new Gson();
                         return PutFragment.newInstance(gson.toJson(city));
-                    }
-                    else return new PutFragment();
+                    } else return new PutFragment();
                 case 4:
-                    if(changeBundle != null && changeBundle.getInt("action")== DELETE_CITY_CODE){
+                    if (changeBundle != null && changeBundle.getInt("action") == DELETE_CITY_CODE) {
                         return DelFragment.newInstance(changeBundle.getString("cityName"));
                     }
                     return new DelFragment();
             }
             return null;
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
@@ -201,12 +208,14 @@ public class MainActivity extends AppCompatActivity implements ChoosingActionFra
             return null;
         }
     }
-    void changeTabSelect(){
-        tabLayout.setScrollPosition(3,0f,true);
+
+    void changeTabSelect() {
+        tabLayout.setScrollPosition(3, 0f, true);
         pager.setCurrentItem(3);
     }
-    private void deleteTabSelect(){
-        tabLayout.setScrollPosition(4,0f,true);
+
+    private void deleteTabSelect() {
+        tabLayout.setScrollPosition(4, 0f, true);
         pager.setCurrentItem(4);
     }
 }
