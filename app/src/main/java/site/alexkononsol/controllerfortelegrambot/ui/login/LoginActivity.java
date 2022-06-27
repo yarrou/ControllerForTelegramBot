@@ -34,25 +34,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (!DeviceTypeHelper.isTablet(this))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         textViewLogin = (TextView) findViewById(R.id.username);
-        textViewPassword = (TextView)findViewById(R.id.password);
+        textViewPassword = (TextView) findViewById(R.id.password);
         textViewResult = (TextView) findViewById(R.id.resultOnLoginView);
 
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
         String message = intent.getStringExtra("messageSuccess");
-        if (message!=null){
+        if (message != null) {
             textViewResult.post(() -> textViewResult.setText(message));
         }
     }
 
-    public void onLogin(View view){
+    public void onLogin(View view) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
@@ -60,37 +61,33 @@ public class LoginActivity extends AppCompatActivity {
             //Background work here
             String userName = textViewLogin.getText().toString();
             UserForm userForm = new UserForm(userName, textViewPassword.getText().toString());
-            /*RequestToServer loginRequest = new RequestToServer(Constants.ENDPOINT_LOGIN, RequestType.POST);
-            loginRequest.addAuthHeader();
-            loginRequest.addLangParam();
-            loginRequest.addJsonHeaders();
-            loginRequest.setBody(userForm);*/
             RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
 
             ServerResponse response = requestToServer.loginOrRegistration(userForm, RetrofitRequestType.LOGIN);//loginRequest.send();
 
             handler.post(() -> {
                 //UI Thread work here
-                String output = null;
-                if(response.getCode()==200){
+                if (response.getCode() == 200) {
                     SettingsManager.getSettings().setUserName(userName);
                     SettingsManager.getSettings().setAuthToken(response.getData().toString());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else textViewResult.setText(response.getData().toString());
+                } else textViewResult.setText(response.getData().toString());
             });
         });
     }
-    public void onContinue(View view){
-        Intent intent = new Intent(this,MainActivity.class);
+
+    public void onContinue(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-    public void onRegistration(View view){
+
+    public void onRegistration(View view) {
         String login = textViewLogin.getText().toString();
         String password = textViewPassword.getText().toString();
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-        intent.putExtra("username",login);
-        intent.putExtra("password",password);
+        intent.putExtra("username", login);
+        intent.putExtra("password", password);
         startActivity(intent);
     }
 }
