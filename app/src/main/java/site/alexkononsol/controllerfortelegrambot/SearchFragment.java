@@ -19,30 +19,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 
 
 public class SearchFragment extends Fragment {
 
     List<String> citiesNamesList;
     String cityName;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             citiesNamesList = (ArrayList<String>) savedInstanceState.getSerializable("listCity");
             cityName = savedInstanceState.getString("cityName");
         }
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
+
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable("listCity", (Serializable) citiesNamesList);
-        savedInstanceState.putString("cityName",cityName);
+        savedInstanceState.putString("cityName", cityName);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class SearchFragment extends Fragment {
         TextView searchTextView = (TextView) getView().findViewById(R.id.searchHint);
 
         searchTextView.setText(cityName);
-        if(citiesNamesList !=null){
+        if (citiesNamesList != null) {
             viewListCity(citiesNamesList);
         }
 
@@ -72,7 +71,7 @@ public class SearchFragment extends Fragment {
                     viewListCity(citiesNamesList);
 
                 } catch (Exception ex) {
-                    LogHelper.logError(SearchFragment.this,ex.getMessage(),ex);
+                    LogHelper.logError(SearchFragment.this, ex.getMessage(), ex);
                     contentView.post(() -> {
                         searchInfo.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
                         searchInfo.setVisibility(View.VISIBLE);
@@ -92,7 +91,7 @@ public class SearchFragment extends Fragment {
         contentView.setOnItemClickListener(itemClickListener);
     }
 
-    private void viewListCity(List<String> content){
+    private void viewListCity(List<String> content) {
         View view = getView();
         ListView contentView = (ListView) view.findViewById(R.id.searchList);
         TextView searchInfo = (TextView) view.findViewById(R.id.searchInfo);
