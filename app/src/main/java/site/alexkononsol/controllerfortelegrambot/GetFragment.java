@@ -1,5 +1,6 @@
 package site.alexkononsol.controllerfortelegrambot;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,19 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
-
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
-import site.alexkononsol.controllerfortelegrambot.ui.fragments.CityDescriptionFragment;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.ErrorFragment;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
-import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
+
 
 public class GetFragment extends Fragment {
 
@@ -38,25 +31,19 @@ public class GetFragment extends Fragment {
         super.onStart();
         View view = getView();
         Button getButton = (Button) view.findViewById(R.id.buttonGet);
-        String host = SettingsManager.getSettings().getHostName();
         getButton.setOnClickListener(v -> new Thread(() -> {
-            try {
-                TextView getTextView = (TextView) view.findViewById(R.id.getRequest);
-                String nameCity = getTextView.getText().toString();
-                String query = RequestEncoder.getRequest(nameCity);
-                RequestToServer get = new RequestToServer(Constants.ENDPOINT_GET_CITY, RequestType.GET);
-                get.addParam("city", query);
-                get.addLangParam();
-                ServerResponse response = get.send();
-                if (response.getCode() == 200) {
-                    transactionFragment(CityDescriptionFragment.newInstance(response.getData().toString()));
-                } else
-                    transactionFragment(ErrorFragment.newInstance(response.getData().toString()));
-            } catch (IOException ex) {
-                LogHelper.logError(GetFragment.this, ex.getMessage(), ex);
-                transactionFragment(ErrorFragment.newInstance(getString(R.string.error) + " : " + ex.getMessage() + ex.toString()));
-                Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-            }
+            TextView getTextView = (TextView) view.findViewById(R.id.getRequest);
+            String nameCity = getTextView.getText().toString();
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+            ServerResponse serverResponse = requestToServer.getCity(nameCity);
+            if (serverResponse.getCode() == 200) {
+                Intent intent = new Intent(view.getContext(), ViewCityActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("city", nameCity);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } else
+                transactionFragment(ErrorFragment.newInstance(serverResponse.getData().toString()));
         }).start());
     }
 
