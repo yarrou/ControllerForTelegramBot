@@ -10,14 +10,14 @@ import java.util.List;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 
 public class ServerResponse {
-    private String data;
+    private Object data;
     private int code;
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
@@ -32,16 +32,16 @@ public class ServerResponse {
     public ServerResponse() {
     }
 
-    public ServerResponse(String data, int code) {
+    public ServerResponse(Object data, int code) {
         this.data = data;
         this.code = code;
     }
     private Object getObjectData(Type type){
         Gson gson = new Gson();
-        Object object = gson.fromJson(data, type);
+        Object object = gson.fromJson(data.toString(), type);
         return object;
     }
     public List<String> getCitiesList(){
-        return  (List<String>) getObjectData(new TypeToken<ArrayList<String>>() {}.getType());
+        return  (List<String>) data;//getObjectData(new TypeToken<ArrayList<String>>() {}.getType());
     }
 }

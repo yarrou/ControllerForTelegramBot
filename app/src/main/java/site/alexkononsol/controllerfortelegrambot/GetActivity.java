@@ -14,15 +14,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.io.IOException;
 
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
 import site.alexkononsol.controllerfortelegrambot.ui.settings.SettingActivity;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
-import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class GetActivity extends AppCompatActivity {
 
@@ -31,7 +25,8 @@ public class GetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get);
 
-        if(!DeviceTypeHelper.isTablet(this)) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (!DeviceTypeHelper.isTablet(this))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,6 +41,7 @@ public class GetActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

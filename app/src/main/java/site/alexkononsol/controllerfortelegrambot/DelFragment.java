@@ -9,15 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
-
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.RequestEncoder;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestToServer;
-import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RequestType;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
-import site.alexkononsol.controllerfortelegrambot.utils.Constants;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
+import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -68,23 +63,10 @@ public class DelFragment extends Fragment {
             if (TextValidator.noEmptyValidation(getTextView)) {
                 contentView.setText(getString(R.string.toastLoading));
                 new Thread(() -> {
-                    try {
-
-                        String cityName = getTextView.getText().toString();
-                        String query = RequestEncoder.getRequest(cityName);
-                        RequestToServer del = new RequestToServer(Constants.ENDPOINT_DEL_CITY, RequestType.DELETE);
-                        del.addParam("city", query);
-                        del.addLangParam();
-                        del.addAuthHeader();
-                        String content = del.send().getData();
-                        contentView.post(() -> contentView.setText(content));
-                    } catch (IOException ex) {
-                        LogHelper.logError(DelFragment.this, ex.getMessage(), ex);
-                        contentView.post(() -> {
-                            contentView.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
-                            Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
-                        });
-                    }
+                    String cityName = getTextView.getText().toString();
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    ServerResponse serverResponse = requestToServer.stringRequest(cityName, RetrofitRequestType.DELETE);
+                    contentView.post(() -> contentView.setText(serverResponse.getData().toString()));
                 }).start();
             }
         });
