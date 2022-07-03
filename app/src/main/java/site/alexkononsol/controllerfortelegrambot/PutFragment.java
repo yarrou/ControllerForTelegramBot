@@ -89,11 +89,11 @@ public class PutFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        TextView contentView = (TextView) getView().findViewById(R.id.putResponse);
-        putButton = (Button) getView().findViewById(R.id.buttonPut);
+        TextView contentView = getView().findViewById(R.id.putResponse);
+        putButton = getView().findViewById(R.id.buttonPut);
         cityImage = getView().findViewById(R.id.city_picture);
-        cityNameView = (TextView) getView().findViewById(R.id.putRequest);
-        cityDescriptionView = (TextView) getView().findViewById(R.id.putRequestDescription);
+        cityNameView = getView().findViewById(R.id.putRequest);
+        cityDescriptionView = getView().findViewById(R.id.putRequestDescription);
         if (city != null) {
             LogHelper.logDebug(this, "image file path is : " + city.getPicture());
             cityNameView.post(() -> cityNameView.setText(city.getName()));
@@ -154,8 +154,9 @@ public class PutFragment extends Fragment {
             } catch (MalformedURLException me) {
                 try {
                     bmp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(pathToImage));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    bmp = BitmapFactory.decodeResource(getResources(), R.drawable.city_drawable);
+                    LogHelper.logDebug(PutFragment.this, "use default city image");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
