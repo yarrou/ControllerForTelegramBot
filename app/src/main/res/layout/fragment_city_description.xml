@@ -91,7 +91,7 @@
                     android:layout_gravity="center_horizontal"
                     android:adjustViewBounds="true"
                     android:paddingTop="@dimen/paddingNormal"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/city_drawable" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

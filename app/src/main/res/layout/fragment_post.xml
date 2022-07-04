@@ -5,22 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".PostFragment">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <EditText
                 android:id="@+id/postRequest"
-                android:inputType="textAutoCorrect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="12dp"
                 android:ems="12"
-                android:hint="@string/ptHintName" />
+                android:hint="@string/ptHintName"
+                android:inputType="textAutoCorrect" />
 
             <EditText
                 android:id="@+id/postRequestDescription"
@@ -31,14 +34,15 @@
                 android:hint="@string/ptHintDescription"
                 android:inputType="textMultiLine|textAutoCorrect|textAutoComplete"
                 android:lines="5" />
+
             <ImageView
                 android:id="@+id/city_picture"
-                android:layout_margin="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="12dp"
                 android:adjustViewBounds="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/city_drawable" />
 
             <Button
@@ -53,10 +57,10 @@
                 android:id="@+id/postResponse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:layout_gravity="center"
+                android:layout_margin="12dp" />
         </LinearLayout>
     </ScrollView>
-
 
 
 </LinearLayout>
