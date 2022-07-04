@@ -46,7 +46,6 @@ public class PutFragment extends Fragment {
     private Button putButton;
     private static final int GALLERY_REQUEST_CODE = 1;
     private ImageView cityImage;
-    //private CityPictureService service;
     private String pathToImage;
 
     public static PutFragment newInstance(String jsonFromCity) {
