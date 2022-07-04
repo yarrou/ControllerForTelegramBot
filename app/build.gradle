@@ -14,7 +14,7 @@ android {
         minSdk 27
         targetSdk 31
         versionCode 1
-        versionName "2.0.4"
+        versionName "2.0.5"
         setProperty("archivesBaseName", "ControllerForTelegramBot" + " v-" + versionName )
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
