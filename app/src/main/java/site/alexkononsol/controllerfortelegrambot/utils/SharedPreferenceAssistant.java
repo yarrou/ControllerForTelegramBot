@@ -22,8 +22,7 @@ public class SharedPreferenceAssistant {
 
         String result = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_SETTINGS, null);
         Gson gson = new Gson();
-        Settings settings = gson.fromJson(result, Settings.class);
-        return settings;
+        return gson.fromJson(result, Settings.class);
     }
     public static void save(String result){
         Gson gson = new Gson();
@@ -43,7 +42,7 @@ public class SharedPreferenceAssistant {
         }
         catch (Exception e){
             e.printStackTrace();
-            LogHelper.logError(SharedPreferenceAssistant.class,e.getCause() + " - " + e.getMessage(),e);
+            //LogHelper.logError(SharedPreferenceAssistant.class,e.getCause() + " - " + e.getMessage(),e);
         }
     }
     public static String getStringSettings(Settings settings){
@@ -53,11 +52,10 @@ public class SharedPreferenceAssistant {
              result = gson.toJson(settings);
         }
         catch (Exception e){
-            LogHelper.logError(SharedPreferenceAssistant.class,"the problem of getting the settings",e);
+            //LogHelper.logError(SharedPreferenceAssistant.class,"the problem of getting the settings",e);
+
         }
-        finally {
-            return result;
-        }
+        return result;
     }
 
 }
