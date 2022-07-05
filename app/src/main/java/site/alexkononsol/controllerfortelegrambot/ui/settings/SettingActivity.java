@@ -1,5 +1,6 @@
 package site.alexkononsol.controllerfortelegrambot.ui.settings;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -15,13 +16,15 @@ import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
 import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
-import site.alexkononsol.controllerfortelegrambot.ui.login.LoginActivity;
+import site.alexkononsol.controllerfortelegrambot.ui.fragments.AccountSettingsFragment;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -44,7 +47,13 @@ public class SettingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+    protected void onStart() {
+        super.onStart();
+        transactionFragment(new AccountSettingsFragment());
     }
 
     //Menu of Toolbar
@@ -65,6 +74,7 @@ public class SettingActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -91,25 +101,23 @@ public class SettingActivity extends AppCompatActivity {
             SettingsManager.getSettings().setBackupName(nameFile);
         }
         String host = ((EditText) findViewById(R.id.hostName)).getText().toString();//input field is in HostSettingsFragment
+        if(!SettingsManager.getSettings().getHostName().equals(host)){
+            AccountSettingsFragment fragment = (AccountSettingsFragment) getSupportFragmentManager().findFragmentByTag("accountSettingsFragment");
+            if (fragment != null) {
+                fragment.signOut();
+            }
+        }
         SettingsManager.getSettings().setHostName(host);
         SettingsManager.save();
         String toastTextSavedSettings = getString(R.string.saveSettingsToast);
         Toast.makeText(this, toastTextSavedSettings, Toast.LENGTH_SHORT).show();
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        interfaceView();
-    }
-
-
-    private void interfaceView() {
-        //viewNameBackup();
-        //backupName = backupFileNameEditText.getText().toString();
-        //if the user is logged in , then his login is displayed in the settings
-
+    private void transactionFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.account_frame_layout, fragment,"accountSettingsFragment");
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
     }
 
 

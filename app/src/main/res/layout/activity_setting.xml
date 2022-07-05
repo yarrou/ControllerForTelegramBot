@@ -29,11 +29,10 @@
                 android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.HostSettingsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <fragment
+            <FrameLayout
+                android:id="@+id/account_frame_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/account_settings_fragment"
-                android:name="site.alexkononsol.controllerfortelegrambot.ui.fragments.AccountSettingsFragment"/>
+                android:layout_height="wrap_content"/>
 
             <fragment
                 android:layout_width="match_parent"
