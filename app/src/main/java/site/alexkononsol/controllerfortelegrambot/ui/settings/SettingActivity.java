@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -40,11 +38,9 @@ public class SettingActivity extends AppCompatActivity {
 
         if (!DeviceTypeHelper.isTablet(this))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        backupFileNameEditText = findViewById(R.id.backup_file_name_value);
 
-
-        backupFileNameEditText = (EditText) findViewById(R.id.backup_file_name_value);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -91,7 +87,7 @@ public class SettingActivity extends AppCompatActivity {
     //saving settings
     public void onSaveSetting(View view) {
         String nameFile = backupFileNameEditText.getText().toString();
-        if (nameFile != null && !nameFile.equals("")) {
+        if (!nameFile.equals("")) {
             SettingsManager.getSettings().setBackupName(nameFile);
         }
         String host = ((EditText) findViewById(R.id.hostName)).getText().toString();//input field is in HostSettingsFragment
