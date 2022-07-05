@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
         if (!DeviceTypeHelper.isTablet(this))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -80,6 +81,7 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -96,7 +98,6 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.view_city_container, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.addToBackStack(null);
         ft.commit();
     }
 
