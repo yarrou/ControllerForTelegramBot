@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.getCode() == 200) {
                     SettingsManager.getSettings().setUserName(userName);
                     SettingsManager.getSettings().setAuthToken(response.getData().toString());
+                    SettingsManager.save();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else textViewResult.setText(response.getData().toString());
