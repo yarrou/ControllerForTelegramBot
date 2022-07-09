@@ -109,8 +109,8 @@ public class RetrofitRequestToServer {
                     serverResponse.setData(e.getLocalizedMessage());
                 }
             }
-        } catch (IOException e) {
-            LogHelper.logError(this, e.getMessage(), e);
+        } catch (Exception e) {
+            LogHelper.logDebug(this, e.getMessage());
             serverResponse.setCode(500);
             serverResponse.setData(e.getLocalizedMessage());
         }

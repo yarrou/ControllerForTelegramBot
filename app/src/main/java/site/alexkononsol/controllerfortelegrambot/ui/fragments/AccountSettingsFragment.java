@@ -1,6 +1,7 @@
 package site.alexkononsol.controllerfortelegrambot.ui.fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,17 +36,21 @@ public class AccountSettingsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        authInfo = (TextView) getView().findViewById(R.id.authSettingsStatus);
-        logoutButton = (Button) getView().findViewById(R.id.logoutButton);
+        authInfo = getView().findViewById(R.id.authSettingsStatus);
+        logoutButton = getView().findViewById(R.id.logoutButton);
     }
 
     private void viewInfoAboutAccount() {
+        Drawable img;
         if (SettingsManager.getSettings().getAuthToken() != null) {
             authInfo.setText(getString(R.string.authInfo) + SettingsManager.getSettings().getUserName());
+            img = getContext().getDrawable(R.drawable.baseline_logout_18);
         } else {
             authInfo.setText(getString(R.string.anonimous));
             logoutButton.setText(getString(R.string.sign_in_button_text));
+            img = getContext().getDrawable(R.drawable.baseline_login_18);
         }
+        logoutButton.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
     }
 
     @Override
@@ -70,11 +75,13 @@ public class AccountSettingsFragment extends Fragment {
             SettingsManager.getSettings().setAuthToken(null);
             SettingsManager.getSettings().setUserName(null);
             SettingsManager.save();
+            Drawable img = getContext().getDrawable(R.drawable.baseline_login_18);
 
             handler.post(() -> {
                 //UI Thread work here
                 authInfo.setText(getString(R.string.anonimous));
                 logoutButton.setText(getString(R.string.sign_in_button_text));
+                logoutButton.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
             });
         });
     }
