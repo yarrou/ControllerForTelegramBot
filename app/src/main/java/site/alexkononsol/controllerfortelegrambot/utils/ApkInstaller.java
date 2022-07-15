@@ -5,14 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
 import java.io.File;
 
+import site.alexkononsol.controllerfortelegrambot.AppHelperService;
 import site.alexkononsol.controllerfortelegrambot.BuildConfig;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 
 public class ApkInstaller {
 
@@ -24,15 +23,11 @@ public class ApkInstaller {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            LogHelper.logError(ApkInstaller.class, "Error in opening file!", e);
+            AppHelperService.startActionLogError(context, "Error in opening file!");
         }
     }
 
     private static Uri uriFromFile(Context context, File file) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
-        } else {
-            return Uri.fromFile(file);
-        }
+        return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
     }
 }

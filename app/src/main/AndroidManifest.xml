@@ -18,10 +18,14 @@
         android:theme="@style/Theme.ControllerForTelegramBot"
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
+        <service
+            android:name=".AppHelperService"
+            android:exported="false"></service>
+
         <activity
             android:name=".ui.requestingPermission.RequestingPermissionsActivity"
             android:exported="false"
-            android:parentActivityName=".Splash_activity"/>
+            android:parentActivityName=".Splash_activity" />
         <activity
             android:name=".ui.registration.RegistrationActivity"
             android:exported="true"
@@ -35,6 +39,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,6 +51,7 @@
             android:parentActivityName=".ui.settings.SettingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -112,8 +118,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

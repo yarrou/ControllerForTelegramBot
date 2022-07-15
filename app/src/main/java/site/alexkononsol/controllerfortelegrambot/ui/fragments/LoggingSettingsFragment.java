@@ -36,15 +36,15 @@ public class LoggingSettingsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        logging = getView().findViewById(R.id.checkBox_logging);
-        sizeLogView = getView().findViewById(R.id.size_logs_view);
-        TextView logFilePathView = getView().findViewById(R.id.logging_file_path_title);
-        String logFilePath = format(getString(R.string.logging_file_path), LogHelper.getLogFilePath());
+        logging = requireView().findViewById(R.id.checkBox_logging);
+        sizeLogView = requireView().findViewById(R.id.size_logs_view);
+        TextView logFilePathView = requireView().findViewById(R.id.logging_file_path_title);
+        String logFilePath = format(getString(R.string.logging_file_path), new LogHelper(requireContext()).getLogFilePath());
         logFilePathView.setText(logFilePath);
         logging.setText(getString(R.string.logging_checkbox_title));
         logging.setChecked(SettingsManager.getSettings().isLogging());
         logging.setOnClickListener(v -> new Thread(() -> SettingsManager.getSettings().setLogging(logging.isChecked())).start());
-        clearLogsButton = getView().findViewById(R.id.logs_clear_button);
+        clearLogsButton = requireView().findViewById(R.id.logs_clear_button);
         clearLogsButton.setOnClickListener(view -> clearLogs());
     }
 
@@ -53,11 +53,11 @@ public class LoggingSettingsFragment extends Fragment {
         super.onResume();
 
         viewSizeLogs();
-        clearLogsButton.post(() -> clearLogsButton.setEnabled((new File(LogHelper.getLogFilePath())).exists()));
+        clearLogsButton.post(() -> clearLogsButton.setEnabled((new File(new LogHelper(requireContext()).getLogFilePath())).exists()));
     }
 
     private void clearLogs() {
-        File logs = new File(LogHelper.getLogFilePath());
+        File logs = new File(new LogHelper(requireContext()).getLogFilePath());
         logs.delete();
         viewSizeLogs();
     }
@@ -65,7 +65,7 @@ public class LoggingSettingsFragment extends Fragment {
     private void viewSizeLogs() {
         sizeLogView.post(() -> {
             String kilobytes = getString(R.string.size_logs);
-            sizeLogView.setText(format(kilobytes, LogHelper.getSizeLogFile()));
+            sizeLogView.setText(format(kilobytes, new LogHelper(requireContext()).getSizeLogFile()));
         });
     }
 

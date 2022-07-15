@@ -48,16 +48,16 @@ public class SearchFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ListView contentView = (ListView) getView().findViewById(R.id.searchList);
-        TextView searchInfo = (TextView) getView().findViewById(R.id.searchInfo);
-        TextView searchTextView = (TextView) getView().findViewById(R.id.searchHint);
+        ListView contentView = (ListView) requireView().findViewById(R.id.searchList);
+        TextView searchInfo = (TextView) requireView().findViewById(R.id.searchInfo);
+        TextView searchTextView = (TextView) requireView().findViewById(R.id.searchHint);
 
         searchTextView.setText(cityName);
         if (citiesNamesList != null) {
             viewListCity(citiesNamesList);
         }
 
-        ImageButton searchButton = (ImageButton) getView().findViewById(R.id.localSearchButton);
+        ImageButton searchButton = (ImageButton) requireView().findViewById(R.id.localSearchButton);
         searchButton.setOnClickListener(v -> {
             searchInfo.setText(getString(R.string.searchInfoLoadingText));
             searchInfo.setVisibility(View.VISIBLE);
@@ -66,16 +66,16 @@ public class SearchFragment extends Fragment {
 
             new Thread(() -> {
                 try {
-                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(getContext());
                     citiesNamesList = requestToServer.findCity(cityName).getCitiesList();
                     viewListCity(citiesNamesList);
 
                 } catch (Exception ex) {
-                    LogHelper.logError(SearchFragment.this, ex.getMessage(), ex);
+                    AppHelperService.startActionLogError(getContext(), ex.getMessage());
                     contentView.post(() -> {
                         searchInfo.setText(getString(R.string.error) + " : " + ex.getMessage() + ex.getLocalizedMessage());
                         searchInfo.setVisibility(View.VISIBLE);
-                        Toast.makeText(getView().getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireView().getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                     });
                 }
             }).start();
@@ -92,14 +92,13 @@ public class SearchFragment extends Fragment {
     }
 
     private void viewListCity(List<String> content) {
-        View view = getView();
-        ListView contentView = (ListView) view.findViewById(R.id.searchList);
-        TextView searchInfo = (TextView) view.findViewById(R.id.searchInfo);
+        ListView contentView = (ListView) requireView().findViewById(R.id.searchList);
+        TextView searchInfo = (TextView) requireView().findViewById(R.id.searchInfo);
         contentView.post(() -> {
             if (content.size() > 0) {
                 searchInfo.setVisibility(View.INVISIBLE);
                 ArrayAdapter<String> itemsAdapter =
-                        new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, content);
+                        new ArrayAdapter<>(requireView().getContext(), android.R.layout.simple_list_item_1, content);
                 contentView.setAdapter(itemsAdapter);
                 contentView.setVisibility(View.VISIBLE);
             } else {

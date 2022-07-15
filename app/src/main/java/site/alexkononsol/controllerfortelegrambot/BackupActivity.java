@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import site.alexkononsol.controllerfortelegrambot.entity.Settings;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.FileUtils;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -34,9 +33,8 @@ public class BackupActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        TextView textView = (TextView)findViewById(R.id.textBackup);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -47,7 +45,6 @@ public class BackupActivity extends AppCompatActivity {
         }
         else if (action.compareTo(Intent.ACTION_VIEW) == 0) {
             String scheme = intent.getScheme();
-            ContentResolver resolver = getContentResolver();
 
             if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
                 Uri uri = intent.getData();
@@ -92,7 +89,7 @@ public class BackupActivity extends AppCompatActivity {
             }else showHelp.setText(getString(R.string.no));
 
         } catch (Exception e) {
-            LogHelper.logError(this,e.getMessage(),e);
+
             Toast.makeText(getBaseContext(),getString(R.string.error) +  e.getMessage(),
                     Toast.LENGTH_SHORT).show();
 

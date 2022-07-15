@@ -25,16 +25,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+import site.alexkononsol.controllerfortelegrambot.AppHelperService;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.ApkInstaller;
 import site.alexkononsol.controllerfortelegrambot.utils.Constants;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
@@ -58,9 +58,9 @@ public class AboutProgramFragment extends Fragment {
     public void onStart() {
         super.onStart();
         viewInfoAboutVersionApp();
-        autoInstall = getView().findViewById(R.id.about_fragment_switch);
-        updateButton = (Button) getView().findViewById(R.id.about_fragment_button);
-        contentView = getView().findViewById(R.id.about_fragment_update_textView);
+        autoInstall = requireView().findViewById(R.id.about_fragment_switch);
+        updateButton = (Button) requireView().findViewById(R.id.about_fragment_button);
+        contentView = requireView().findViewById(R.id.about_fragment_update_textView);
         contentView.setText(getString(R.string.about_fragment_update_textView));
         if (isUpdate) {
             updateButton.setText(getString(R.string.about_fragment_button_download));
@@ -77,7 +77,7 @@ public class AboutProgramFragment extends Fragment {
                 } catch (Exception ex) {
                     contentView.post(() -> {
                         contentView.setText(new StringBuilder().append(getString(R.string.error)).append(ex.getMessage()).append(ex.getLocalizedMessage()).toString());
-                        LogHelper.logError(AboutProgramFragment.this, ex.getMessage(), ex);
+                        AppHelperService.startActionLogError(requireContext(), ex.getMessage());
                         Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
                     });
                 }
@@ -89,7 +89,7 @@ public class AboutProgramFragment extends Fragment {
     }
 
     private void viewInfoAboutVersionApp() {
-        TextView versionView = getView().findViewById(R.id.about_fragment_version_title);
+        TextView versionView = requireView().findViewById(R.id.about_fragment_version_title);
         String version = getCurrentVersion();
         versionView.setText(format(getString(R.string.version_app), version));
     }
@@ -97,10 +97,11 @@ public class AboutProgramFragment extends Fragment {
     private String getCurrentVersion() {
         PackageInfo pInfo = null;
         try {
-            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            pInfo = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        assert pInfo != null;
         return pInfo.versionName;
     }
 
@@ -110,7 +111,7 @@ public class AboutProgramFragment extends Fragment {
         AtomicReference<ServerResponse> response = new AtomicReference<>();
         executor.execute(() -> {
             String param = getCurrentVersion();
-            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(requireContext());
             response.set(requestToServer.stringRequest(param, RetrofitRequestType.UPDATE));
             handler.post(() -> {
                 //UI Thread work here
@@ -126,7 +127,7 @@ public class AboutProgramFragment extends Fragment {
     }
 
     private void download() {
-        DownloadManager downloadmanager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager downloadmanager = (DownloadManager) requireActivity().getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(SettingsManager.getSettings().getHostName() + Constants.ENDPOINT_DOWNLOAD_APP);
         String fileName = String.format("ControllerForTelegramBot v-%s.apk", newVersion.trim());
         DownloadManager.Request request = new DownloadManager.Request(uri);
@@ -137,7 +138,7 @@ public class AboutProgramFragment extends Fragment {
         downloadmanager.enqueue(request);
         contentView.post(() -> contentView.setText(getString(R.string.about_fragment_download_view)));
         path = Environment.getExternalStorageDirectory().getPath() + "/Download/" + fileName;
-        LogHelper.logDebug(this, "download file path is " + path);
+        AppHelperService.startActionLogDebug(requireContext(), "download file path is " + path);
     }
 
     BroadcastReceiver broadcast = new BroadcastReceiver() {
@@ -152,7 +153,7 @@ public class AboutProgramFragment extends Fragment {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-        getActivity().registerReceiver(broadcast, intentFilter);
+        requireActivity().registerReceiver(broadcast, intentFilter);
         autoInstall.setChecked(SettingsManager.getSettings().isAutoInstall());
     }
 }

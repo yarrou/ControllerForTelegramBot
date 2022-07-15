@@ -14,9 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.Objects;
+
+import site.alexkononsol.controllerfortelegrambot.AppHelperService;
 import site.alexkononsol.controllerfortelegrambot.BackupActivity;
 import site.alexkononsol.controllerfortelegrambot.R;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
@@ -38,10 +40,10 @@ public class BackupSettingsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        backupFileNameEditText = getView().findViewById(R.id.backup_file_name_value);
-        saveBackupButton = getView().findViewById(R.id.save_backup_settings_button);
+        backupFileNameEditText = requireView().findViewById(R.id.backup_file_name_value);
+        saveBackupButton = requireView().findViewById(R.id.save_backup_settings_button);
         saveBackupButton.setOnClickListener(view -> onSaveBackup());
-        loadBackupButton = getView().findViewById(R.id.show_fileChooser_button);
+        loadBackupButton = requireView().findViewById(R.id.show_fileChooser_button);
         loadBackupButton.setOnClickListener(view -> onShowFileChooser());
     }
 
@@ -54,17 +56,17 @@ public class BackupSettingsFragment extends Fragment {
     public void onSaveBackup() {
         // write on SD card file data in the text box
         String nameFile = backupFileNameEditText.getText().toString();
-        if (nameFile == null || nameFile.equals("")) {
+        if ( nameFile.equals("")) {
             nameFile = backupFileNameEditText.getHint().toString();
         }
         try {
             backupPath = BackupHelper.createBackup(nameFile, getActivity());
-            LogHelper.logDebug(this, "backup created " + backupPath);
-            Toast.makeText(getActivity().getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
+            AppHelperService.startActionLogDebug(requireContext(), "backup created " + backupPath);
+            Toast.makeText(requireActivity().getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            LogHelper.logError(this, e.getMessage(), e);
-            Toast.makeText(getActivity().getBaseContext(), e.getMessage(),
+            AppHelperService.startActionLogError(requireContext(), e.getMessage());
+            Toast.makeText(requireActivity().getBaseContext(), e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -103,7 +105,7 @@ public class BackupSettingsFragment extends Fragment {
 
     private void viewNameBackup() {
         String savedBackupName = SettingsManager.getSettings().getBackupName();
-        if (savedBackupName == null || savedBackupName == "") {
+        if (savedBackupName == null || savedBackupName.equals("")) {
             savedBackupName = SettingsManager.getSettings().getHostName().split("://")[1].split("/")[0];
         }
         backupFileNameEditText.setHint(savedBackupName);

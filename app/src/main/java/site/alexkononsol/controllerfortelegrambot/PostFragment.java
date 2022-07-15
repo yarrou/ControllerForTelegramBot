@@ -66,7 +66,7 @@ public class PostFragment extends Fragment {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byte[] imageInByte = stream.toByteArray();
-                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(requireContext());
                     ServerResponse response = requestToServer.addOrChangeCity(imageInByte, new City(cityName, cityDescription, ""), RetrofitRequestType.POST);
                     String content = response.getData().toString();
                     handler.post(() -> {

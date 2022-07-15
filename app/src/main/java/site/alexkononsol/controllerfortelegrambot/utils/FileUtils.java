@@ -1,8 +1,5 @@
 package site.alexkononsol.controllerfortelegrambot.utils;
 
-import static site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper.getLogDirPath;
-import static site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper.getLogFilePath;
-
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -19,19 +16,10 @@ import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 
 public class FileUtils {
 
-    public static void writeLog(Object object,String log){
+    public static void writeLog( String logFilePath , String log){
 
         try {
-            String logDirPath = getLogDirPath();
-            File programDir = new File(logDirPath);
-            if(!programDir.exists()){
-                Log.d("DEBUG","created log dir");
-                programDir.mkdir();
-            }
-            File myFile = new File(getLogFilePath());
-            if (!myFile.exists()){
-                myFile.createNewFile();
-            }
+            File myFile = new File(logFilePath);
             FileWriter fw = new FileWriter(myFile, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(log);
@@ -48,7 +36,7 @@ public class FileUtils {
     public static String convertStreamToString(InputStream is) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
-        String line = null;
+        String line;
         while ((line = reader.readLine()) != null) {
             sb.append(line).append("\n");
         }
@@ -61,7 +49,7 @@ public class FileUtils {
         File[] listFiles = dir.listFiles(new ExtensionFileNameFilter(extension));
         if (listFiles.length > 0){
             for(File file : listFiles){
-                Log.d("DEBUG","delete cash file " + file.getName());
+                Log.d(LogHelper.TAG,"delete cash file " + file.getName());
                 file.delete();
             }
         }
