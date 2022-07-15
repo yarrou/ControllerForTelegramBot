@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
 
             new Thread(() -> {
                 try {
-                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(getContext());
                     citiesNamesList = requestToServer.findCity(cityName).getCitiesList();
                     viewListCity(citiesNamesList);
 

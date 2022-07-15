@@ -64,7 +64,7 @@ public class RegistrationActivity extends AppCompatActivity {
             RegistrationFormValidator validator = new RegistrationFormValidator(this);
             ServerResponse result = validator.regFormValidate(form);
             if(result.getCode()==200){
-                RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(RegistrationActivity.this);
                 result = requestToServer.loginOrRegistration(form.getUserForm(), RetrofitRequestType.REGISTRATION);
             }
             ServerResponse finalResult = result;

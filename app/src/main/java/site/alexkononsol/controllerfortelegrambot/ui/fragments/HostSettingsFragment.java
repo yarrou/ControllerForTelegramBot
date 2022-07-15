@@ -87,7 +87,7 @@ public class HostSettingsFragment extends Fragment {
         if (serverUrl.equals("")) {
             serverUrl = hostNameView.getHint().toString();
         }
-        RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+        RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(getContext());
         ServerResponse response = requestToServer.stringRequest(serverUrl, RetrofitRequestType.NAME);
         if (response.getCode() == 200) {
             return response.getData().toString();

@@ -34,7 +34,7 @@ public class GetFragment extends Fragment {
         getButton.setOnClickListener(v -> new Thread(() -> {
             TextView getTextView = (TextView) view.findViewById(R.id.getRequest);
             String nameCity = getTextView.getText().toString();
-            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(requireContext());
             ServerResponse serverResponse = requestToServer.getCity(nameCity);
             if (serverResponse.getCode() == 200) {
                 Intent intent = new Intent(view.getContext(), ViewCityActivity.class);

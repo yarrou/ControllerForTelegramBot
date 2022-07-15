@@ -60,7 +60,7 @@ public class ViewCityActivity extends AppCompatActivity implements CityDescripti
         Handler handler = new Handler(Looper.getMainLooper());
         AtomicReference<ServerResponse> response = new AtomicReference<>();
         executor.execute(() -> {
-            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(ViewCityActivity.this);
             response.set(requestToServer.getCity(cityName));
             handler.post(() -> {
                 //UI Thread work here

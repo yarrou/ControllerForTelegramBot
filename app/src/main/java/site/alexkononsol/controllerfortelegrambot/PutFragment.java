@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
@@ -33,7 +32,6 @@ import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerRespons
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestToServer;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests.RetrofitRequestType;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 import site.alexkononsol.controllerfortelegrambot.utils.TextValidator;
 
@@ -94,7 +92,6 @@ public class PutFragment extends Fragment {
         cityNameView = getView().findViewById(R.id.putRequest);
         cityDescriptionView = getView().findViewById(R.id.putRequestDescription);
         if (city != null) {
-            LogHelper.logDebug(this, "image file path is : " + city.getPicture());
             cityNameView.post(() -> cityNameView.setText(city.getName()));
             cityDescriptionView.post(() -> cityDescriptionView.setText(city.getText()));
 
@@ -121,7 +118,7 @@ public class PutFragment extends Fragment {
                 Handler handler = new Handler(Looper.getMainLooper());
                 executor.execute(() -> {
                     //Background work here
-                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(getContext());
                     ServerResponse response = requestToServer.addOrChangeCity(imageInByte, new City(cityName, cityDescription, ""), RetrofitRequestType.PUT);
                     String content = response.getData().toString();
                     handler.post(() -> {

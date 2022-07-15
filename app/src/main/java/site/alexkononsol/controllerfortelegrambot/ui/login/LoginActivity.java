@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             //Background work here
             String userName = textViewLogin.getText().toString();
             UserForm userForm = new UserForm(userName, textViewPassword.getText().toString());
-            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+            RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(LoginActivity.this);
 
             ServerResponse response = requestToServer.loginOrRegistration(userForm, RetrofitRequestType.LOGIN);//loginRequest.send();
 

@@ -64,7 +64,7 @@ public class DelFragment extends Fragment {
                 contentView.setText(getString(R.string.toastLoading));
                 new Thread(() -> {
                     String cityName = getTextView.getText().toString();
-                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer();
+                    RetrofitRequestToServer requestToServer = new RetrofitRequestToServer(getContext());
                     ServerResponse serverResponse = requestToServer.stringRequest(cityName, RetrofitRequestType.DELETE);
                     contentView.post(() -> contentView.setText(serverResponse.getData().toString()));
                 }).start();
