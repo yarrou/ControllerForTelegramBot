@@ -22,8 +22,8 @@ import androidx.fragment.app.FragmentTransaction;
 import java.io.File;
 import java.io.IOException;
 
+import site.alexkononsol.controllerfortelegrambot.AppHelperService;
 import site.alexkononsol.controllerfortelegrambot.R;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.ui.fragments.AccountSettingsFragment;
 import site.alexkononsol.controllerfortelegrambot.utils.BackupHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.DeviceTypeHelper;
@@ -67,7 +67,7 @@ public class SettingActivity extends AppCompatActivity {
         try {
             file = new File(BackupHelper.createTempBackup(SettingActivity.this));
         } catch (IOException e) {
-            LogHelper.logError(this, e.getMessage(), e);
+            AppHelperService.startActionLogError(SettingActivity.this, e.getMessage());
             e.printStackTrace();
         }
         setShareActionIntent(file);
