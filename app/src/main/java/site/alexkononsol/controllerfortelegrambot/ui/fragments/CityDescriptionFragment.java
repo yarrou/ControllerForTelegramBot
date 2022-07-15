@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -19,25 +20,25 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import site.alexkononsol.controllerfortelegrambot.AppHelperService;
 import site.alexkononsol.controllerfortelegrambot.R;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 
 public class CityDescriptionFragment extends Fragment {
 
     public  interface Listener {
         void actionChangeCity(City city);
-
         void actionDeleteCity(String name);
     }
 
     private Listener listener;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         listener = (Listener) context;
     }
@@ -83,13 +84,13 @@ public class CityDescriptionFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        TextView cityNameView = getView().findViewById(R.id.description_fragment_city_name);
-        TextView cityCreatedDate = getView().findViewById(R.id.description_fragment_city_created);
-        TextView cityModifyDate = getView().findViewById(R.id.description_fragment_city_modify);
-        TextView cityDescription = getView().findViewById(R.id.description_city_fragment_description);
-        ImageView cityImage = getView().findViewById(R.id.image_description);
-        ImageButton cityChangeImageButton = getView().findViewById(R.id.changeThisCityButton);
-        ImageButton deleteCity = getView().findViewById(R.id.fastDeleteCityButton);
+        TextView cityNameView = requireView().findViewById(R.id.description_fragment_city_name);
+        TextView cityCreatedDate = requireView().findViewById(R.id.description_fragment_city_created);
+        TextView cityModifyDate = requireView().findViewById(R.id.description_fragment_city_modify);
+        TextView cityDescription = requireView().findViewById(R.id.description_city_fragment_description);
+        ImageView cityImage = requireView().findViewById(R.id.image_description);
+        ImageButton cityChangeImageButton = requireView().findViewById(R.id.changeThisCityButton);
+        ImageButton deleteCity = requireView().findViewById(R.id.fastDeleteCityButton);
 
         deleteCity.setOnClickListener(v -> listener.actionDeleteCity(city.getName()));
         cityChangeImageButton.setOnClickListener(v -> listener.actionChangeCity(city));
@@ -104,7 +105,7 @@ public class CityDescriptionFragment extends Fragment {
                 URL url = new URL(city.getPicture());
                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             } catch (Exception e) {
-                LogHelper.logError(CityDescriptionFragment.this, e.getMessage(), e);
+                AppHelperService.startActionLogError(getContext(), e.getMessage());
                 e.printStackTrace();
             }
             Bitmap finalBmp = bmp;
