@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.IOException;
 
 import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.ui.requestingPermission.RequestingPermissionsActivity;
@@ -40,13 +39,6 @@ public class Splash_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        try {
-            LogHelper.setLogDirPath(this.getExternalFilesDir(null).getCanonicalPath());
-            Log.d(LogHelper.TAG,"dir path is " + this.getExternalFilesDir(null).getCanonicalPath());
-        } catch (IOException e) {
-            Log.e(LogHelper.TAG,"unable to get the path to the folder with the application files",e);
-            e.printStackTrace();
-        }
         if (!DeviceTypeHelper.isTablet(this))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         showVersionApp();
@@ -86,11 +78,6 @@ public class Splash_activity extends AppCompatActivity {
     private void runMainProcess() {
         File cashFolder = this.getCacheDir();
         FileUtils.cleanFiles(".bp", cashFolder);
-        /* this part of the code is needed in order to be able to log in before the main window of the program is displayed
-        Intent intent = null;
-        if(SettingsManager.getSettings().getUserName()!=null){
-            intent = new Intent(Splash_activity.this,MainActivity.class);
-        }else intent = new Intent(Splash_activity.this, LoginActivity.class);*/
         Intent intent = new Intent(Splash_activity.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -106,20 +93,18 @@ public class Splash_activity extends AppCompatActivity {
         }else {
             if (isFirstRun) {
                 int secondsDelayed = 1;
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        isFirstRun = false;
-                        SharedPreferenceAssistant.initSharedPreferences(Splash_activity.this);
-                        SettingsManager.initSettings();
-                        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                        setSupportActionBar(toolbar);
-                        boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
-                        if (viewHelpOnStart) {
-                            Intent intent = new Intent(Splash_activity.this, HelpActivity.class);
-                            startActivity(intent);
-                        } else {
-                            runMainProcess();
-                        }
+                new Handler().postDelayed(() -> {
+                    isFirstRun = false;
+                    SharedPreferenceAssistant.initSharedPreferences(Splash_activity.this);
+                    SettingsManager.initSettings();
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                    setSupportActionBar(toolbar);
+                    boolean viewHelpOnStart = SettingsManager.getSettings().isViewHelpOnStart();
+                    if (viewHelpOnStart) {
+                        Intent intent = new Intent(Splash_activity.this, HelpActivity.class);
+                        startActivity(intent);
+                    } else {
+                        runMainProcess();
                     }
                 }, secondsDelayed * 1000);
             } else {
