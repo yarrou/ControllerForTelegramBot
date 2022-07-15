@@ -86,17 +86,17 @@ public class PutFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        TextView contentView = getView().findViewById(R.id.putResponse);
-        putButton = getView().findViewById(R.id.buttonPut);
-        cityImage = getView().findViewById(R.id.city_picture);
-        cityNameView = getView().findViewById(R.id.putRequest);
-        cityDescriptionView = getView().findViewById(R.id.putRequestDescription);
+        TextView contentView = requireView().findViewById(R.id.putResponse);
+        putButton = requireView().findViewById(R.id.buttonPut);
+        cityImage = requireView().findViewById(R.id.city_picture);
+        cityNameView = requireView().findViewById(R.id.putRequest);
+        cityDescriptionView = requireView().findViewById(R.id.putRequestDescription);
         if (city != null) {
             cityNameView.post(() -> cityNameView.setText(city.getName()));
             cityDescriptionView.post(() -> cityDescriptionView.setText(city.getText()));
 
         } else {
-            pathToImage = "android.resource://" + getContext().getApplicationContext().getPackageName() + "/drawable/city_drawable";
+            pathToImage = "android.resource://" + requireContext().getApplicationContext().getPackageName() + "/drawable/city_drawable";
             city = new City("", "", "");
 
         }
@@ -149,10 +149,10 @@ public class PutFragment extends Fragment {
                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             } catch (MalformedURLException me) {
                 try {
-                    bmp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(pathToImage));
+                    bmp = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), Uri.parse(pathToImage));
                 } catch (Exception e) {
                     bmp = BitmapFactory.decodeResource(getResources(), R.drawable.city_drawable);
-                    LogHelper.logDebug(PutFragment.this, "use default city image");
+                    AppHelperService.startActionLogDebug(getContext(), "use default city image");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -184,10 +184,9 @@ public class PutFragment extends Fragment {
                 case GALLERY_REQUEST_CODE:
                     Uri selectedImage = data.getData();
                     pathToImage = selectedImage.toString();
-                    LogHelper.logDebug(this, pathToImage);
+                    AppHelperService.startActionLogDebug(getContext(), pathToImage);
                     break;
             }
-
     }
 
     public void setCity(City city) {
