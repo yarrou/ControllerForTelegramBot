@@ -1,6 +1,6 @@
 package site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests;
 
-import android.util.Log;
+import android.content.Context;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,26 +11,28 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
+import site.alexkononsol.controllerfortelegrambot.AppHelperService;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.Api;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ApiInterface;
 import site.alexkononsol.controllerfortelegrambot.connectionsUtils.ServerResponse;
 import site.alexkononsol.controllerfortelegrambot.entity.City;
 import site.alexkononsol.controllerfortelegrambot.entity.UserForm;
-import site.alexkononsol.controllerfortelegrambot.logHelper.LogHelper;
 import site.alexkononsol.controllerfortelegrambot.utils.SettingsManager;
 
 public class RetrofitRequestToServer {
     private final String lang;
     private final String url;
-    private ServerResponse serverResponse;
+    private final ServerResponse serverResponse;
     private ApiInterface apiInterface;
     private final String token;
+    private Context context;
 
-    public RetrofitRequestToServer() {
+    public RetrofitRequestToServer(Context context) {
         serverResponse = new ServerResponse();
         token = SettingsManager.getSettings().getAuthToken();
         url = SettingsManager.getSettings().getHostName();
         lang = Locale.getDefault().getLanguage();
+        this.context = context;
     }
 
     public ServerResponse getCity(String cityName) {
@@ -44,6 +46,7 @@ public class RetrofitRequestToServer {
             } else {
                 serverResponse.setCode(response.code());
                 try {
+                    assert response.errorBody() != null;
                     serverResponse.setData(response.errorBody().string());
                 } catch (IOException e) {
                     serverResponse.setData(e.getLocalizedMessage());
@@ -67,6 +70,7 @@ public class RetrofitRequestToServer {
             } else {
                 serverResponse.setCode(response.code());
                 try {
+                    assert response.errorBody() != null;
                     serverResponse.setData(response.errorBody().string());
                 } catch (IOException e) {
                     serverResponse.setData(e.getLocalizedMessage());
@@ -97,20 +101,21 @@ public class RetrofitRequestToServer {
         try {
             Response<String> response = cityCall.execute();
             if (response.isSuccessful()) {
-                LogHelper.logDebug(this, "response is successful");
+                AppHelperService.startActionLogDebug(context, "response is successful");
                 serverResponse.setCode(response.code());
                 serverResponse.setData(response.body());
             } else {
-                LogHelper.logDebug(this, "response is unsuccessful");
+                AppHelperService.startActionLogDebug(context, "response is unsuccessful");
                 serverResponse.setCode(response.code());
                 try {
+                    assert response.errorBody() != null;
                     serverResponse.setData(response.errorBody().string());
                 } catch (IOException e) {
                     serverResponse.setData(e.getLocalizedMessage());
                 }
             }
         } catch (Exception e) {
-            LogHelper.logDebug(this, e.getMessage());
+            AppHelperService.startActionLogError(context, e.getMessage());
             serverResponse.setCode(500);
             serverResponse.setData(e.getLocalizedMessage());
         }
@@ -131,6 +136,7 @@ public class RetrofitRequestToServer {
             } else {
                 serverResponse.setCode(response.code());
                 try {
+                    assert response.errorBody() != null;
                     serverResponse.setData(response.errorBody().string());
                 } catch (IOException e) {
                     serverResponse.setData(e.getLocalizedMessage());
@@ -148,7 +154,7 @@ public class RetrofitRequestToServer {
         Call<String> cityCall;
         apiInterface = Api.getStringClient(url);
 
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", "cityImage.jpeg", RequestBody.create(MediaType.parse("image/*"), array));
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", "cityImage.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), array));
         RequestBody cityBody = RequestBody.create(MediaType.parse("application/json"), city.toString());
         if (type.type == 7) cityCall = apiInterface.addCity(filePart, cityBody, token, lang);
         else cityCall = apiInterface.changeCity(filePart, cityBody, token, lang);
@@ -158,12 +164,13 @@ public class RetrofitRequestToServer {
                 serverResponse.setCode(response.code());
                 serverResponse.setData(response.body());
             } else {
-                LogHelper.logError(this, "unsuccessful response");
+                AppHelperService.startActionLogError(context, "unsuccessful response");
                 serverResponse.setCode(response.code());
                 try {
+                    assert response.errorBody() != null;
                     serverResponse.setData(response.errorBody().string());
                 } catch (IOException e) {
-                    LogHelper.logError(this, e.getLocalizedMessage());
+                    AppHelperService.startActionLogError(context, e.getLocalizedMessage());
                     serverResponse.setData(e.getLocalizedMessage());
                 }
             }
