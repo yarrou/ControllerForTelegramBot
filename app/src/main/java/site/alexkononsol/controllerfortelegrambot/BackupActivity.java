@@ -34,6 +34,7 @@ public class BackupActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         TextView textView = (TextView)findViewById(R.id.textBackup);
@@ -92,7 +93,7 @@ public class BackupActivity extends AppCompatActivity {
             }else showHelp.setText(getString(R.string.no));
 
         } catch (Exception e) {
-            LogHelper.logError(this,e.getMessage(),e);
+
             Toast.makeText(getBaseContext(),getString(R.string.error) +  e.getMessage(),
                     Toast.LENGTH_SHORT).show();
 
