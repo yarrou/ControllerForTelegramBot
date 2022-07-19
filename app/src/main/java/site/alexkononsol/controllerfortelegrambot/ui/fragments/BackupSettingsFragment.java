@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.util.Objects;
 
 import site.alexkononsol.controllerfortelegrambot.AppHelperService;
@@ -65,7 +67,7 @@ public class BackupSettingsFragment extends Fragment {
             Toast.makeText(requireActivity().getBaseContext(), getString(R.string.backupToastSuccessfully) + backupPath,
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            AppHelperService.startActionLogError(requireContext(), e.getMessage());
+            AppHelperService.startActionLogError(requireContext(), ExceptionUtils.getStackTrace(e));
             Toast.makeText(requireActivity().getBaseContext(), e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }

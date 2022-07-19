@@ -2,6 +2,8 @@ package site.alexkononsol.controllerfortelegrambot.connectionsUtils.requests;
 
 import android.content.Context;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -115,7 +117,7 @@ public class RetrofitRequestToServer {
                 }
             }
         } catch (Exception e) {
-            AppHelperService.startActionLogError(context, e.getMessage());
+            AppHelperService.startActionLogError(context, ExceptionUtils.getStackTrace(e));
             serverResponse.setCode(500);
             serverResponse.setData(e.getLocalizedMessage());
         }
@@ -170,7 +172,7 @@ public class RetrofitRequestToServer {
                     assert response.errorBody() != null;
                     serverResponse.setData(response.errorBody().string());
                 } catch (IOException e) {
-                    AppHelperService.startActionLogError(context, e.getLocalizedMessage());
+                    AppHelperService.startActionLogError(context, ExceptionUtils.getStackTrace(e));
                     serverResponse.setData(e.getLocalizedMessage());
                 }
             }

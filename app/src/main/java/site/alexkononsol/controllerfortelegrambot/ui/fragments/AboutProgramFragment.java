@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -59,7 +61,7 @@ public class AboutProgramFragment extends Fragment {
         super.onStart();
         viewInfoAboutVersionApp();
         autoInstall = requireView().findViewById(R.id.about_fragment_switch);
-        updateButton = (Button) requireView().findViewById(R.id.about_fragment_button);
+        updateButton = requireView().findViewById(R.id.about_fragment_button);
         contentView = requireView().findViewById(R.id.about_fragment_update_textView);
         contentView.setText(getString(R.string.about_fragment_update_textView));
         if (isUpdate) {
@@ -77,7 +79,7 @@ public class AboutProgramFragment extends Fragment {
                 } catch (Exception ex) {
                     contentView.post(() -> {
                         contentView.setText(new StringBuilder().append(getString(R.string.error)).append(ex.getMessage()).append(ex.getLocalizedMessage()).toString());
-                        AppHelperService.startActionLogError(requireContext(), ex.getMessage());
+                        AppHelperService.startActionLogError(requireContext(), ExceptionUtils.getStackTrace(ex));
                         Toast.makeText(getContext(), getString(R.string.error) + " : ", Toast.LENGTH_SHORT).show();
                     });
                 }

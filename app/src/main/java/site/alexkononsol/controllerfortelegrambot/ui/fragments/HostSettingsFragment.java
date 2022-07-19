@@ -32,7 +32,7 @@ public class HostSettingsFragment extends Fragment {
     private EditText hostNameView;
     private TextView nameBotView;
     private Timer timer;
-    private TextWatcher hostNameTextWatcher = new TextWatcher() {
+    private final TextWatcher hostNameTextWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable arg0) {
             // user typed: start the timer
@@ -70,15 +70,15 @@ public class HostSettingsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        hostNameView = getView().findViewById(R.id.hostName);
+        hostNameView = requireView().findViewById(R.id.hostName);
 
-        nameBotView = getView().findViewById(R.id.nameBot);
+        nameBotView = requireView().findViewById(R.id.nameBot);
         String host = SettingsManager.getSettings().getHostName();
         if (host == null || host.equals("")) {
             hostNameView.setHint(Constants.DEFAULT_HOST_URL);
         } else hostNameView.setText(SettingsManager.getSettings().getHostName());
         hostNameView.addTextChangedListener(hostNameTextWatcher);
-        Button testButton = (Button) getView().findViewById(R.id.buttonSettingsGetNameBot);
+        Button testButton = requireView().findViewById(R.id.buttonSettingsGetNameBot);
         testButton.setOnClickListener(v -> checkHost());
     }
 

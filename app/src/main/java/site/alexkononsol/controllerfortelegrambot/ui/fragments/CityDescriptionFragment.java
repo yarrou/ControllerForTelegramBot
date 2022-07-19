@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.net.URL;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -105,8 +107,7 @@ public class CityDescriptionFragment extends Fragment {
                 URL url = new URL(city.getPicture());
                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             } catch (Exception e) {
-                AppHelperService.startActionLogError(getContext(), e.getMessage());
-                e.printStackTrace();
+                AppHelperService.startActionLogError(getContext(), ExceptionUtils.getStackTrace(e));
             }
             Bitmap finalBmp = bmp;
             handler.post(() -> {
