@@ -19,6 +19,8 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -67,7 +69,7 @@ public class SettingActivity extends AppCompatActivity {
         try {
             file = new File(BackupHelper.createTempBackup(SettingActivity.this));
         } catch (IOException e) {
-            AppHelperService.startActionLogError(SettingActivity.this, e.getMessage());
+            AppHelperService.startActionLogError(SettingActivity.this, ExceptionUtils.getStackTrace(e));
             e.printStackTrace();
         }
         setShareActionIntent(file);
